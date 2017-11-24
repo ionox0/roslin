@@ -1,0 +1,46 @@
+Bootstrap: docker
+From: /pipeline-fulcrum:0.0.0
+Registry: http://localhost:5000
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    source /tmp/settings-container.sh
+
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    # just run java so that caller can pass java options
+    # exec java -jar /usr/bin/fulcrum.jar "$@"
+    exec java "$@"
+
+%test
+    # get actual output of the tool
+    java -jar /usr/bin/fulcrum-0.2.0.jar | head -2 > /tmp/actual.diff.txt
+
+    # /usr/local/bin/delly 2>&1 | head -9 > /tmp/actual.diff.txt
+    # java -jar /usr/bin/gatk.jar --help | sed -n '2p;' > /tmp/actual.diff.txt
+
+    # expected output
+cat > /tmp/expected.diff.txt << EOM
+USAGE: fgbio [fgbio arguments] [command name] [command arguments]
+Version: 0.2.0
+EOM
+
+    # diff
+    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+    # delete tmp
+    rm -rf /tmp/*.diff.txt

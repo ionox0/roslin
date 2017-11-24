@@ -1,0 +1,5 @@
+outputs:
+  processed_fastq_1:
+    type: File
+    outputBinding:
+      glob: $(inputs.r1_fastq)

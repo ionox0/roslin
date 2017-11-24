@@ -1,0 +1,20 @@
+outputs:
+  fragment_sizes:
+    type: File
+    outputBinding:
+      glob: ${ return "fragment-sizes.txt" }
+
+  intervals_coverage_sum:
+    type: File
+    outputBinding:
+      glob: ${ return "intervals-coverage-sum.txt" }
+
+  read_counts:
+    type: File
+    outputBinding:
+      glob: ${ return "read-counts.txt" }
+
+  waltz_coverage:
+    type: File
+    outputBinding:
+      glob: ${ return "waltz-coverage.txt" }

@@ -1,0 +1,56 @@
+outputs:
+  fragment_sizes:
+    type: File
+    outputBinding:
+      glob: ${ return "**/coverage-agg.txt" }
+
+  read_counts:
+    type: File
+    outputBinding:
+      glob: ${ return "**/coverage-per-interval.txt" }
+
+  waltz_coverage:
+    type: File
+    outputBinding:
+      glob: ${ return "**/duplication-rates.txt" }
+
+  gc_bias_all_samples:
+    type: File
+    outputBinding:
+      glob: ${ return "**/GC-bias-with-coverage-averages-over-all-samples.txt" }
+
+  gc_bias_each_sample:
+    type: File
+    outputBinding:
+      glob: ${ return "**/GC-bias-with-coverage-averages-over-each-sample.txt" }
+
+  gc_bias_with_coverage:
+    type: File
+    outputBinding:
+      glob: ${ return "**/GC-bias-with-coverage.txt" }
+
+  insert_size_peaks:
+    type: File
+    outputBinding:
+      glob: ${ return "**/insert-size-peaks.txt" }
+
+  read_counts_agg:
+    type: File
+    outputBinding:
+      glob: ${ return "**/read-counts-agg.txt" }
+
+  read_counts_total:
+    type: File
+    outputBinding:
+      glob: ${ return "**/read-counts-total.txt" }
+
+
+#coverage-agg.txt
+#coverage-per-interval.txt
+#duplication-rates.txt
+#GC-bias-with-coverage-averages-over-all-samples.txt
+#GC-bias-with-coverage-averages-over-each-sample.txt
+#GC-bias-with-coverage.txt
+#insert-size-peaks.txt
+#read-counts-agg.txt
+#read-counts-total.txt

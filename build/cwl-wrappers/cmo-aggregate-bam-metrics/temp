@@ -1,0 +1,109 @@
+
+  db_files:
+    type:
+      type: record
+      fields:
+        hapmap:
+          type: File
+          secondaryFiles:
+            - .idx
+        dbsnp:
+          type: File
+          secondaryFiles:
+            - .idx
+        indels_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        snps_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        cosmic:
+          type: File
+          secondaryFiles:
+            - .idx
+        refseq: File
+        ref_fasta: string
+        vep_data: string
+        exac_filter:
+          type: File
+          secondaryFiles:
+            - .tbi
+        hotspot_list: File
+        curated_bams:
+          type:
+            type: array
+            items: File
+          secondaryFiles:
+              - ^.bai
+        ffpe_normal_bams:
+          type:
+            type: array
+            items: File
+          secondaryFiles:
+              - ^.bai
+        bait_intervals: File
+        target_intervals: File
+        fp_intervals: File
+        fp_genotypes: File
+        grouping_file: File
+        request_file: File
+        pairing_file: File
+
+  groups:
+    type:
+      type: array
+      items:
+        type: array
+        items: string
+  runparams:
+    type:
+      type: record
+      fields:
+        abra_scratch: string
+        covariates:
+          type:
+            type: array
+            items: string
+        emit_original_quals: boolean
+        genome: string
+        mutect_dcov: int
+        mutect_rf:
+          type:
+            type: array
+            items: string
+        num_cpu_threads_per_data_thread: int
+        num_threads: int
+        tmp_dir: string
+        project_prefix: string
+        opt_dup_pix_dist: string
+  samples:
+    type:
+      type: array
+      items:
+        type: record
+        fields:
+          CN: string
+          LB: string
+          ID: string
+          PL: string
+          PU: string[]
+          R1:
+            type:
+              type: array
+              items: File
+          R2:
+            type:
+              type: array
+              items: File
+          RG_ID: string[]
+          adapter: string
+          adapter2: string
+          bwa_output: string
+  pairs:
+    type:
+      type: array
+      items:
+        type: array
+        items: string

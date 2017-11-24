@@ -1,0 +1,5 @@
+outputs:
+  plots:
+    type: File
+    outputBinding:
+      glob: ${ return "**/*.pdf" }

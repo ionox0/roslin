@@ -1,0 +1,5 @@
+outputs:
+  bam:
+    type: File
+    outputBinding:
+      glob: ${ return "**/*" }

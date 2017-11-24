@@ -1,0 +1,23 @@
+outputs:
+  covered_regions:
+    type: File
+    outputBinding:
+      glob: ${ return "**/" + inputs.r1_fastq.basename + ".covered-regions" }
+
+  fragment_sizes:
+    type: File
+    outputBinding:
+      glob: ${ return "**/" + inputs.r1_fastq.basename + ".fragment-sizes" }
+
+  read_counts:
+    type: File
+    outputBinding:
+      glob: ${ return "**/" + inputs.r1_fastq.basename + ".read-counts" }
+
+
+
+# Example outputs:
+
+# BG742590-N_bc510_DummyPool_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam--small.bam.covered-regions
+# BG742590-N_bc510_DummyPool_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam--small.bam.fragment-sizes
+# BG742590-N_bc510_DummyPool_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam--small.bam.read-counts
