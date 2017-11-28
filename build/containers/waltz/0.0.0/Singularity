@@ -30,11 +30,11 @@ Registry: http://localhost:5000
 # %test
 #
 #     # get actual output of the tool
-#     exec /usr/bin/marianas-0.0.0.jar "$@"
+#     exec /usr/bin/waltz-0.0.0.jar "$@"
 #
 #     # expected output
 # cat > /tmp/expected.diff.txt << EOM
-# Program: Marianas
+# Program: Waltz
 # Version: 0.0.0
 # EOM
 #

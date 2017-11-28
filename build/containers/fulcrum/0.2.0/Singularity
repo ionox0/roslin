@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: /pipeline-fulcrum:0.0.0
+From: /pipeline-fulcrum:0.2.0
 Registry: http://localhost:5000
 
 %setup
@@ -28,11 +28,9 @@ Registry: http://localhost:5000
     exec java "$@"
 
 %test
-    # get actual output of the tool
-    java -jar /usr/bin/fulcrum-0.2.0.jar | head -2 > /tmp/actual.diff.txt
-
-    # /usr/local/bin/delly 2>&1 | head -9 > /tmp/actual.diff.txt
-    # java -jar /usr/bin/gatk.jar --help | sed -n '2p;' > /tmp/actual.diff.txt
+    # Test actual output of the tool
+    # Need to strip color codes - https://stackoverflow.com/questions/32166976/how-to-remove-the-decorate-colors-characters-in-bash-output
+    java -jar /usr/bin/fgbio-0.2.0.jar 2>&1 | head -2 | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" > /tmp/actual.diff.txt
 
     # expected output
 cat > /tmp/expected.diff.txt << EOM

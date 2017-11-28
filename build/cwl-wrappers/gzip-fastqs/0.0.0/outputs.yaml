@@ -1,0 +1,5 @@
+outputs:
+  - id: gzipped_files
+    type: File
+    outputBinding:
+      glob: "*.gz"

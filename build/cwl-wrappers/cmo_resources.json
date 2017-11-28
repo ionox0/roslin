@@ -286,6 +286,12 @@
         },
         "marianas": {
             "default": "sudo docker run -i marianas:0.0.0 "
+        },
+        "waltz": {
+            "default": "sudo docker run -i waltz:0.0.0 "
+        },
+        "fulcrum": {
+            "default": "sudo docker run -i fulcrum:0.2.0 "
         }
     }, 
     "targets": {

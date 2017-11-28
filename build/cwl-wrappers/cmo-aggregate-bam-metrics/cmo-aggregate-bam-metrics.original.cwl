@@ -4,19 +4,55 @@ class: CommandLineTool
 
 baseCommand: [cmo_aggregate_bam_metrics]
 
-arguments: ["", ""]
+arguments: [""]
 
 doc: |
   None
 
+
+requirements:
+  - class: InitialWorkDirRequirement
+    listing:
+      - entryname: all_required_files
+        listing:
+          - $(inputs.intervals)
+          - $(inputs.intervals_without_duplicates)
+          - $(inputs.pileup)
+          - $(inputs.covered_regions)
+          - $(inputs.fragment_sizes)
+          - $(inputs.read_counts)
+
 inputs:
-
-  # Somehow need to run from inside directory with Waltz output...
-
-  dummy_input:
-    type: string
+  intervals:
+    type: File
     inputBinding:
-      prefix: --dummy_input
+      prefix:
+        --intervals
+  intervals_without_duplicates:
+    type: File
+    inputBinding:
+      prefix:
+        --intervals_without_duplicates
+  pileup:
+    type: File
+    inputBinding:
+      prefix:
+        --pileup
+  covered_regions:
+    type: File
+    inputBinding:
+      prefix:
+        --covered_regions
+  fragment_sizes:
+    type: File
+    inputBinding:
+      prefix:
+        --fragment_sizes
+  read_counts:
+    type: File
+    inputBinding:
+      prefix:
+        --read_counts
 
 outputs:
 
@@ -39,3 +75,15 @@ outputs:
     type: File
     outputBinding:
       glob: ${ return "**/intervals-coverage-sum.txt" }
+
+  # Also list the whole directory of outputs
+  out_dir: Directory
+  expression: |
+    ${
+      return {"out": {
+        "class": "Directory",
+        "basename": "bam_metrics_output",
+        "listing": [outputs.fragment_sizes, outputs.read_counts,
+        outputs.waltz_coverage, outputs.intervals_coverage_sum]
+      } };
+    }

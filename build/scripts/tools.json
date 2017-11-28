@@ -95,6 +95,12 @@
         ],
         "marianas": [
             "0.0.0"
+        ],
+        "waltz": [
+            "0.0.0"
+        ],
+        "fulcrum": [
+            "0.2.0"
         ]
     },
     "containerDependency": {
@@ -180,7 +186,21 @@
             "cmo_qcpdf"
         ],
         "marianas": [
-            "cmo_marianas.ProcessLoopUMIFastq"
+            "cmo_marianas.ProcessLoopUMIFastq",
+            "cmo_marianas.DuplexUMIBamToCollapsedFastqFirstPass",
+            "cmo_marianas.DuplexUMIBamToCollapsedFastqSecondPass"
+        ],
+        "waltz": [
+            "cmo_waltz.CountReads",
+            "cmo_waltz.PileupMetrics"
+        ],
+        "fulcrum": [
+            "cmo_fulcrum.AnnotateBamWithUmis",
+            "cmo_fulcrum.CallDuplexConsensusReads",
+            "cmo_fulcrum.FilterConsensusReads",
+            "cmo_fulcrum.GroupReadsByUmi",
+            "cmo_fulcrum.SetMateInformation",
+            "cmo_fulcrum.SortBam"
         ]
     }
 }

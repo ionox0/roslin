@@ -8,7 +8,7 @@ LABEL maintainer="Ian Johnson (johnsoni@mskcc.org)" \
 
 ENV WALTZ_VERSION 0.0.0
 
-COPY marianas-${WALTZ_VERSION}.jar /usr/bin/waltz-0.0.0.jar
+COPY waltz-${WALTZ_VERSION}.jar /usr/bin/waltz-0.0.0.jar
 
 RUN chmod 777 /usr/bin/waltz-0.0.0.jar
 

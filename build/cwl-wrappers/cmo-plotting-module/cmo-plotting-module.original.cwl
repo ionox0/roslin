@@ -2,9 +2,9 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand: [cmo_plotting_module]
+baseCommand: ["/opt/common/CentOS_6/R/R-3.1.2/bin/Rscript"]
 
-arguments: [""]
+arguments: ["--vanilla", "/ifs/work/bergerm1/Innovation/sandbox/ian/QC-module/plot-modules/plotting-collapsed-bams.r"]
 
 doc: |
   None
