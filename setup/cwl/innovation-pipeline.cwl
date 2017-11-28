@@ -317,6 +317,13 @@ steps:
       output_folder: '.'
     out: [bam]
 
+  # Sort step
+
+## sort the first pass output by mate position
+#echo -e "`date` Sorting first-pass.txt"
+#sort -S 8G -k 6,6n -k 8,8n first-pass.txt > first-pass.mate-position-sorted.txt
+
+
   cmo-marianas.CollapseReadsSecondPass:
     run: ./cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass/0.0.0/cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass.cwl
     in:
@@ -447,26 +454,34 @@ steps:
   #    cmo-fulcrum.ProcessUMIBam:
 
 
+
+## make collapsed bam
+#echo -e "`date` Running juber-fastq-to-bam.sh "
+#~/software/bin/juber-fastq-to-bam.sh collapsed_R1_.fastq.gz
+
+
+#^? or ?v :
+
   # Turn the Collapsed Fastq into a Collapsed Bam (Why do we need to trim again?)
-  mapping:
-    run: module-1.scatter.cwl
-    in:
-      fastq1: cmo_process_umi_fastq/processed_fastq_1
-      fastq2: cmo_process_umi_fastq/processed_fastq_2
-      adapter: adapter
-      adapter2: adapter2
-      genome: genome
-      bwa_output: bwa_output
-      add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
-      add_rg_ID: add_rg_ID
-      add_rg_PU: add_rg_PU
-      add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
-    out: [clstats1, clstats2, bam, bai, md_metrics]
-    scatter: [fastq1, fastq2, adapter, adapter2, bwa_output, add_rg_LB, add_rg_PL, add_rg_ID, add_rg_PU, add_rg_SM, add_rg_CN, tmp_dir]
-    scatterMethod: dotproduct
+#  mapping:
+#    run: module-1.scatter.cwl
+#    in:
+#      fastq1: cmo_process_umi_fastq/processed_fastq_1
+#      fastq2: cmo_process_umi_fastq/processed_fastq_2
+#      adapter: adapter
+#      adapter2: adapter2
+#      genome: genome
+#      bwa_output: bwa_output
+#      add_rg_LB: add_rg_LB
+#      add_rg_PL: add_rg_PL
+#      add_rg_ID: add_rg_ID
+#      add_rg_PU: add_rg_PU
+#      add_rg_SM: add_rg_SM
+#      add_rg_CN: add_rg_CN
+#      tmp_dir: tmp_dir
+#    out: [clstats1, clstats2, bam, bai, md_metrics]
+#    scatter: [fastq1, fastq2, adapter, adapter2, bwa_output, add_rg_LB, add_rg_PL, add_rg_ID, add_rg_PU, add_rg_SM, add_rg_CN, tmp_dir]
+#    scatterMethod: dotproduct
 
 
 # todo - incorporate this
