@@ -53,17 +53,17 @@ doc: |
 
 inputs:
   tmp_dir:
-    type: File
+    type: string
     inputBinding:
       prefix: --tmp_dir
 
   input_bam:
-    type: string
+    type: File
     inputBinding:
       prefix: --input_bam
 
   read_names_file:
-    type: string
+    type: File
     inputBinding:
       prefix: --read_names_file
 

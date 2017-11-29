@@ -13,7 +13,7 @@ doc: |
 
 inputs:
   tmp_dir:
-    type: File
+    type: string
     inputBinding:
       prefix: --tmp_dir
 
@@ -23,7 +23,7 @@ inputs:
       prefix: --input_bam
 
   sort_order:
-    type: File
+    type: string
     inputBinding:
       prefix: --sort_order
 

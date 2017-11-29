@@ -13,7 +13,7 @@ doc: |
 
 inputs:
   tmp_dir:
-    type: File
+    type: string
     inputBinding:
       prefix: --tmp_dir
 

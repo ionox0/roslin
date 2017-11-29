@@ -53,7 +53,7 @@ doc: |
 
 inputs:
   tmp_dir:
-    type: File
+    type: string
     inputBinding:
       prefix: --tmp_dir
 
@@ -69,7 +69,7 @@ inputs:
       prefix: --something_else
 
   something_else_else:
-    type: File
+    type: string
     inputBinding:
       prefix: --something_else_else
 
