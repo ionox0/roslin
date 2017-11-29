@@ -58,7 +58,7 @@ case $tool_name in
         ;;
 
     fulcrum)
-        tool_name="/usr/bin/fulcrum-0.2.0.jar"
+        tool_name="/usr/bin/fgbio-0.2.0.jar"
         tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
         ;;
 
