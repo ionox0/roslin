@@ -174,7 +174,10 @@
         }, 
         "facets_lib": {
             "default": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/"
-        }, 
+        },
+        "fulcrum": {
+            "default": "sudo docker run -i fulcrum:0.2.0"
+        },
         "gatk": {
             "default": "sudo docker run -i gatk:3.3-0"
         }, 
