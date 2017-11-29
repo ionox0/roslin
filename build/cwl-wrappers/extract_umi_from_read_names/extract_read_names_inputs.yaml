@@ -1,8 +1,0 @@
-input_bam:
-  class: File
-  path: test.bam
-
-#samtools_view_file: samtools_view_file.bam
-
-awk_pattern: '{print $1 "\t" $3 "\t" $4 "\t" $4+length($10)-1}'
-output_read_names_filename: read_names.bed

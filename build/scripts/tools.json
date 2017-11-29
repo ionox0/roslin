@@ -180,13 +180,12 @@
             "cmo_qcpdf"
         ],
         "fulcrum": [
-            "cmo_fulcrum_annotate_bam_with_umis",
-            "cmo_fulcrum_call_duplex_consensus_reads",
-            "cmo_fulcrum_filter_consensus_reads",
-            "cmo_fulcrum_group_reads_by_umi",
-            "cmo_fulcrum_map_read_names_to_umis",
-            "cmo_fulcrum_set_mate_information",
-            "cmo_fulcrum_sort_bam"
+            "cmo_fulcrum.AnnotateBamWithUmis",
+            "cmo_fulcrum.CallDuplexConsensusReads",
+            "cmo_fulcrum.FilterConsensusReads",
+            "cmo_fulcrum.GroupReadsByUmi",
+            "cmo_fulcrum.SetMateInformation",
+            "cmo_fulcrum.SortBam"
         ]
     }
 }

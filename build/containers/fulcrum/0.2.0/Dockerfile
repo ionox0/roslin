@@ -8,7 +8,7 @@ LABEL maintainer="Ian Johnson (johnsoni@mskcc.org)" \
 
 ENV FULCRUM_VERSION 0.2.0
 
-COPY marianas-${FULCRUM_VERSION}.jar /usr/bin/fulcrum-0.2.0.jar
+COPY fgbio-${FULCRUM_VERSION}.jar /usr/bin/fgbio-0.2.0.jar
 
-ENTRYPOINT ["java", "-jar", "/usr/bin/fulcrum-0.2.0.jar"]
+ENTRYPOINT ["java", "-jar", "/usr/bin/fgbio-0.2.0.jar"]
 # CMD ["--help"]

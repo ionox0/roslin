@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: /pipeline-fulcrum:0.0.0
+From: /pipeline-fulcrum:0.2.0
 Registry: http://localhost:5000
 
 %setup
@@ -24,23 +24,20 @@ Registry: http://localhost:5000
 %runscript
 
     # just run java so that caller can pass java options
-    # exec java -jar /usr/bin/fulcrum.jar "$@"
+    # exec java -jar /usr/bin/fgbio-0.2.0.jar "$@"
     exec java "$@"
 
-%test
-    # get actual output of the tool
-    java -jar /usr/bin/fulcrum-0.2.0.jar | head -2 > /tmp/actual.diff.txt
-
-    # /usr/local/bin/delly 2>&1 | head -9 > /tmp/actual.diff.txt
-    # java -jar /usr/bin/gatk.jar --help | sed -n '2p;' > /tmp/actual.diff.txt
-
-    # expected output
-cat > /tmp/expected.diff.txt << EOM
-USAGE: fgbio [fgbio arguments] [command name] [command arguments]
-Version: 0.2.0
-EOM
-
-    # diff
-    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
-    # delete tmp
-    rm -rf /tmp/*.diff.txt
+# %test
+#     # get actual output of the tool
+#     java -jar /usr/bin/fgbio-0.2.0.jar 2>&1 | head -2 > /tmp/actual.diff.txt
+#
+#     # expected output
+# cat > /tmp/expected.diff.txt << EOM
+# USAGE: fgbio [fgbio arguments] [command name] [command arguments]
+# Version: 0.2.0
+# EOM
+#
+#     # diff
+#     diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+#     # delete tmp
+#     rm -rf /tmp/*.diff.txt
