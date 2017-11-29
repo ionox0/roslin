@@ -1,17 +1,14 @@
+tmp_dir: /scratch
+
+# AnnotateBamWithUmis
 input_bam:
   class: File
   path: fulcrum_workflow_test.bam
 
-#samtools_view_file: samtools_view_file.bam
+read_names_file:
+  class: File
+  path: read_names.bed
 
-# Extract UMI from reads names
-awk_pattern: '{print $1 "\t" $3 "\t" $4 "\t" $4+length($10)-1}'
-output_read_names_filename: read_names.bed
-output_folder: outputs
-tmp_dir: /scratch
-
-# AnnotateBamWithUmis
-annotated_fastq_filename: duplex_umi_for_read_names.fastq
 annotated_bam_filename: sample_with_umi.bam
 
 # SortBam
@@ -37,3 +34,4 @@ reference_fasta:
 
 filter_consensus_reads_something: 1
 filter_consensus_reads_something_else: 30
+filter_consensus_reads_output_bam_filename: filtered_duplexConsensusReads_collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20_1-1.bam

@@ -1,5 +1,3 @@
-#!/usr/bin/env/cwl-runner
-
 $namespaces:
   dct: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
@@ -18,18 +16,18 @@ doap:release:
   doap:name: cmo-fulcrum.FilterConsensusReads
   doap:revision: 1.0.0
 
- dct:creator:
- - class: foaf:Organization
-   foaf:name: Memorial Sloan Kettering Cancer Center
-   foaf:member:
-   - class: foaf:Person
-     foaf:name: Ian Johnson
-     foaf:mbox: mailto:johnsoni@mskcc.org
+dct:creator:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
- dct:contributor:
- - class: foaf:Organization
-   foaf:name: Memorial Sloan Kettering Cancer Center
-   foaf:member:
-   - class: foaf:Person
-     foaf:name: Ian Johnson
-     foaf:mbox: mailto:johnsoni@mskcc.org
+dct:contributor:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org

@@ -1,12 +1,6 @@
-#echo "SortBam"
-#java  -jar ${fgbio_jar}
-#--tmp-dir=${scratch_dir}
-#SortBam
-#--input=${output_folder}/sample_with_UMI.bam
-#--sort-order=Queryname
-#--output ${output_folder}/sample_with_UMI_sorted.bam
+#!/usr/bin/env cwl-runner
 
-cwlVersion: cwl:v1.0
+cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
 
@@ -37,3 +31,9 @@ inputs:
     type: string
     inputBinding:
       prefix: --output_bam_filename
+
+outputs:
+  output_bam:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_bam_filename)

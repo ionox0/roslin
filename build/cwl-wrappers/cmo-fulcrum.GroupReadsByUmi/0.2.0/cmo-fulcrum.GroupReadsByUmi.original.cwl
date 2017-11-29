@@ -1,13 +1,6 @@
-#java -jar ${fgbio_jar}
-#--tmp-dir=${scratch_dir}
-#GroupReadsByUmi
-#-s 'paired'
-#-m 20
-#-f ${output_folder}/Grouped-mapQ20-histogram
-#-i ${output_folder}/sample_with_UMI_sorted_mateFixed.bam
-#-o ${output_folder}/collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20.bam
+#!/usr/bin/env cwl-runner
 
-cwlVersion: cwl:v1.0
+cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
 
@@ -49,3 +42,9 @@ inputs:
     type: string
     inputBinding:
       prefix: --output_bam_filename
+
+outputs:
+  output_bam:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_bam_filename)

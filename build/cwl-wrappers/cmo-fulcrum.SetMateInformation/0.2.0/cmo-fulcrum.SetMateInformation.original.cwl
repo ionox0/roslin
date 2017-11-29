@@ -1,10 +1,6 @@
-#java -jar ${fgbio_jar}
-#--tmp-dir=${scratch_dir}
-#SetMateInformation
-#-i ${output_folder}/sample_with_UMI_sorted.bam
-#-o ${output_folder}/sample_with_UMI_sorted_mateFixed.bam
+#!/usr/bin/env cwl-runner
 
-cwlVersion: cwl:v1.0
+cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
 
@@ -30,3 +26,9 @@ inputs:
     type: string
     inputBinding:
       prefix: --output_bam_filename
+
+outputs:
+  output_bam:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_bam_filename)

@@ -1,10 +1,6 @@
-#java -jar ${fgbio_jar}
-#--tmp-dir=${scratch_dir}
-#CallDuplexConsensusReads
-#-i ${output_folder}/collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20.bam
-#-o ${output_folder}/duplexConsensusReads_collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20.bam
+#!/usr/bin/env cwl-runner
 
-cwlVersion: cwl:v1.0
+cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
 
@@ -26,7 +22,13 @@ inputs:
     inputBinding:
       prefix: --input_bam
 
-  output_bam:
+  output_bam_filename:
     type: string
     inputBinding:
       prefix: --output_bam_filename
+
+outputs:
+  output_bam:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_bam_filename)

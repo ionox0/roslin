@@ -1,10 +1,6 @@
-#java -jar ${fgbio_jar}
-#--tmp-dir=${scratch_dir} AnnotateBamWithUmis
-#-i ${input_bam}
-#-f ${output_folder}/Duplex_UMI_for_readNames.fastq
-#-o ${output_folder}/sample_with_UMI.bam
+#!/usr/bin/env cwl-runner
 
-cwlVersion: cwl:v1.0
+cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
 
@@ -35,3 +31,9 @@ inputs:
     type: string
     inputBinding:
       prefix: --output_bam_filename
+
+outputs:
+  output_bam:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_bam_filename)

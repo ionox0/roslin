@@ -1,6 +1,4 @@
-#java -jar ${fgbio_jar}
-
-#!/usr/bin/env/cwl-runner
+#!/usr/bin/env cwl-runner
 
 $namespaces:
   dct: http://purl.org/dc/terms/
@@ -20,42 +18,35 @@ doap:release:
   doap:name: cmo-fulcrum.GroupReadsByUmi
   doap:revision: 1.0.0
 
- dct:creator:
- - class: foaf:Organization
-   foaf:name: Memorial Sloan Kettering Cancer Center
-   foaf:member:
-   - class: foaf:Person
-     foaf:name: Ian Johnson
-     foaf:mbox: mailto:johnsoni@mskcc.org
+dct:creator:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
- dct:contributor:
- - class: foaf:Organization
-   foaf:name: Memorial Sloan Kettering Cancer Center
-   foaf:member:
-   - class: foaf:Person
-     foaf:name: Ian Johnson
-     foaf:mbox: mailto:johnsoni@mskcc.org
-#--tmp-dir=${scratch_dir}
-#GroupReadsByUmi
-#-s 'paired'
-#-m 20
-#-f ${output_folder}/Grouped-mapQ20-histogram
-#-i ${output_folder}/sample_with_UMI_sorted_mateFixed.bam
-#-o ${output_folder}/collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20.bam
+dct:contributor:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
-
-requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 4
-    coresMin: 1
-cwlVersion: cwl:v1.0
+cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
 
 baseCommand: [cmo_fulcrum_group_reads_by_umi]
 
 arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
+
+requirements:
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 4
+    coresMin: 1
 
 doc: |
   None
@@ -91,3 +82,9 @@ inputs:
     type: string
     inputBinding:
       prefix: --output_bam_filename
+
+outputs:
+  output_bam:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_bam_filename)

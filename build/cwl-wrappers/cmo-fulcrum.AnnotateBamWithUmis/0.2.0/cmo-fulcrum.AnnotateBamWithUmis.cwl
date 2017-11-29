@@ -1,6 +1,4 @@
-#java -jar ${fgbio_jar}
-
-#!/usr/bin/env/cwl-runner
+#!/usr/bin/env cwl-runner
 
 $namespaces:
   dct: http://purl.org/dc/terms/
@@ -20,39 +18,35 @@ doap:release:
   doap:name: cmo-fulcrum.AnnotateBamWithUMIs
   doap:revision: 1.0.0
 
- dct:creator:
- - class: foaf:Organization
-   foaf:name: Memorial Sloan Kettering Cancer Center
-   foaf:member:
-   - class: foaf:Person
-     foaf:name: Ian Johnson
-     foaf:mbox: mailto:johnsoni@mskcc.org
+dct:creator:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
- dct:contributor:
- - class: foaf:Organization
-   foaf:name: Memorial Sloan Kettering Cancer Center
-   foaf:member:
-   - class: foaf:Person
-     foaf:name: Ian Johnson
-     foaf:mbox: mailto:johnsoni@mskcc.org
-#--tmp-dir=${scratch_dir} AnnotateBamWithUmis
-#-i ${input_bam}
-#-f ${output_folder}/Duplex_UMI_for_readNames.fastq
-#-o ${output_folder}/sample_with_UMI.bam
+dct:contributor:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
+
+baseCommand: [cmo_fulcrum_annotate_bam_with_umis]
+
+arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 4
     coresMin: 1
-
-baseCommand: [cmo_fulcrum_annotate_bam_with_umis]
-
-arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
 
 doc: |
   None
@@ -77,3 +71,9 @@ inputs:
     type: string
     inputBinding:
       prefix: --output_bam_filename
+
+outputs:
+  output_bam:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_bam_filename)
