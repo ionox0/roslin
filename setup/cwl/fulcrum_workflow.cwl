@@ -46,14 +46,8 @@ requirements:
 
 inputs:
   input_bam: File
-#  samtools_view_file: string
-  awk_pattern: string
-  output_read_names_filename: string
-
-  output_folder: string
+  read_names_file: File
   tmp_dir: string
-
-  annotated_fastq_filename: string
   annotated_bam_filename: string
 
   sort_order: string
@@ -71,6 +65,7 @@ inputs:
   reference_fasta: File
   filter_consensus_reads_something: string
   filter_consensus_reads_something_else: string
+  filter_consensus_reads_output_bam_filename: string
 
 outputs:
   output_bam:
@@ -78,28 +73,19 @@ outputs:
     outputSource: filter_consensus_reads/output_bam
 
 steps:
-  map_read_names_to_umis:
-    run: map_read_names_to_umis.cwl # todo - correct path to cwl?
-    in:
-      input_bam: input_bam
-      samtools_view_file: samtools_view_file
-      awk_pattern: awk_pattern
-      output_read_names_filename: output_read_names_filename
-    out:
-      [read_names_file]
 
   annotate_bam_with_umis:
-    run: cmo-fulcrum.AnnotateBamWithUmis
+    run: ./cmo-fulcrum.AnnotateBamWithUmis/0.2.0/cmo-fulcrum.AnnotateBamWithUmis.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: input_bam
-      read_names_file: map_read_names_to_umis/read_names_file
+      read_names_file: read_names_file
       output_bam_filename: annotated_bam_filename
     out:
       [output_bam]
 
   sort_bam:
-    run: cmo-fulcrum.SortBam
+    run: ./cmo-fulcrum.SortBam/0.2.0/cmo-fulcrum.SortBam.cwl
     in:
         tmp_dir: tmp_dir
         input_bam: annotate_bam_with_umis/output_bam
@@ -109,7 +95,7 @@ steps:
       [output_bam]
 
   set_mate_information:
-    run: cmo-fulcrum.SetMateInformation
+    run: ./cmo-fulcrum.SetMateInformation/0.2.0/cmo-fulcrum.SetMateInformation.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: sort_bam/output_bam
@@ -118,7 +104,7 @@ steps:
       [output_bam]
 
   group_reads_by_umi:
-    run: cmo-fulcrum.GroupReadsByUmi
+    run: ./cmo-fulcrum.GroupReadsByUmi/0.2.0/cmo-fulcrum.GroupReadsByUmi.cwl
     in:
       tmp_dir: tmp_dir
       something: group_something
@@ -130,7 +116,7 @@ steps:
       [output_bam]
 
   call_duplex_consensus_reads:
-    run: cmo-fulcrum.CallDuplexConsensusReads
+    run: ./cmo-fulcrum.CallDuplexConsensusReads/0.2.0/cmo-fulcrum.CallDuplexConsensusReads.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: group_reads_by_umi/output_bam
@@ -139,7 +125,7 @@ steps:
       [output_bam]
 
   filter_consensus_reads:
-    run: cmo-fulcrum.FilterConsensusReads
+    run: ./cmo-fulcrum.FilterConsensusReads/0.2.0/cmo-fulcrum.FilterConsensusReads.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: call_duplex_consensus_reads/output_bam

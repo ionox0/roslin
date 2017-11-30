@@ -52,6 +52,7 @@
                 "129": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.excluding_sites_after_129.vcf", 
                 "138": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.vcf"
             }, 
+            "delly": "/ifs/work/pi/resources/delly/human.hg19.excl.tsv", 
             "exac": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
             "facets_snps": "/ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
             "fasta": "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
@@ -69,6 +70,7 @@
             "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
         }, 
         "GRCh38": {
+            "delly": "/ifs/work/pi/resources/delly/human.hg38.excl.tsv", 
             "exac": "", 
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/Homo_sapiens_assembly38.dbsnp138.vcf.gz", 
             "fasta": "/opt/common/CentOS_6-dev/vep/v86/homo_sapiens/86_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz", 
@@ -108,6 +110,7 @@
             "snps_1000g": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/hg19/1000G_phase1.snps.high_confidence.hg19.vcf"
         }, 
         "mm10": {
+            "delly": "/ifs/work/pi/resources/delly/mouse.mm10.excl.tsv", 
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/mouse_MM10_dbSNP_NCBI_20150625___noChrM__plusPseudo50__DROP_SORT.vcf.gz", 
             "fasta": "/ifs/depot/assemblies/M.musculus/mm10/mm10.fasta", 
             "gencode": {
@@ -184,11 +187,11 @@
         }, 
         "cutadapt_metrics": {
             "default": "/opt/common/CentOS_6-dev/qc/default/mergeCutAdaptStats.py"
-        },
-        "delly":{
-            "0.7.7": "sing.sh delly 0.7.7"
-
-        },
+        }, 
+        "delly": {
+            "0.7.7": "sing.sh delly 0.7.7", 
+            "default": "sing.sh delly 0.7.7"
+        }, 
         "facets": {
             "1.5.5": "sing.sh facets 1.5.5"
         }, 
@@ -204,7 +207,7 @@
             "default": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/"
         },
         "fulcrum": {
-            "0.2.0": "sing.sh fulcrum 0.2.0",
+            "0.2.0": "sing.sh fulcrum 0.2.0", 
             "default": "sing.sh fulcrum 0.2.0"
         },
         "gatk": {
@@ -279,6 +282,7 @@
         "picard": {
             "1.129": "sing.sh picard 1.129", 
             "1.96": "sing.sh picard 1.96", 
+            "2.13": "sing.sh picard 2.13", 
             "default": "sing.sh picard 1.96"
         }, 
         "pindel": {
@@ -315,7 +319,8 @@
         "roslin-qc": {
             "0.5.0": "sing.sh roslin-qc 0.5.0", 
             "0.5.5": "sing.sh roslin-qc 0.5.5", 
-            "default": "sing.sh roslin-qc 0.5.0"
+            "0.5.8": "sing.sh roslin-qc 0.5.8", 
+            "default": "sing.sh roslin-qc 0.5.8"
         }, 
         "samstat": {
             "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat", 
