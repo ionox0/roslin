@@ -12,16 +12,16 @@ read_names_file:
 annotated_bam_filename: 'sample_with_umi.bam'
 
 # SortBam
-sort_order: Queryname
+sort_order: 'Queryname'
 sorted_bam_filename: 'sample_with_umi_sorted.bam'
 
 # SetMateInformation
 set_mate_information_bam_filename: 'sample_with_umi_sorted_mateFixed.bam'
 
 # GroupReadsByUMI
-group_something: 'paired'
-group_something_else: '20'
-group_something_else_else: 'Grouped-mapQ20-histogram'
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
 group_reads_output_bam_filename: 'collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20.bam'
 
 # CallDuplexConsensusReads
@@ -32,6 +32,6 @@ reference_fasta:
   class: File
   path: /ifs/work/bergerm1/pererad1/impact-GRCh37/Homo_sapiens_assembly19.fasta
 
-filter_consensus_reads_something: '1'
-filter_consensus_reads_something_else: '30'
+filter_min_reads: '1'
+filter_min_base_quality: '30'
 filter_consensus_reads_output_bam_filename: 'filtered_duplexConsensusReads_collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20_1-1.bam'

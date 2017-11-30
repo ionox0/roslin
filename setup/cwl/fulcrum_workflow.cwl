@@ -55,16 +55,16 @@ inputs:
 
   set_mate_information_bam_filename: string
 
-  group_something: string
-  group_something_else: string
-  group_something_else_else: string
+  grouping_strategy: string
+  min_mapping_quality: string
+  tag_family_size_counts_output: string
   group_reads_output_bam_filename: string
 
   call_duplex_consensus_reads_output_bam_filename: string
 
   reference_fasta: File
-  filter_consensus_reads_something: string
-  filter_consensus_reads_something_else: string
+  filter_min_reads: string
+  filter_min_base_quality: string
   filter_consensus_reads_output_bam_filename: string
 
 outputs:
@@ -107,9 +107,9 @@ steps:
     run: ./cmo-fulcrum.GroupReadsByUmi/0.2.0/cmo-fulcrum.GroupReadsByUmi.cwl
     in:
       tmp_dir: tmp_dir
-      something: group_something
-      something_else: group_something_else
-      something_else_else: group_something_else_else
+      strategy: grouping_strategy
+      min_mapping_quality: min_mapping_quality
+      tag_family_size_counts_output: tag_family_size_counts_output
       input_bam: set_mate_information/output_bam
       output_bam_filename: group_reads_output_bam_filename
     out:
@@ -130,8 +130,8 @@ steps:
       tmp_dir: tmp_dir
       input_bam: call_duplex_consensus_reads/output_bam
       reference_fasta: reference_fasta
-      something: filter_consensus_reads_something
-      something_else: filter_consensus_reads_something_else
+      min_reads: filter_min_reads
+      min_base_quality: filter_min_base_quality
       output_bam_filename: filter_consensus_reads_output_bam_filename
     out:
       [output_bam]
