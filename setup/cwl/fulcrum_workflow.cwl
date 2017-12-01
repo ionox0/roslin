@@ -76,17 +76,15 @@ steps:
     run: ./cmo-map-umis-to-read-names/0.0.0/cmo-map-read-names-to-umis.cwl
     in:
       input_bam: input_bam
-      output_read_names_filename: output_read_names_filename
     out:
       [read_names_file]
-
 
   annotate_bam_with_umis:
     run: ./cmo-fulcrum.AnnotateBamWithUmis/0.2.0/cmo-fulcrum.AnnotateBamWithUmis.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: input_bam
-      read_names_file: read_names_file
+      read_names_file: map_umis_to_read_names/read_names_file
       output_bam_filename: annotated_bam_filename
     out:
       [output_bam]

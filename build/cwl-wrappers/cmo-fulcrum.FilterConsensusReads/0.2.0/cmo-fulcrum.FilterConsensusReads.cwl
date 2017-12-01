@@ -67,15 +67,15 @@ inputs:
     inputBinding:
       prefix: --reference_fasta
 
-  something:  # todo - research
+  min_reads:
     type: string
     inputBinding:
-      prefix: --something
+      prefix: --min_reads
 
-  something_else:
+  min_base_quality:
     type: string
     inputBinding:
-      prefix: --something_else
+      prefix: --min_base_quality
 
   output_bam_filename:
     type: string
