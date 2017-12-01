@@ -5,10 +5,6 @@ input_bam:
   class: File
   path: fulcrum_workflow_test.bam
 
-read_names_file:
-  class: File
-  path: read_names.bed
-
 annotated_bam_filename: 'sample_with_umi.bam'
 
 # SortBam

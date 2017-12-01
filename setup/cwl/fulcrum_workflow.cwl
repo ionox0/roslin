@@ -46,7 +46,6 @@ requirements:
 
 inputs:
   input_bam: File
-  read_names_file: File
   tmp_dir: string
   annotated_bam_filename: string
 
@@ -73,6 +72,14 @@ outputs:
     outputSource: filter_consensus_reads/output_bam
 
 steps:
+  map_umis_to_read_names:
+    run: ./cmo-map-umis-to-read-names/0.0.0/cmo-map-read-names-to-umis.cwl
+    in:
+      input_bam: input_bam
+      output_read_names_filename: output_read_names_filename
+    out:
+      [read_names_file]
+
 
   annotate_bam_with_umis:
     run: ./cmo-fulcrum.AnnotateBamWithUmis/0.2.0/cmo-fulcrum.AnnotateBamWithUmis.cwl
