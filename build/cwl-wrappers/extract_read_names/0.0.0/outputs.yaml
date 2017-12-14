@@ -1,0 +1,5 @@
+outputs:
+  read_names:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_read_names_filename)
