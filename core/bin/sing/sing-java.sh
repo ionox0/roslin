@@ -21,7 +21,7 @@ do
         sing_opts+=("$var")
     fi
 
-    if [ "$var" == "-jar" ]
+    if [ "$var" == "-jar" ] || [ "$var" == "-cp" ]
     then
         # we're done with handling java options
         flag=1
