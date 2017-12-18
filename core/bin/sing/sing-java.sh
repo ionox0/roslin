@@ -57,7 +57,7 @@ case $tool_name in
         tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
         ;;
 
-	marianas)
+    marianas)
         tool_name="/usr/bin/marianas-0.0.0.jar"
         tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
         ;;
