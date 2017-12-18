@@ -11,8 +11,7 @@
         "samtools": [
             "1.3.1"
         ],
-        "picard": [
-            "2.13",
+        "picard": [            
             "1.129",
             "1.96"
         ],
@@ -34,7 +33,8 @@
             "1.1.5"
         ],
         "vardict": [
-            "1.4.6"
+            "1.4.6",
+            "1.5.1"
         ],
         "pindel": [
             "0.2.5b8",
@@ -104,106 +104,6 @@
         ],
         "@innovation-extract-read-names": [
             "0.0.0"
-        ]
-    },
-    "containerDependency": {
-        "bwa": [
-            "cmo_bwa_mem"
-        ],
-        "trimgalore": [
-            "cmo_trimgalore"
-        ],
-        "picard": [
-            "cmo_picard.MarkDuplicates",
-            "cmo_picard.AddOrReplaceReadGroups",
-            "cmo_picard.FixMateInformation",
-            "cmo_picard.CollectMultipleMetrics",
-            "cmo_picard.CalculateHsMetrics",
-            "cmo_picard.CollectAlignmentSummaryMetrics",
-            "cmo_picard.CollectGcBiasMetrics",
-            "cmo_picard.CollectInsertSizeMetrics"
-        ],
-        "gatk": [
-            "cmo_gatk.FindCoveredIntervals",
-            "cmo_gatk.BaseRecalibrator",
-            "cmo_gatk.PrintReads",
-            "cmo_gatk.SomaticIndelDetector",
-            "cmo_gatk.CombineVariants",
-            "cmo_gatk.DepthOfCoverage"
-        ],
-        "delly": [
-            "cmo_delly.call",
-            "cmo_delly.filter",
-            "cmo_delly.merge"
-        ],
-        "abra": [
-            "cmo_abra"
-        ],
-        "list2bed": [
-            "cmo_list2bed"
-        ],
-        "mutect": [
-            "cmo_mutect"
-        ],
-        "pindel": [
-            "cmo_pindel"
-        ],
-        "vardict": [
-            "cmo_vardict"
-        ],
-        "basic-filtering": [
-            "basic-filtering.mutect",
-            "basic-filtering.vardict",
-            "basic-filtering.pindel",
-            "basic-filtering.somaticIndelDetector"
-        ],
-        "bcftools": [
-            "cmo_bcftools.norm"
-        ],
-        "vcf2maf": [
-            "cmo_vcf2maf"
-        ],
-        "@fillout": [
-            "cmo_fillout"
-        ],
-        "remove-variants": [
-            "remove-variants"
-        ],
-        "replace-allele-counts": [
-            "replace-allele-counts"
-        ],
-        "@split-reads": [
-            "cmo_split_reads"
-        ],
-        "ngs-filters": [
-            "ngs-filters"
-        ],
-        "htstools": [
-            "cmo_snp-pileup",
-            "cmo_ppflag-fixer"
-        ],
-        "facets": [
-            "cmo_facets.doFacets"
-        ],
-        "roslin-qc": [
-            "cmo_qcpdf"
-        ],
-        "marianas": [
-            "cmo_marianas.ProcessLoopUMIFastq"
-        ],
-        "fulcrum": [
-            "cmo_fulcrum.AnnotateBamWithUmis",
-            "cmo_fulcrum.CallDuplexConsensusReads",
-            "cmo_fulcrum.FilterConsensusReads",
-            "cmo_fulcrum.GroupReadsByUmi",
-            "cmo_fulcrum.SetMateInformation",
-            "cmo_fulcrum.SortBam"
-        ],
-        "@innovation-map-read-names-to-umis": [
-            "innovation_map_read_names_to_umis"
-        ],
-        "@innovation-extract-read-names": [
-            "innovation-extract-read-names"
         ]
     }
 }
