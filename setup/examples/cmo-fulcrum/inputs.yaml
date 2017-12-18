@@ -1,5 +1,10 @@
 tmp_dir: '/scratch'
 
+# extract_read_names
+output_read_names_filename: 'readNames.bed'
+# map_read_names_to_umis
+annotated_fastq_filename: 'Duplex_UMI_for_readNames.fastq'
+
 # AnnotateBamWithUmis
 input_bam:
   class: File

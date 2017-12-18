@@ -140,7 +140,7 @@
         "abra": {
             "2.07": "sudo docker run -i abra:2.07 ", 
             "2.08": "sudo docker run -i abra:2.08 ", 
-            "default": "sudo docker run -i abra:2.08 "
+            "default": "sudo docker run -i abra:2.12 "
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
@@ -205,6 +205,9 @@
         "list2bed": {
             "1.0.0": "sudo docker run -i list2bed:1.0.0", 
             "default": "sudo docker run -i list2bed:1.0.1 "
+        }, 
+        "marianas": {
+            "default": "sudo docker run -i marianas:0.0.0 "
         }, 
         "matlab": {
             "default": "/opt/common/CentOS_6-dev/matlab/R2013a/v81/"
@@ -286,9 +289,6 @@
         }, 
         "vt": {
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt"
-        },
-        "marianas": {
-            "default": "sudo docker run -i marianas:0.0.0 "
         }
     }, 
     "targets": {

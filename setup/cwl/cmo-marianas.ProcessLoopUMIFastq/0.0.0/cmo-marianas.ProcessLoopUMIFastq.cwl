@@ -1,5 +1,3 @@
-cwlVersion: cwl:v1.0
-
 #!/usr/bin/env/cwl-runner
 
 $namespaces:
@@ -37,13 +35,13 @@ dct:contributor:
     foaf:mbox: mailto:johnsoni@mskcc.org
 
 
+cwlVersion: cwl:v1.0
+
 class: CommandLineTool
 
 baseCommand: [cmo_process_loop_umi_fastq]
 
 arguments: ["-server", "-Xms8g", "-Xmx8g", "-cp"]
-
-doc: Marianas UMI Clipping module
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -51,14 +49,23 @@ requirements:
     ramMin: 4
     coresMin: 1
 
+doc: Marianas UMI Clipping module
+
 inputs:
-  r1_fastq:
+  fastq1:
     type: File
     inputBinding:
-      prefix: --r1_fastq
-    secondaryFiles:
-    - ${return self.location.replace("_R1_", "_R2_")}
-    - ${return self.location.replace(/(.*)(\/.*$)/, "$1/SampleSheet.csv")}
+      prefix: --fastq1
+
+  fastq2:
+    type: File
+    inputBinding:
+      prefix: --fastq2
+
+  sample_sheet:
+    type: File
+    inputBinding:
+      prefix: --sample_sheet
 
   umi_length:
     type: string
@@ -70,33 +77,39 @@ inputs:
     inputBinding:
       prefix: --output_project_folder
 
+  outdir:
+    type: ['null', string]
+    doc: Full Path to the output dir.
+    inputBinding:
+      prefix: --outDir
+
 outputs:
   processed_fastq_1:
     type: File
     outputBinding:
-      glob: $(inputs.r1_fastq)
+      glob: ${ return "**/" + inputs.fastq1.basename }
 
   processed_fastq_2:
     type: File
     outputBinding:
-      glob: $(inputs.r2_fastq)
+      glob: ${ return "**/" + inputs.fastq1.basename.replace("_R1_", "_R2_") }
 
-#  composite_umi_frequencies:
-#    type: File
-#    outputBinding:
-#      glob: composite-umi-frequencies.txt
+  composite_umi_frequencies:
+    type: File
+    outputBinding:
+      glob: ${ return "**/composite-umi-frequencies.txt" }
 
   info:
     type: File
     outputBinding:
-      glob: info.txt
+      glob: ${ return "**/info.txt" }
 
-#   sample_sheet:
-#     type: File
-#     outputBinding:
-#       glob: SampleSheet.csv
+  output_sample_sheet:
+    type: File
+    outputBinding:
+      glob: ${ return "**/SampleSheet.csv" }
 
   umi_frequencies:
     type: File
     outputBinding:
-      glob: umi-frequencies.txt
+      glob: ${ return "**/umi-frequencies.txt" }

@@ -57,21 +57,20 @@ inputs:
     inputBinding:
       prefix: --tmp_dir
 
-  # todo - research
-  something:
+  strategy:
     type: string
     inputBinding:
-      prefix: --something
+      prefix: --strategy
 
-  something_else:
+  min_mapping_quality:
     type: string
     inputBinding:
-      prefix: --something_else
+      prefix: --min_mapping_quality
 
-  something_else_else:
+  tag_family_size_counts_outpu:
     type: string
     inputBinding:
-      prefix: --something_else_else
+      prefix: --tag_family_size_counts_output
 
   input_bam:
     type: File

@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: extract_read_names
+  doap:name: innovation-extract-read-names
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: extract_read_names
+  doap:name: innovation-extract-read-names
   doap:revision: 1.0.0
 
  dct:creator:

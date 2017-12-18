@@ -93,8 +93,17 @@
         "delly": [
             "0.7.7"
         ],
+        "marianas": [
+            "0.0.0"
+        ],
         "fulcrum": [
             "0.2.0"
+        ],
+        "@innovation-map-read-names-to-umis": [
+            "0.0.0"
+        ],
+        "@innovation-extract-read-names": [
+            "0.0.0"
         ]
     },
     "containerDependency": {
@@ -179,6 +188,9 @@
         "roslin-qc": [
             "cmo_qcpdf"
         ],
+        "marianas": [
+            "cmo_marianas.ProcessLoopUMIFastq"
+        ],
         "fulcrum": [
             "cmo_fulcrum.AnnotateBamWithUmis",
             "cmo_fulcrum.CallDuplexConsensusReads",
@@ -186,6 +198,12 @@
             "cmo_fulcrum.GroupReadsByUmi",
             "cmo_fulcrum.SetMateInformation",
             "cmo_fulcrum.SortBam"
+        ],
+        "@innovation-map-read-names-to-umis": [
+            "innovation_map_read_names_to_umis"
+        ],
+        "@innovation-extract-read-names": [
+            "innovation-extract-read-names"
         ]
     }
 }

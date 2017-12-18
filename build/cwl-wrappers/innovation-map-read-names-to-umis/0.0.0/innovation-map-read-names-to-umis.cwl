@@ -1,4 +1,4 @@
-#!/usr/bin/env cwl-runner
+#!/usr/bin/env/cwl-runner
 
 $namespaces:
   dct: http://purl.org/dc/terms/
@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: module-3
-  doap:revision: 1.0.0
+  doap:name: innovation-map-read-names-to-umis
+  doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cwl-wrapper
+  doap:name: innovation-map-read-names-to-umis
   doap:revision: 1.0.0
 
 dct:creator:
@@ -32,36 +32,36 @@ dct:contributor:
   foaf:member:
   - class: foaf:Person
     foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsonsi@mskcc.org
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
 cwlVersion: v1.0
 
 class: CommandLineTool
 
+#requirements:
+#  - class: ShellCommandRequirement
+
 requirements:
-    - class: ShellCommandRequirement
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 4
+    coresMin: 1
 
 inputs:
-  input_bam:
-    type: File
-
-  output_read_names_filename:
-    type: string
-
-outputs:
   read_names:
     type: File
-    outputBinding:
-      glob: $(inputs.output_read_names_filename)
 
-baseCommand: [samtools]
+  annotated_fastq_filename:
+    type: string
+
+baseCommand: [innovation_map_read_names_to_umis]
 
 arguments:
-  - view
-  - $(inputs.input_bam)
-  - '|'
-  - awk
-  - '{print $1 "\t" $3 "\t" $4 "\t" $4+length($10)-1}'
-  - '>'
-  - $(inputs.output_read_names_filename)
+  - $(inputs.read_names)
+  - $(inputs.annotated_fastq_filename)
 
+outputs:
+  annotated_fastq:
+    type: File
+    outputBinding:
+      glob: $(inputs.annotated_fastq_filename)

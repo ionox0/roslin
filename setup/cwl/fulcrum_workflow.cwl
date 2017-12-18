@@ -45,22 +45,31 @@ requirements:
     StepInputExpressionRequirement: {}
 
 inputs:
-  input_bam: File
   tmp_dir: string
+  input_bam: File
+  output_read_names_filename: string
+  annotated_fastq_filename: string
+
+  # AnnotateFastqWithUmis
   annotated_bam_filename: string
 
+  # SortBam
   sort_order: string
   sorted_bam_filename: string
 
+  # SetMateInformation
   set_mate_information_bam_filename: string
 
+  # GroupReads
   grouping_strategy: string
   min_mapping_quality: string
   tag_family_size_counts_output: string
   group_reads_output_bam_filename: string
 
+  # CallDuplexConsensusReads
   call_duplex_consensus_reads_output_bam_filename: string
 
+  # FilterConsensusReads
   reference_fasta: File
   filter_min_reads: string
   filter_min_base_quality: string
@@ -72,19 +81,28 @@ outputs:
     outputSource: filter_consensus_reads/output_bam
 
 steps:
-  map_umis_to_read_names:
-    run: ./cmo-map-umis-to-read-names/0.0.0/cmo-map-read-names-to-umis.cwl
+  innovation_extract_read_names:
+    run: ./innovation-extract-read-names/0.0.0/innovation-extract-read-names.cwl
     in:
       input_bam: input_bam
+      output_read_names_filename:  output_read_names_filename
     out:
-      [read_names_file]
+      [read_names]
+
+  innovation_map_read_names_to_umis:
+    run: ./innovation-map-read-names-to-umis/0.0.0/innovation-map-read-names-to-umis.cwl
+    in:
+      input_bam: input_bam
+      annotated_fastq_filename: annotated_fastq_filename
+    out:
+      [annotated_fastq]
 
   annotate_bam_with_umis:
     run: ./cmo-fulcrum.AnnotateBamWithUmis/0.2.0/cmo-fulcrum.AnnotateBamWithUmis.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: input_bam
-      read_names_file: map_umis_to_read_names/read_names_file
+      annotated_fastq: innovation_map_read_names_to_umis/annotated_fastq
       output_bam_filename: annotated_bam_filename
     out:
       [output_bam]

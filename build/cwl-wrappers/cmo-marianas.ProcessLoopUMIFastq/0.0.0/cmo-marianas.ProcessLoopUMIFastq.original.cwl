@@ -11,13 +11,20 @@ arguments: ["-server", "-Xms8g", "-Xmx8g", "-cp"]
 doc: Marianas UMI Clipping module
 
 inputs:
-  r1_fastq:
+  fastq1:
     type: File
     inputBinding:
-      prefix: --r1_fastq
-    secondaryFiles:
-    - ${return self.location.replace("_R1_", "_R2_")}
-    - ${return self.location.replace(/(.*)(\/.*$)/, "$1/SampleSheet.csv")}
+      prefix: --fastq1
+
+  fastq2:
+    type: File
+    inputBinding:
+      prefix: --fastq2
+
+  sample_sheet:
+    type: File
+    inputBinding:
+      prefix: --sample_sheet
 
   umi_length:
     type: string
@@ -39,12 +46,12 @@ outputs:
   processed_fastq_1:
     type: File
     outputBinding:
-      glob: ${ return "**/" + inputs.r1_fastq.basename }
+      glob: ${ return "**/" + inputs.fastq1.basename }
 
   processed_fastq_2:
     type: File
     outputBinding:
-      glob: ${ return "**/" + inputs.r1_fastq.basename.replace("_R1_", "_R2_") }
+      glob: ${ return "**/" + inputs.fastq1.basename.replace("_R1_", "_R2_") }
 
   composite_umi_frequencies:
     type: File
@@ -56,7 +63,7 @@ outputs:
     outputBinding:
       glob: ${ return "**/info.txt" }
 
-  sample_sheet:
+  output_sample_sheet:
     type: File
     outputBinding:
       glob: ${ return "**/SampleSheet.csv" }

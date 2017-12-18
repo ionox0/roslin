@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: map_read_names_to_umis
+  doap:name: innovation-extract-read-names
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -42,23 +42,25 @@ requirements:
     - class: ShellCommandRequirement
 
 inputs:
-  read_names:
+  input_bam:
     type: File
 
-  output_mapped_filename:
+  output_read_names_filename:
     type: string
 
-outputs:
-  mapped_read_names:
-    type: File
-    outputBinding:
-      glob: $(inputs.output_mapped_filename)
-
-baseCommand: [cmo_fulcrum_map_umis_to_read_names]
+baseCommand: [samtools]
 
 arguments:
-  - $(inputs.read_names)
-  - $(inputs.output_mapped_filename)
+  - view
+  - $(inputs.input_bam)
+  - '|'
+  - awk
+  - '{print $1 "\t" $3 "\t" $4 "\t" $4+length($10)-1}'
+  - '>'
+  - $(inputs.output_read_names_filename)
 
-
-# python /ifs/work/bergerm1/pererad1/ColonWeiserAnalysis/duplexUMI.py ${output_folder}/readNames.bed ${output_folder}/Duplex_UMI_for_readNames.fastq
+outputs:
+  read_names:
+    type: File
+    outputBinding:
+      glob: $(inputs.output_read_names_filename)

@@ -1,0 +1,63 @@
+# Process Loop UMI Fastq
+fastq1: {class: File, path: /home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001--small.fastq.gz}
+fastq2: {class: File, path: /home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001--small.fastq.gz}
+sample_sheet: {class: File, path: /home/johnsoni/roslin/setup/examples/innovation/SampleSheet.csv}
+umi_length: '3'
+output_project_folder: '.'
+outdir: '.'
+
+
+# MODULE 1
+#adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
+#adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+#fastq1:
+#  class: File
+#  path: ../data/fastq/P1_R1.fastq.gz
+#fastq2:
+#  class: File
+#  path: ../data/fastq/P1_R2.fastq.gz
+genome: "GRCh37"
+bwa_output: P1.bam
+add_rg_LB: "5"
+add_rg_PL: "Illumina"
+add_rg_ID: "P-0000377"
+add_rg_PU: "bc26"
+add_rg_SM: "P-0000377-T02-IM3"
+add_rg_CN: "MSKCC"
+add_rg_output: "P-0000377-T02-IM3_ARRDRG.bam"
+md_output: "P-0000377-T02-IM3_ARRDRG_MD.bam"
+md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
+tmp_dir: /scratch
+
+
+# extract_read_names
+#input_bam:  (from previous step)
+output_read_names_filename: 'readNames.bed'
+
+# map_read_names_to_umis
+annotated_fastq_filename: 'Duplex_UMI_for_readNames.fastq'
+
+
+# FULCRUM
+tmp_dir: '/scratch'
+# AnnotateBamWithUmis
+annotated_bam_filename: 'sample_with_umi.bam'
+# SortBam
+sort_order: 'Queryname'
+sorted_bam_filename: 'sample_with_umi_sorted.bam'
+# SetMateInformation
+set_mate_information_bam_filename: 'sample_with_umi_sorted_mateFixed.bam'
+# GroupReadsByUMI
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
+group_reads_output_bam_filename: 'collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20.bam'
+# CallDuplexConsensusReads
+call_duplex_consensus_reads_output_bam_filename: 'duplexConsensusReads_collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20.bam'
+# FilterConsensusReads
+reference_fasta:
+  class: File
+  path: /ifs/work/bergerm1/pererad1/impact-GRCh37/Homo_sapiens_assembly19.fasta
+filter_min_reads: '1'
+filter_min_base_quality: '30'
+filter_consensus_reads_output_bam_filename: 'filtered_duplexConsensusReads_collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20_1-1.bam'

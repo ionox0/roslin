@@ -22,7 +22,7 @@ inputs:
     inputBinding:
       prefix: --input_bam
 
-  read_names_file:
+  annotated_fastq:
     type: File
     inputBinding:
       prefix: --read_names_file
