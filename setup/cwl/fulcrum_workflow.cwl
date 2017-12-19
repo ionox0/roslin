@@ -38,11 +38,11 @@ cwlVersion: v1.0
 
 class: Workflow
 requirements:
-    MultipleInputFeatureRequirement: {}
-    ScatterFeatureRequirement: {}
-    SubworkflowFeatureRequirement: {}
-    InlineJavascriptRequirement: {}
-    StepInputExpressionRequirement: {}
+  MultipleInputFeatureRequirement: {}
+  ScatterFeatureRequirement: {}
+  SubworkflowFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
   tmp_dir: string
@@ -75,10 +75,21 @@ inputs:
   filter_min_base_quality: string
   filter_consensus_reads_output_bam_filename: string
 
+  # sort_bam_queryname
+  sort_bam_queryname_filename: string
+
+  # samtools fastq
+  samtools_fastq_read1_output_filename: string
+  samtools_fastq_read2_output_filename: string
+
 outputs:
-  output_bam:
+  output_fastq_1:
     type: File
-    outputSource: filter_consensus_reads/output_bam
+    outputSource: gzip_1/gzipped_fastq_1
+
+  output_fastq_2:
+    type: File
+    outputSource: gzip_1/gzipped_fastq_2
 
 steps:
   innovation_extract_read_names:
@@ -92,7 +103,7 @@ steps:
   innovation_map_read_names_to_umis:
     run: ./innovation-map-read-names-to-umis/0.0.0/innovation-map-read-names-to-umis.cwl
     in:
-      input_bam: input_bam
+      read_names: innovation_extract_read_names/read_names
       annotated_fastq_filename: annotated_fastq_filename
     out:
       [annotated_fastq]
@@ -158,3 +169,34 @@ steps:
       output_bam_filename: filter_consensus_reads_output_bam_filename
     out:
       [output_bam]
+
+  sort_bam_queryname:
+    run: ./innovation-sort-bam/0.0.0/innovation-sort-bam.cwl
+    in:
+      input_bam: filter_consensus_reads/output_bam
+      output_bam_filename: sort_bam_queryname_filename
+    out:
+      [bam_sorted_queryname]
+
+  samtools_fastq:
+    run: ./innovation-samtools-fastq/0.0.0/innovation-samtools-fastq.cwl
+    in:
+      input_bam: sort_bam_queryname/bam_sorted_queryname
+      read1_output_filename: samtools_fastq_read1_output_filename
+      read2_output_filename: samtools_fastq_read2_output_filename
+    out:
+      [output_read_1, output_read_2]
+
+  gzip_1:
+    run: ./innovation-gzip-fastq/0.0.0/innovation-gzip-fastq.cwl
+    in:
+      input_fastq: samtools_fastq/output_read_1
+    out:
+      [gzipped_fastq_1]
+
+  gzip_2:
+    run: ./innovation-gzip-fastq/0.0.0/innovation-gzip-fastq.cwl
+    in:
+      input_fastq: samtools_fastq/output_read_2
+    out:
+      [gzipped_fastq_2]

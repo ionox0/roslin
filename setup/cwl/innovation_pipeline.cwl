@@ -38,24 +38,30 @@ cwlVersion: v1.0
 
 class: Workflow
 requirements:
-    MultipleInputFeatureRequirement: {}
-    ScatterFeatureRequirement: {}
-    SubworkflowFeatureRequirement: {}
-    InlineJavascriptRequirement: {}
-    StepInputExpressionRequirement: {}
+  MultipleInputFeatureRequirement: {}
+  ScatterFeatureRequirement: {}
+  SubworkflowFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
 
 
 inputs:
 
-  # Process Loop UMI Fastq
-  fastq1: File
-  fastq2: File
+  ##########################
+  # Process Loop UMI Fastq #
+  ##########################
+
+  fastq1: string
+  fastq2: string
   sample_sheet: File
   umi_length: string
   output_project_folder: string
   outdir: string
 
-  # Module 1
+  ############
+  # Module 1 #
+  ############
+
 #  adapter: string
 #  adapter2: string
 #  fastq1: File
@@ -73,7 +79,9 @@ inputs:
   md_metrics_output: string
   tmp_dir: string
 
-  # Fulcrum
+  ###########
+  # Fulcrum #
+  ###########
 
   # extract_read_names
   output_read_names_filename: string
@@ -95,12 +103,27 @@ inputs:
   filter_min_base_quality: string
   filter_consensus_reads_output_bam_filename: string
 
+  # sort_bam_queryname
+  sort_bam_queryname_filename: string
+
+  # samtools fastq
+  samtools_fastq_read1_output_filename: string
+  samtools_fastq_read2_output_filename: string
+
+
+  #########
+  # Waltz #
+  #########
+
+  coverage_threshold: string
+  gene_list: string
+  bed_file: string
+  min_mapping_quality: string
 
 outputs:
   output_bam:
     type: File
     outputSource: fulcrum/output_bam
-
 
 steps:
   cmo_process_loop_umi_fastq:
@@ -114,7 +137,7 @@ steps:
       outdir: outdir
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
 
-  module_1:
+  module_1_innovation:
     run: ./module-1.innovation.cwl
     in:
       fastq1: cmo_process_loop_umi_fastq/processed_fastq_1
@@ -134,25 +157,104 @@ steps:
     out:
       [bam, bai, md_metrics] # clstats1, clstats2,
 
+
+  # Waltz Run (Standard Bams)
+  waltz_count_reads:
+    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
+    in:
+      input_bam: module_1_innovation/bam
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+    out:
+      [fragment_sizes, read_counts, waltz_coverage, covered_regions, bam_fragment_sizes, bam_read_counts]
+
+  waltz_pileup_metrics:
+    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
+    in:
+      input_bam: fulcrum/output_bam
+      min_mapping_quality: min_mapping_quality
+      reference_fasta: reference_fasta
+      bed_file: bed_file
+    out:
+      [pileup, pileup_without_duplicates, intervals, intervals_without_duplicates]
+
+
+  # Collapsing with Fulcrum
   fulcrum:
     run: ./fulcrum_workflow.cwl
     in:
       tmp_dir: tmp_dir
       output_read_names_filename: output_read_names_filename
       annotated_fastq_filename: annotated_fastq_filename
-      input_bam: module_1/bam
+      input_bam: module_1_innovation/bam
       annotated_bam_filename: annotated_bam_filename
       sort_order: sort_order
       sorted_bam_filename: sorted_bam_filename
       set_mate_information_bam_filename: set_mate_information_bam_filename
+
+      # Fulcrum group reads
       grouping_strategy: grouping_strategy
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
       group_reads_output_bam_filename: group_reads_output_bam_filename
+
+      # Fulcrum call duplex consensus reads
       call_duplex_consensus_reads_output_bam_filename: call_duplex_consensus_reads_output_bam_filename
       reference_fasta: reference_fasta
+
+      # Fulcrum filter reads
       filter_min_reads: filter_min_reads
       filter_min_base_quality: filter_min_base_quality
       filter_consensus_reads_output_bam_filename: filter_consensus_reads_output_bam_filename
+
+      # Samtools sort bam
+      sort_bam_queryname_filename: sort_bam_queryname_filename
+
+      # Samtools fastq
+      samtools_fastq_read1_output_filename: samtools_fastq_read1_output_filename
+      samtools_fastq_read2_output_filename: samtools_fastq_read2_output_filename
+
     out:
-      [output_bam]
+      [output_fastq_1, output_fastq_2]
+
+  module_1:
+    run: ./module-1.cwl
+    in:
+      fastq1: cmo_process_loop_umi_fastq/processed_fastq_1
+      fastq2: cmo_process_loop_umi_fastq/processed_fastq_2
+      genome: genome
+      bwa_output: bwa_output
+      add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
+      add_rg_ID: add_rg_ID
+      add_rg_PU: add_rg_PU
+      add_rg_SM: add_rg_SM
+      add_rg_CN: add_rg_CN
+      add_rg_output: add_rg_output
+      md_output: md_output
+      md_metrics_output: md_metrics_output
+      tmp_dir: tmp_dir
+    out:
+      [bam, bai, md_metrics] # clstats1, clstats2,
+
+
+  waltz_count_reads:
+    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
+    in:
+      input_bam: fulcrum/output_bam
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+    out:
+      [fragment_sizes, read_counts, waltz_coverage, covered_regions, bam_fragment_sizes, bam_read_counts]
+
+  waltz_pileup_metrics:
+    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
+    in:
+      input_bam: fulcrum/output_bam
+      min_mapping_quality: min_mapping_quality
+      reference_fasta: reference_fasta
+      bed_file: bed_file
+    out:
+      [pileup, pileup_without_duplicates, intervals, intervals_without_duplicates]

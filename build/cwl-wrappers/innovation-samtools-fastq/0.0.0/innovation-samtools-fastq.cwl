@@ -1,4 +1,4 @@
-#!/usr/bin/env/cwl-runner
+#!/usr/bin/env cwl-runner
 
 $namespaces:
   dct: http://purl.org/dc/terms/
@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: innovation-map-read-names-to-umis
-  doap:revision: 0.5.0
+  doap:name: innovation-sort-bam
+  doap:revision: 1.0.0
 - class: doap:Version
-  doap:name: innovation-map-read-names-to-umis
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -32,33 +32,37 @@ dct:contributor:
   foaf:member:
   - class: foaf:Person
     foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsoni@mskcc.org
+    foaf:mbox: mailto:johnsonsi@mskcc.org
 
 cwlVersion: v1.0
 
 class: CommandLineTool
 
 requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 4
-    coresMin: 1
+    - class: ShellCommandRequirement
 
 inputs:
-  read_names:
-    type: File
+  input_bam:
+      type: File
 
-  annotated_fastq_filename:
+  read1_output_filename:
     type: string
 
-baseCommand: [innovation_map_read_names_to_umis]
+  read2_output_filename:
+    type: string
+
+baseCommand: [samtools]
 
 arguments:
-  - $(inputs.read_names)
-  - $(inputs.annotated_fastq_filename)
+  - fastq
+  - -1
+  - $(inputs.read1_output_filename)
+  - -2
+  - $(inputs.read2_output_filename)
+  - $(inputs.input_bam)
 
 outputs:
-  annotated_fastq:
+  bam_sorted_queryname:
     type: File
     outputBinding:
-      glob: $(inputs.annotated_fastq_filename)
+      glob: $(inputs.output_bam_filename)

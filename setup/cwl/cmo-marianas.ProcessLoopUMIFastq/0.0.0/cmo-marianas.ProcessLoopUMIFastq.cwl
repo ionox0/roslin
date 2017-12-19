@@ -53,12 +53,16 @@ doc: Marianas UMI Clipping module
 
 inputs:
   fastq1:
-    type: File
+    type:
+    - string
+    - File
     inputBinding:
       prefix: --fastq1
 
   fastq2:
-    type: File
+    type:
+    - string
+    - File
     inputBinding:
       prefix: --fastq2
 
@@ -87,12 +91,12 @@ outputs:
   processed_fastq_1:
     type: File
     outputBinding:
-      glob: ${ return "**/" + inputs.fastq1.basename }
+      glob: ${ return "**/" + inputs.fastq1.split('/').pop() }
 
   processed_fastq_2:
     type: File
     outputBinding:
-      glob: ${ return "**/" + inputs.fastq1.basename.replace("_R1_", "_R2_") }
+      glob: ${ return "**/" + inputs.fastq2.split('/').pop() }
 
   composite_umi_frequencies:
     type: File

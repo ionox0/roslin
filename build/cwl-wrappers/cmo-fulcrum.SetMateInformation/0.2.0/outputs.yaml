@@ -1,5 +1,0 @@
-outputs:
-  output_bam:
-    type: File
-    outputBinding:
-      glob: $(inputs.output_bam_filename)

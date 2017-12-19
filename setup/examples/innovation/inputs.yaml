@@ -1,6 +1,6 @@
 # Process Loop UMI Fastq
-fastq1: {class: File, path: /home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001--small.fastq.gz}
-fastq2: {class: File, path: /home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001--small.fastq.gz}
+fastq1: '/home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001--small.fastq.gz'
+fastq2: '/home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001--small.fastq.gz'
 sample_sheet: {class: File, path: /home/johnsoni/roslin/setup/examples/innovation/SampleSheet.csv}
 umi_length: '3'
 output_project_folder: '.'
@@ -61,3 +61,18 @@ reference_fasta:
 filter_min_reads: '1'
 filter_min_base_quality: '30'
 filter_consensus_reads_output_bam_filename: 'filtered_duplexConsensusReads_collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20_1-1.bam'
+
+# sort_bam_queryname
+sort_bam_queryname_filename: 'filtered_duplexConsensusReads_collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20_1-1_qnameSorted.bam'
+# samtools fastq
+samtools_fastq_read1_output_filename: 'filtered_duplexConsensusReads_collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20_1-1_qnameSorted_R1_.fastq'
+samtools_fastq_read2_output_filename: 'filtered_duplexConsensusReads_collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20_1-1_qnameSorted_R2_.fastq'
+
+
+# WALTZ
+coverage_threshold: '20'
+# todo - Copy to johnsoni
+gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
+bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
+# todo - Same as coverage thresh vv?
+min_mapping_quality: '20'

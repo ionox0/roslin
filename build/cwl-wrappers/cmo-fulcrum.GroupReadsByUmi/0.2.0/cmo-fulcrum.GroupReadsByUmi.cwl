@@ -67,7 +67,7 @@ inputs:
     inputBinding:
       prefix: --min_mapping_quality
 
-  tag_family_size_counts_outpu:
+  tag_family_size_counts_output:
     type: string
     inputBinding:
       prefix: --tag_family_size_counts_output
