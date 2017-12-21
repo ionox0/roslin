@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: innovation-sort-bam
+  doap:name: innovation-samtools-fastq
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -54,15 +54,16 @@ inputs:
 baseCommand: [samtools]
 
 arguments:
-  - fastq
-  - -1
-  - $(inputs.read1_output_filename)
-  - -2
-  - $(inputs.read2_output_filename)
-  - $(inputs.input_bam)
+- shellQuote: false
+  valueFrom: fastq -1 $(inputs.read1_output_filename) -2 $(inputs.read2_output_filename) $(inputs.input_bam.path)
 
 outputs:
-  bam_sorted_queryname:
+  output_read_1:
     type: File
     outputBinding:
-      glob: $(inputs.output_bam_filename)
+      glob: $(inputs.read1_output_filename)
+
+  output_read_2:
+    type: File
+    outputBinding:
+      glob: $(inputs.read2_output_filename)

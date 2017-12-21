@@ -85,11 +85,11 @@ inputs:
 outputs:
   output_fastq_1:
     type: File
-    outputSource: gzip_1/gzipped_fastq_1
+    outputSource: gzip_1/output
 
   output_fastq_2:
     type: File
-    outputSource: gzip_1/gzipped_fastq_2
+    outputSource: gzip_2/output
 
 steps:
   innovation_extract_read_names:
@@ -190,13 +190,13 @@ steps:
   gzip_1:
     run: ./innovation-gzip-fastq/0.0.0/innovation-gzip-fastq.cwl
     in:
-      input_fastq: samtools_fastq/output_read_1
+      input: samtools_fastq/output_read_1
     out:
-      [gzipped_fastq_1]
+      [output]
 
   gzip_2:
     run: ./innovation-gzip-fastq/0.0.0/innovation-gzip-fastq.cwl
     in:
-      input_fastq: samtools_fastq/output_read_2
+      input: samtools_fastq/output_read_2
     out:
-      [gzipped_fastq_2]
+      [output]

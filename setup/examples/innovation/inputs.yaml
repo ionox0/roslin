@@ -1,78 +1,105 @@
-# Process Loop UMI Fastq
+##########################
+# Process Loop UMI Fastq #
+##########################
+
 fastq1: '/home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001--small.fastq.gz'
-fastq2: '/home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001--small.fastq.gz'
-sample_sheet: {class: File, path: /home/johnsoni/roslin/setup/examples/innovation/SampleSheet.csv}
+  fastq2: '/home/johnsoni/roslin/setup/examples/innovation/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001--small.fastq.gz'
+#fastq1: '/home/johnsoni/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001.fastq.gz'
+#fastq2: '/home/johnsoni/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001.fastq.gz'
+sample_sheet: {class: File, path: /home/johnsoni/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv}
 umi_length: '3'
 output_project_folder: '.'
 outdir: '.'
 
 
-# MODULE 1
-#adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
-#adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
-#fastq1:
-#  class: File
-#  path: ../data/fastq/P1_R1.fastq.gz
-#fastq2:
-#  class: File
-#  path: ../data/fastq/P1_R2.fastq.gz
+############
+# Module 1 #
+############
+
+adapter: "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACAGATTCATCTCGTATGCCGTCTTCTGCTTG"
+adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
 genome: "GRCh37"
-bwa_output: P1.bam
+bwa_output: MSK-L-007-bc_IGO_05500_DY_5_S2_001--small.bam
 add_rg_LB: "5"
 add_rg_PL: "Illumina"
-add_rg_ID: "P-0000377"
+add_rg_ID: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small"
 add_rg_PU: "bc26"
-add_rg_SM: "P-0000377-T02-IM3"
+add_rg_SM: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small"
 add_rg_CN: "MSKCC"
-add_rg_output: "P-0000377-T02-IM3_ARRDRG.bam"
-md_output: "P-0000377-T02-IM3_ARRDRG_MD.bam"
-md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
+add_rg_output: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small.bam"
+md_output: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small.bam"
+md_metrics_output: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small.metrics"
 tmp_dir: /scratch
 
+# @RG
+# ID:${sample}
+# LB:Garbage
+# SM:${sample}
+# PL:Illumina
+# PU:${barcode}
+# CN:InnovationLab
+
+
+#########################
+# Fulcrum Preprocessing #
+#########################
 
 # extract_read_names
-#input_bam:  (from previous step)
 output_read_names_filename: 'readNames.bed'
 
 # map_read_names_to_umis
 annotated_fastq_filename: 'Duplex_UMI_for_readNames.fastq'
 
 
-# FULCRUM
+###########
+# Fulcrum #
+###########
+
 tmp_dir: '/scratch'
 # AnnotateBamWithUmis
-annotated_bam_filename: 'sample_with_umi.bam'
+annotated_bam_filename: 'fulcrum__annotated.bam'
 # SortBam
 sort_order: 'Queryname'
-sorted_bam_filename: 'sample_with_umi_sorted.bam'
+sorted_bam_filename: 'fulcrum__sorted.bam'
 # SetMateInformation
-set_mate_information_bam_filename: 'sample_with_umi_sorted_mateFixed.bam'
+set_mate_information_bam_filename: 'fulcrum__mate_fixed.bam'
 # GroupReadsByUMI
 grouping_strategy: 'paired'
 min_mapping_quality: '20'
 tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
-group_reads_output_bam_filename: 'collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20.bam'
+group_reads_output_bam_filename: 'fulcrum__grouped.bam'
 # CallDuplexConsensusReads
-call_duplex_consensus_reads_output_bam_filename: 'duplexConsensusReads_collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20.bam'
+call_duplex_consensus_reads_output_bam_filename: 'fulcrum__consensus.bam'
 # FilterConsensusReads
 reference_fasta:
   class: File
-  path: /ifs/work/bergerm1/pererad1/impact-GRCh37/Homo_sapiens_assembly19.fasta
+  path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
 filter_min_reads: '1'
 filter_min_base_quality: '30'
-filter_consensus_reads_output_bam_filename: 'filtered_duplexConsensusReads_collapsed_sample_with_umi_sorted_mateFixed_paired_mapQ20_1-1.bam'
+filter_consensus_reads_output_bam_filename: 'fulcrum__filtered.bam'
+
+
+##########################
+# Fulcrum Postprocessing #
+##########################
 
 # sort_bam_queryname
-sort_bam_queryname_filename: 'filtered_duplexConsensusReads_collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20_1-1_qnameSorted.bam'
+sort_bam_queryname_filename: 'fulcrum__post__qname_sorted.bam'
 # samtools fastq
-samtools_fastq_read1_output_filename: 'filtered_duplexConsensusReads_collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20_1-1_qnameSorted_R1_.fastq'
-samtools_fastq_read2_output_filename: 'filtered_duplexConsensusReads_collapsed-sample_with_UMI_sorted_mateFixed_paired_mapQ20_1-1_qnameSorted_R2_.fastq'
+samtools_fastq_read1_output_filename: 'fulcrum__R1.fastq'
+samtools_fastq_read2_output_filename: 'fulcrum__R2.fastq'
 
 
-# WALTZ
+#########
+# Waltz #
+#########
+
 coverage_threshold: '20'
 # todo - Copy to johnsoni
 gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
 bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
 # todo - Same as coverage thresh vv?
 min_mapping_quality: '20'
+waltz_reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
+waltz_reference_fasta_fai: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai'
+

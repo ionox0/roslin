@@ -68,9 +68,14 @@ inputs:
       prefix: --input_bam
 
   reference_fasta:
-    type: File
+    type: string
     inputBinding:
       prefix: --reference_fasta
+
+  reference_fasta_fai:
+    type: string
+    inputBinding:
+      prefix: --reference_fasta_fai
 
   bed_file:
     type: string
@@ -87,6 +92,21 @@ inputs:
 
 outputs:
 
+#  fragment_sizes:
+#    type: File
+#    outputBinding:
+#      glob: $('fragment-sizes.txt')
+#
+#  read_counts:
+#    type: File
+#    outputBinding:
+#      glob: $('read-counts.txt')
+#
+#  waltz_coverage:
+#    type: File
+#    outputBinding:
+#      glob: $('waltz-coverage.txt')
+
   pileup:
     type: File
     outputBinding:
@@ -95,14 +115,14 @@ outputs:
   pileup_without_duplicates:
     type: File
     outputBinding:
-      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-pileup_without_duplicates.txt')
+      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-pileup-without-duplicates.txt')
 
   intervals:
     type: File
     outputBinding:
-      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-intervals')
+      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-intervals.txt')
 
   intervals_without_duplicates:
     type: File
     outputBinding:
-      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-intervals-without-duplicates')
+      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-intervals-without-duplicates.txt')

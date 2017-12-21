@@ -89,22 +89,7 @@ inputs:
 
 outputs:
 
-  fragment_sizes:
-    type: File
-    outputBinding:
-      glob: 'fragment-sizes.txt'
-
-  read_counts:
-    type: File
-    outputBinding:
-      glob: 'read-counts.txt'
-
-  waltz_coverage:
-    type: File
-    outputBinding:
-      glob: 'waltz-coverage.txt'
-
-  covered_regions:
+  bam_covered_regions:
     type: File
     outputBinding:
       glob: $(inputs.input_bam.basename + '.covered-regions')
