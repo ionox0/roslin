@@ -66,6 +66,7 @@ inputs:
     type: File
     inputBinding:
       prefix: --input_bam
+    secondaryFiles: [^.bai]
 
   reference_fasta:
     type: string
@@ -91,21 +92,6 @@ inputs:
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals-without-duplicates.txt
 
 outputs:
-
-#  fragment_sizes:
-#    type: File
-#    outputBinding:
-#      glob: $('fragment-sizes.txt')
-#
-#  read_counts:
-#    type: File
-#    outputBinding:
-#      glob: $('read-counts.txt')
-#
-#  waltz_coverage:
-#    type: File
-#    outputBinding:
-#      glob: $('waltz-coverage.txt')
 
   pileup:
     type: File

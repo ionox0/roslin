@@ -47,9 +47,9 @@ requirements:
 
 inputs:
 
-  ##########################
-  # Process Loop UMI Fastq #
-  ##########################
+  #########################
+  # Marianas UMI Clipping #
+  #########################
 
   fastq1: string
   fastq2: string
@@ -62,8 +62,9 @@ inputs:
   # Module 1 #
   ############
 
-#  adapter: string
-#  adapter2: string
+  adapter: string
+  adapter2: string
+# (Comes from PLUF):
 #  fastq1: File
 #  fastq2: File
   genome: string
@@ -119,13 +120,21 @@ inputs:
   gene_list: string
   bed_file: string
   min_mapping_quality: string
+  waltz_reference_fasta: string
+  waltz_reference_fasta_fai: string
 
 outputs:
   output_bam:
     type: File
-    outputSource: fulcrum/output_bam
+    outputSource: module_1_post_fulcrum/bam
 
 steps:
+
+
+  #########################
+  # Marianas UMI Clipping #
+  #########################
+
   cmo_process_loop_umi_fastq:
     run: ./cmo-marianas.ProcessLoopUMIFastq/0.0.0/cmo-marianas.ProcessLoopUMIFastq.cwl
     in:
@@ -136,6 +145,11 @@ steps:
       output_project_folder: output_project_folder
       outdir: outdir
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
+
+
+  ####################
+  # Adapted module 1 #
+  ####################
 
   module_1_innovation:
     run: ./module-1.innovation.cwl
@@ -158,7 +172,10 @@ steps:
       [bam, bai, md_metrics] # clstats1, clstats2,
 
 
-  # Waltz Run (Standard Bams)
+  #############################
+  # Waltz Run (Standard Bams) #
+  #############################
+
   waltz_count_reads:
     run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
     in:
@@ -167,20 +184,24 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
     out:
-      [fragment_sizes, read_counts, waltz_coverage, covered_regions, bam_fragment_sizes, bam_read_counts]
+      [bam_covered_regions, bam_fragment_sizes, bam_read_counts]
 
   waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
     in:
-      input_bam: fulcrum/output_bam
+      input_bam: module_1_innovation/bam
       min_mapping_quality: min_mapping_quality
-      reference_fasta: reference_fasta
+      reference_fasta: waltz_reference_fasta
+      reference_fasta_fai: waltz_reference_fasta_fai
       bed_file: bed_file
     out:
       [pileup, pileup_without_duplicates, intervals, intervals_without_duplicates]
 
 
-  # Collapsing with Fulcrum
+  ###########################
+  # Collapsing with Fulcrum #
+  ###########################
+
   fulcrum:
     run: ./fulcrum_workflow.cwl
     in:
@@ -218,11 +239,18 @@ steps:
     out:
       [output_fastq_1, output_fastq_2]
 
-  module_1:
+
+  ####################
+  # Regular Module 1 #
+  ####################
+
+  module_1_post_fulcrum:
     run: ./module-1.cwl
     in:
-      fastq1: cmo_process_loop_umi_fastq/processed_fastq_1
-      fastq2: cmo_process_loop_umi_fastq/processed_fastq_2
+      fastq1: fulcrum/output_fastq_1
+      fastq2: fulcrum/output_fastq_2
+      adapter: adapter
+      adapter2: adapter2
       genome: genome
       bwa_output: bwa_output
       add_rg_LB: add_rg_LB
@@ -239,22 +267,41 @@ steps:
       [bam, bai, md_metrics] # clstats1, clstats2,
 
 
+  #################################
+  # Waltz Run (Fulcrum Collapsed) #
+  #################################
+
   waltz_count_reads:
     run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
     in:
-      input_bam: fulcrum/output_bam
+      input_bam: module_1_post_fulcrum/bam
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
     out:
-      [fragment_sizes, read_counts, waltz_coverage, covered_regions, bam_fragment_sizes, bam_read_counts]
+      [bam_covered_regions, bam_fragment_sizes, bam_read_counts]
 
   waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
     in:
-      input_bam: fulcrum/output_bam
+      input_bam: module_1_post_fulcrum/bam
       min_mapping_quality: min_mapping_quality
-      reference_fasta: reference_fasta
+      reference_fasta: waltz_reference_fasta
+      reference_fasta_fai: waltz_reference_fasta_fai
       bed_file: bed_file
     out:
       [pileup, pileup_without_duplicates, intervals, intervals_without_duplicates]
+
+
+  ############################
+  # Collapsing with Marianas #
+  ############################
+
+
+  # $java -server -Xms8g -Xmx8g -cp
+  # ~/software/Marianas.jar
+  # org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
+  # fastq_path umi_length .
+
+  marianas:
+    run: ./marianas.ProcessLoopUMI
