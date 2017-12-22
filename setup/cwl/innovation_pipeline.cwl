@@ -64,9 +64,6 @@ inputs:
 
   adapter: string
   adapter2: string
-# (Comes from PLUF):
-#  fastq1: File
-#  fastq2: File
   genome: string
   bwa_output: string
   add_rg_LB: string
@@ -86,6 +83,7 @@ inputs:
 
   # extract_read_names
   output_read_names_filename: string
+
   # map_read_names_to_umis
   annotated_fastq_filename: string
 
@@ -124,9 +122,62 @@ inputs:
   waltz_reference_fasta_fai: string
 
 outputs:
-  output_bam:
+
+  standard_bam:
+    type: File
+    outputSource: module_1_innovation/bam
+
+  standard_waltz_bam_covered_regions:
+    type: File
+    outputSource: standard_waltz_count_reads/bam_covered_regions
+  standard_waltz_bam_fragment_sizes:
+    type: File
+    outputSource: standard_waltz_count_reads/bam_fragment_sizes
+  standard_waltz_bam_read_counts:
+    type: File
+    outputSource: standard_waltz_count_reads/bam_read_counts
+
+  standard_waltz_pileup:
+    type: File
+    outputSource: standard_waltz_pileup_metrics/pileup
+  standard_waltz_pileup_without_duplicates:
+    type: File
+    outputSource: standard_waltz_pileup_metrics/pileup_without_duplicates
+  standard_waltz_intervals:
+    type: File
+    outputSource: standard_waltz_pileup_metrics/intervals
+  standard_waltz_intervals_without_duplicates:
+    type: File
+    outputSource: standard_waltz_pileup_metrics/intervals_without_duplicates
+
+
+  fulcrum_collapsed_bam:
     type: File
     outputSource: module_1_post_fulcrum/bam
+
+  fulcrum_waltz_bam_covered_regions:
+    type: File
+    outputSource: fulcrum_waltz_count_reads/bam_covered_regions
+  fulcrum_waltz_bam_fragment_sizes:
+    type: File
+    outputSource: fulcrum_waltz_count_reads/bam_fragment_sizes
+  fulcrum_waltz_bam_read_counts:
+    type: File
+    outputSource: fulcrum_waltz_count_reads/bam_read_counts
+
+  fulcrum_waltz_pileup:
+    type: File
+    outputSource: fulcrum_waltz_pileup_metrics/pileup
+  fulcrum_waltz_pileup_without_duplicates:
+    type: File
+    outputSource: fulcrum_waltz_pileup_metrics/pileup_without_duplicates
+  fulcrum_waltz_intervals:
+    type: File
+    outputSource: fulcrum_waltz_pileup_metrics/intervals
+  fulcrum_waltz_intervals_without_duplicates:
+    type: File
+    outputSource: fulcrum_waltz_pileup_metrics/intervals_without_duplicates
+
 
 steps:
 
@@ -176,7 +227,7 @@ steps:
   # Waltz Run (Standard Bams) #
   #############################
 
-  waltz_count_reads:
+  standard_waltz_count_reads:
     run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
     in:
       input_bam: module_1_innovation/bam
@@ -186,7 +237,7 @@ steps:
     out:
       [bam_covered_regions, bam_fragment_sizes, bam_read_counts]
 
-  waltz_pileup_metrics:
+  standard_waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
     in:
       input_bam: module_1_innovation/bam
@@ -271,7 +322,7 @@ steps:
   # Waltz Run (Fulcrum Collapsed) #
   #################################
 
-  waltz_count_reads:
+  fulcrum_waltz_count_reads:
     run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
     in:
       input_bam: module_1_post_fulcrum/bam
@@ -281,7 +332,7 @@ steps:
     out:
       [bam_covered_regions, bam_fragment_sizes, bam_read_counts]
 
-  waltz_pileup_metrics:
+  fulcrum_waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
     in:
       input_bam: module_1_post_fulcrum/bam
@@ -303,5 +354,5 @@ steps:
   # org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
   # fastq_path umi_length .
 
-  marianas:
-    run: ./marianas.ProcessLoopUMI
+#  marianas:
+#    run: ./marianas.

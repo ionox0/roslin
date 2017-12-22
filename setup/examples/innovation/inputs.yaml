@@ -8,14 +8,17 @@
 #fastq2: '/home/johnsoni/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001.fastq.gz'
 #sample_sheet: {class: File, path: /home/johnsoni/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv}
 
-# Found some small UMI fastqs to test with:
+# Found some small UMI fastqs to test with (that don't error):
 # original location:
 #fastq1: '/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R1_001.fastq.gz'
 #fastq2: '/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R2_001.fastq.gz'
+
+
 # copied to:
 fastq1: '/home/johnsoni/roslin/setup/examples/innovation/JAX_0101_BHL5KNBBXX_A1/bc219-bc096_L8_S2232_R1_001.fastq.gz'
 fastq2: '/home/johnsoni/roslin/setup/examples/innovation/JAX_0101_BHL5KNBBXX_A1/bc219-bc096_L8_S2232_R2_001.fastq.gz'
 sample_sheet: {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/JAX_0101_BHL5KNBBXX_A1/SampleSheet.csv'}
+
 # todo - original location not found...
 # Exception in thread "main" java.io.FileNotFoundException: /home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R1_001.fastq.gz (No such file or directory)
 
@@ -31,17 +34,20 @@ outdir: '.'
 adapter: "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACAGATTCATCTCGTATGCCGTCTTCTGCTTG"
 adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
 genome: "GRCh37"
+add_rg_PL: "Illumina"
+add_rg_CN: "MSKCC"
+tmp_dir: /scratch
+
+# Following params normally require scattering (different for each sample):
 bwa_output: MSK-L-007-bc_IGO_05500_DY_5_S2_001--small.bam
 add_rg_LB: "5"
-add_rg_PL: "Illumina"
 add_rg_ID: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small"
 add_rg_PU: "bc26"
 add_rg_SM: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small"
-add_rg_CN: "MSKCC"
 add_rg_output: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small.bam"
 md_output: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small.bam"
 md_metrics_output: "MSK-L-007-bc_IGO_05500_DY_5_S2_001--small.metrics"
-tmp_dir: /scratch
+
 
 # @RG
 # ID:${sample}

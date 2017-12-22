@@ -1,0 +1,156 @@
+##########################
+# Process Loop UMI Fastq #
+##########################
+
+# Original Locations:
+#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S163_R1_001.fastq.gz
+#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S163_R2_001.fastq.gz
+#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv
+#
+#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S904_R1_001.fastq.gz
+#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S904_R2_001.fastq.gz
+#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/SampleSheet.csv
+
+#fastq1: [
+#  "/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S163_R1_001.fastq.gz",
+#  "/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S904_R1_001.fastq.gz"
+#  ]
+#
+#fastq2: [
+#  "/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S163_R2_001.fastq.gz",
+#  "/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S904_R2_001.fastq.gz"
+#  ]
+#
+#sample_sheet: [
+#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv'},
+#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-cf_IGO_05500_DY_22/SampleSheet.csv'}
+#  ]
+
+
+## Smaller Fastqs (from mismatched barcode indices)
+#fastq1: [
+#  '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L1/bc096-bc096_L1_S235_R1_001.fastq.gz',
+#  '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L2/bc096-bc096_L2_S524_R1_001.fastq.gz'
+#  ]
+#
+#fastq2: [
+#  '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L1/bc096-bc096_L1_S235_R2_001.fastq.gz',
+#  '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L2/bc096-bc096_L2_S524_R2_001.fastq.gz'
+#  ]
+#
+#sample_sheet: [
+#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L1/SampleSheet.csv'},
+#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L2/SampleSheet.csv'}
+#  ]
+
+# Ones that don't error (good-fastqs):
+fastq1: [
+  '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R1_001.fastq.gz'
+  ]
+
+fastq2: [
+  '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R2_001.fastq.gz'
+  ]
+
+sample_sheet: [
+  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/SampleSheet.csv'}
+  ]
+
+
+umi_length: '3'
+output_project_folder: '.'
+outdir: '.'
+
+bwa_output: [bc219-bc096_L8_S2232.bam]
+add_rg_ID: [bc219-bc096_L8_S2232]
+add_rg_LB: [bc219-bc096_L8_S2232]
+add_rg_PU: [bc219-bc096_L8_S2232]
+add_rg_SM: [bc219-bc096_L8_S2232]
+
+add_rg_output: ["bc219-bc096_L8_S2232"]
+md_output: ["bc219-bc096_L8_S2232.bam"]
+md_metrics_output: ["bc219-bc096_L8_S2232.metrics"]
+
+
+############
+# Module 1 #
+############
+
+adapter: "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACAGATTCATCTCGTATGCCGTCTTCTGCTTG"
+adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+genome: "GRCh37"
+add_rg_PL: "Illumina"
+add_rg_CN: "MSKCC"
+tmp_dir: /scratch
+
+
+#########################
+# Fulcrum Preprocessing #
+#########################
+
+# extract_read_names
+output_read_names_filename: 'readNames.bed'
+
+# map_read_names_to_umis
+annotated_fastq_filename: 'Duplex_UMI_for_readNames.fastq'
+
+
+###########
+# Fulcrum #
+###########
+
+tmp_dir: '/scratch'
+
+# AnnotateBamWithUmis
+annotated_bam_filename: 'fulcrum__annotated.bam'
+
+# SortBam
+sort_order: 'Queryname'
+sorted_bam_filename: 'fulcrum__sorted.bam'
+
+# SetMateInformation
+set_mate_information_bam_filename: 'fulcrum__mate_fixed.bam'
+
+# GroupReadsByUMI
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
+group_reads_output_bam_filename: 'fulcrum__grouped.bam'
+
+# CallDuplexConsensusReads
+call_duplex_consensus_reads_output_bam_filename: 'fulcrum__consensus.bam'
+
+# FilterConsensusReads
+reference_fasta:
+  class: File
+  path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+
+filter_min_reads: '1'
+filter_min_base_quality: '30'
+filter_consensus_reads_output_bam_filename: 'fulcrum__filtered.bam'
+
+
+##########################
+# Fulcrum Postprocessing #
+##########################
+
+# sort_bam_queryname
+sort_bam_queryname_filename: 'fulcrum__post__qname_sorted.bam'
+
+# samtools fastq
+samtools_fastq_read1_output_filename: 'fulcrum__R1.fastq'
+samtools_fastq_read2_output_filename: 'fulcrum__R2.fastq'
+
+
+#########
+# Waltz #
+#########
+
+coverage_threshold: '20'
+
+gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
+bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
+
+min_mapping_quality: '20'
+waltz_reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
+waltz_reference_fasta_fai: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai'
