@@ -122,62 +122,10 @@ inputs:
   waltz_reference_fasta_fai: string
 
 outputs:
-
-  standard_bam:
-    type: File
-    outputSource: module_1_innovation/bam
-
-  standard_waltz_bam_covered_regions:
-    type: File
-    outputSource: standard_waltz_count_reads/bam_covered_regions
-  standard_waltz_bam_fragment_sizes:
-    type: File
-    outputSource: standard_waltz_count_reads/bam_fragment_sizes
-  standard_waltz_bam_read_counts:
-    type: File
-    outputSource: standard_waltz_count_reads/bam_read_counts
-
-  standard_waltz_pileup:
-    type: File
-    outputSource: standard_waltz_pileup_metrics/pileup
-  standard_waltz_pileup_without_duplicates:
-    type: File
-    outputSource: standard_waltz_pileup_metrics/pileup_without_duplicates
-  standard_waltz_intervals:
-    type: File
-    outputSource: standard_waltz_pileup_metrics/intervals
-  standard_waltz_intervals_without_duplicates:
-    type: File
-    outputSource: standard_waltz_pileup_metrics/intervals_without_duplicates
-
-
-  fulcrum_collapsed_bam:
-    type: File
-    outputSource: module_1_post_fulcrum/bam
-
-  fulcrum_waltz_bam_covered_regions:
-    type: File
-    outputSource: fulcrum_waltz_count_reads/bam_covered_regions
-  fulcrum_waltz_bam_fragment_sizes:
-    type: File
-    outputSource: fulcrum_waltz_count_reads/bam_fragment_sizes
-  fulcrum_waltz_bam_read_counts:
-    type: File
-    outputSource: fulcrum_waltz_count_reads/bam_read_counts
-
-  fulcrum_waltz_pileup:
-    type: File
-    outputSource: fulcrum_waltz_pileup_metrics/pileup
-  fulcrum_waltz_pileup_without_duplicates:
-    type: File
-    outputSource: fulcrum_waltz_pileup_metrics/pileup_without_duplicates
-  fulcrum_waltz_intervals:
-    type: File
-    outputSource: fulcrum_waltz_pileup_metrics/intervals
-  fulcrum_waltz_intervals_without_duplicates:
-    type: File
-    outputSource: fulcrum_waltz_pileup_metrics/intervals_without_duplicates
-
+  dir_out:
+    type: Directory
+    outputBinding:
+      glob: .
 
 steps:
 
@@ -201,7 +149,7 @@ steps:
   ####################
   # Adapted module 1 #
   ####################
-
+  # todo - wait, do we want adapter trimming here or not?
   module_1_innovation:
     run: ./module-1.innovation.cwl
     in:
@@ -330,7 +278,8 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
     out:
-      [bam_covered_regions, bam_fragment_sizes, bam_read_counts]
+#      [bam_covered_regions, bam_fragment_sizes, bam_read_counts]
+      [output_dir]
 
   fulcrum_waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
@@ -341,7 +290,16 @@ steps:
       reference_fasta_fai: waltz_reference_fasta_fai
       bed_file: bed_file
     out:
-      [pileup, pileup_without_duplicates, intervals, intervals_without_duplicates]
+#      [pileup, pileup_without_duplicates, intervals, intervals_without_duplicates]
+      [output_dir]
+
+  # Aggregate Bam Metrics
+  fulrcum_aggregate_bam_metrics:
+    run: ./innovation-aggregate-bam-metrics/0.0.0/aggregate-bam-metrics.cwl
+    in:
+      input_dir: fulcrum_waltz_count_reads/output_dir
+    out:
+      [output_dir]
 
 
   ############################

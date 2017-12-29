@@ -97,92 +97,7 @@ inputs:
 
 
 outputs:
-
-  standard_bam:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/standard_bam
-
-  standard_waltz_bam_covered_regions:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/standard_waltz_bam_covered_regions
-  standard_waltz_bam_fragment_sizes:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/standard_waltz_bam_fragment_sizes
-  standard_waltz_bam_read_counts:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/standard_waltz_bam_read_counts
-  standard_waltz_pileup:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/standard_waltz_pileup
-  standard_waltz_pileup_without_duplicates:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/standard_waltz_pileup_without_duplicates
-  standard_waltz_intervals:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/standard_waltz_intervals
-  standard_waltz_intervals_without_duplicates:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/standard_waltz_intervals_without_duplicates
-
-
-  fulcrum_collapsed_bam:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/fulcrum_collapsed_bam
-
-  fulcrum_waltz_bam_covered_regions:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/fulcrum_waltz_bam_covered_regions
-  fulcrum_waltz_bam_fragment_sizes:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/fulcrum_waltz_bam_fragment_sizes
-  fulcrum_waltz_bam_read_counts:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/fulcrum_waltz_bam_read_counts
-  fulcrum_waltz_pileup:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/fulcrum_waltz_pileup
-  fulcrum_waltz_pileup_without_duplicates:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/fulcrum_waltz_pileup_without_duplicates
-  fulcrum_waltz_intervals:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/fulcrum_waltz_intervals
-  fulcrum_waltz_intervals_without_duplicates:
-    type:
-      type: array
-      items: File
-    outputSource: scatter_step/fulcrum_waltz_intervals_without_duplicates
-
+  dir_out: [aggregate_bam_metrics/dir_out]
 
 steps:
 
@@ -240,4 +155,10 @@ steps:
 
     scatterMethod: dotproduct
 
-    out: [standard_bam,standard_waltz_bam_covered_regions,standard_waltz_bam_fragment_sizes,standard_waltz_bam_read_counts,standard_waltz_pileup,standard_waltz_pileup_without_duplicates,standard_waltz_intervals,standard_waltz_intervals_without_duplicates,fulcrum_collapsed_bam,fulcrum_waltz_bam_covered_regions,fulcrum_waltz_bam_fragment_sizes,fulcrum_waltz_bam_read_counts,fulcrum_waltz_pileup,fulcrum_waltz_pileup_without_duplicates,fulcrum_waltz_intervals,fulcrum_waltz_intervals_without_duplicates]
+    out: [dir_out]
+
+  aggregate_bam_metrics:
+    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate_bam_metrics.cwl
+    in:
+      dir_input: scatter_step/dir_out
+    out: [dir_out]

@@ -80,26 +80,13 @@ inputs:
 
 # Example Waltz CountReads output files:
 #
-# fragment-sizes.txt
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.covered-regions
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.fragment-sizes
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.read-counts
-# read-counts.txt
-# waltz-coverage.txt
 
 outputs:
 
-  bam_covered_regions:
-    type: File
+  output_dir:
+    type: Directory
     outputBinding:
-      glob: $(inputs.input_bam.basename + '.covered-regions')
-
-  bam_fragment_sizes:
-    type: File
-    outputBinding:
-      glob: $(inputs.input_bam.basename + '.fragment-sizes')
-
-  bam_read_counts:
-    type: File
-    outputBinding:
-      glob: $(inputs.input_bam.basename + '.read-counts')
+      glob: .

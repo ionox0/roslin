@@ -44,16 +44,36 @@
 #  ]
 
 # Ones that don't error (good-fastqs):
+#fastq1: [
+#  '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R1_001.fastq.gz'
+#  ]
+#
+#fastq2: [
+#  '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R2_001.fastq.gz'
+#  ]
+#
+#sample_sheet: [
+#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/SampleSheet.csv'}
+#  ]
+
+
+# New ones that don't error (test-fastqs--new):
+#
+# These R1 and R2 were sub-setted from a Bam from EF using the first entry from the pan-cancer bed file
+#
+# /ifs/work/bergerm1/Innovation/sandbox/Dilmi/5500_EF/ZS-msi-4500-pl-T01-IGO-05500-EF-39_bc403_Pool-05500-EF-Tube4-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR/sample_with_UMI.bam
+
 fastq1: [
-  '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R1_001.fastq.gz'
+  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/final_R1_clipping-reversed.fastq.gz'
   ]
 
 fastq2: [
-  '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R2_001.fastq.gz'
+  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/final_R2_clipping-reversed.fastq.gz'
   ]
 
+# ~/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0116_BHM7N7BBXX_A1/Project_05500_EF/Sample_DS-fast-135-bc-N01_IGO_05500_EF_34
 sample_sheet: [
-  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/SampleSheet.csv'}
+  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/SampleSheet.csv'}
   ]
 
 

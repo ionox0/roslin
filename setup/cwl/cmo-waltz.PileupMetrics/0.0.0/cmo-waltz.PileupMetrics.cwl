@@ -93,22 +93,7 @@ inputs:
 
 outputs:
 
-  pileup:
-    type: File
+  output_dir:
+    type: Directory
     outputBinding:
-      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-pileup.txt')
-
-  pileup_without_duplicates:
-    type: File
-    outputBinding:
-      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-pileup-without-duplicates.txt')
-
-  intervals:
-    type: File
-    outputBinding:
-      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-intervals.txt')
-
-  intervals_without_duplicates:
-    type: File
-    outputBinding:
-      glob: $(inputs.input_bam.basename.replace('.bam', '') + '-intervals-without-duplicates.txt')
+      glob: .
