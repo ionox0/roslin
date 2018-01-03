@@ -1,5 +1,7 @@
 #!/usr/bin/env cwl-runner
 
+# compare to Juber to Fastq!
+
 $namespaces:
   dct: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
@@ -65,6 +67,8 @@ inputs:
 
 steps:
 
+# need trim here!!
+
   cmo-bwa-mem:
     run: ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
     in:
@@ -96,6 +100,7 @@ steps:
       I:
         source: cmo-picard.AddOrReplaceReadGroups/bam
         valueFrom: ${ return [self]; }
+      # check vvvvvv
       O: md_output
       M: md_metrics_output
       TMP_DIR: tmp_dir

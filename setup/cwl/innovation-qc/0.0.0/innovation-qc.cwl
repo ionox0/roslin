@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: innovation-aggregate-bam-metrics
+  doap:name: innovation-qc
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: innovation-aggregate-bam-metrics
+  doap:name: innovation-qc
   doap:revision: 1.0.0
 
 dct:creator:
@@ -44,21 +44,27 @@ requirements:
     ramMin: 4
     coresMin: 1
 
-baseCommand: [innovation_aggregate_bam_metrics]
+# todo
+baseCommand: [/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/johnsoni/Innovation-QC--new/innovation_qc.py]
 
 inputs:
-  input_dir_count_reads:
+  standard_waltz_metrics:
     type: Directory
     inputBinding:
-      position: 1
+      prefix: -sw
 
-  input_dir_pileup_metrics:
+  fulcrum_waltz_metrics:
     type: Directory
     inputBinding:
-      position: 2
+      prefix: -fw
+
+  title_file:
+    type: File
+    inputBinding:
+      prefix: -t
 
 outputs:
-  output_dir:
-    type: Directory
+  qc_pdf:
+    type: File
     outputBinding:
-      glob: .
+      glob: '*.pdf'

@@ -49,7 +49,7 @@ arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4
+    ramMin: 30000
     coresMin: 1
 
 doc: |

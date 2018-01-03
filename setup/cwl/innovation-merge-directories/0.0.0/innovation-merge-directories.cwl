@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: innovation-aggregate-bam-metrics
+  doap:name: innovation-merge-directories
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: innovation-aggregate-bam-metrics
+  doap:name: innovation-merge-directories
   doap:revision: 1.0.0
 
 dct:creator:
@@ -44,16 +44,20 @@ requirements:
     ramMin: 4
     coresMin: 1
 
-baseCommand: [innovation_aggregate_bam_metrics]
+baseCommand: [innovation_merge_directories]
 
 inputs:
-  input_dir_count_reads:
-    type: Directory
+  dirs_1:
+    type:
+      type: array
+      items: Directory
     inputBinding:
       position: 1
 
-  input_dir_pileup_metrics:
-    type: Directory
+  dirs_2:
+    type:
+      type: array
+      items: Directory
     inputBinding:
       position: 2
 

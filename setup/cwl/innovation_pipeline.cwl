@@ -51,6 +51,7 @@ inputs:
   # Marianas UMI Clipping #
   #########################
 
+  # should be files! v
   fastq1: string
   fastq2: string
   sample_sheet: File
@@ -121,14 +122,57 @@ inputs:
   waltz_reference_fasta: string
   waltz_reference_fasta_fai: string
 
+
 outputs:
-  dir_out:
-    type: Directory
-    outputBinding:
-      glob: .
+
+#  dir_out:
+#    type: Directory
+#    type: Directory
+#    outputBinding:
+#      glob: .
+
+  output_sample_sheet:
+    type: File
+    outputSource: cmo_process_loop_umi_fastq/output_sample_sheet
+
+  standard_bams:
+    type:
+      type: array
+      items: File
+    outputSource: module_1_innovation/bam
+
+  fulcrum_bams:
+    type:
+      type: array
+      items: File
+    outputSource: module_1_post_fulcrum/bam
+
+  standard_waltz_count_reads_dirs:
+    type:
+      type: array
+      items: Directory
+    outputSource: standard_waltz_count_reads/output_dir
+
+  standard_waltz_pileup_metrics_dirs:
+    type:
+      type: array
+      items: Directory
+    outputSource: standard_waltz_pileup_metrics/output_dir
+
+  fulcrum_waltz_count_reads_dirs:
+    type:
+      type: array
+      items: Directory
+    outputSource: fulcrum_waltz_count_reads/output_dir
+
+  fulcrum_waltz_pileup_metrics_dirs:
+    type:
+      type: array
+      items: Directory
+    outputSource: fulcrum_waltz_pileup_metrics/output_dir
+
 
 steps:
-
 
   #########################
   # Marianas UMI Clipping #
@@ -141,6 +185,7 @@ steps:
       fastq2: fastq2
       sample_sheet: sample_sheet
       umi_length: umi_length
+      # doesnt need two outdirs
       output_project_folder: output_project_folder
       outdir: outdir
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
@@ -149,6 +194,7 @@ steps:
   ####################
   # Adapted module 1 #
   ####################
+
   # todo - wait, do we want adapter trimming here or not?
   module_1_innovation:
     run: ./module-1.innovation.cwl
@@ -183,7 +229,7 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
     out:
-      [bam_covered_regions, bam_fragment_sizes, bam_read_counts]
+      [output_dir]
 
   standard_waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
@@ -194,7 +240,7 @@ steps:
       reference_fasta_fai: waltz_reference_fasta_fai
       bed_file: bed_file
     out:
-      [pileup, pileup_without_duplicates, intervals, intervals_without_duplicates]
+      [output_dir]
 
 
   ###########################
@@ -278,7 +324,6 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
     out:
-#      [bam_covered_regions, bam_fragment_sizes, bam_read_counts]
       [output_dir]
 
   fulcrum_waltz_pileup_metrics:
@@ -290,16 +335,9 @@ steps:
       reference_fasta_fai: waltz_reference_fasta_fai
       bed_file: bed_file
     out:
-#      [pileup, pileup_without_duplicates, intervals, intervals_without_duplicates]
       [output_dir]
 
-  # Aggregate Bam Metrics
-  fulrcum_aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/aggregate-bam-metrics.cwl
-    in:
-      input_dir: fulcrum_waltz_count_reads/output_dir
-    out:
-      [output_dir]
+
 
 
   ############################

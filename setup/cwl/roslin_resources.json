@@ -349,23 +349,13 @@
             "default": "sing.sh trimgalore 0.2.5.mod"
         },
         "vardict": {
-<<<<<<< HEAD
-            "1.4.6": "sing.sh vardict 1.4.6 vardict",
-            "1.5.1": "sing.sh vardict 1.5.1 vardict",
-=======
             "1.4.6": "sing.sh vardict 1.4.6 vardict", 
-            "1.5.1": "sing.sh vardict 1.5.1 vardict", 
->>>>>>> dev
+            "1.5.1": "sing.sh vardict 1.5.1 vardict",
             "default": "sing.sh vardict 1.4.6 vardict"
         },
         "vardict_bin": {
-<<<<<<< HEAD
-            "1.4.6": "sing.sh vardict 1.4.6 ",
-            "1.5.1": "sing.sh vardict 1.5.1 ",
-=======
             "1.4.6": "sing.sh vardict 1.4.6 ", 
-            "1.5.1": "sing.sh vardict 1.5.1 ", 
->>>>>>> dev
+            "1.5.1": "sing.sh vardict 1.5.1 ",
             "default": "sing.sh vardict 1.4.6 "
         },
         "varscan": {

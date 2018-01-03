@@ -1,0 +1,9 @@
+dirs_1: [
+  {class: Directory, path: '/home/johnsoni/roslin/setup/examples/innovation/dir_1'},
+  {class: Directory, path: '/home/johnsoni/roslin/setup/examples/innovation/dir_2'}
+  ]
+
+dirs_2: [
+  {class: Directory, path: '/home/johnsoni/roslin/setup/examples/innovation/dir_3'},
+  {class: Directory, path: '/home/johnsoni/roslin/setup/examples/innovation/dir_4'}
+  ]

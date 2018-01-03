@@ -53,7 +53,7 @@ inputs:
   output_project_folder: string
   outdir: string
 
-  adapter: string
+  adapter: string[]
   adapter2: string
   genome: string
   add_rg_PL: string
@@ -97,7 +97,22 @@ inputs:
 
 
 outputs:
-  dir_out: [aggregate_bam_metrics/dir_out]
+
+  standard_bams:
+    type:
+      type: array
+      items: File
+    outputSource: scatter_step/standard_bams
+
+  fulcrum_bams:
+    type:
+      type: array
+      items: File
+    outputSource: scatter_step/fulcrum_bams
+
+  qc_report:
+    type: File
+    outputSource: innovation_qc/qc_pdf
 
 steps:
 
@@ -113,6 +128,7 @@ steps:
       outdir: outdir
       adapter: adapter
       adapter2: adapter2
+
       genome: genome
       add_rg_PL: add_rg_PL
       add_rg_CN: add_rg_CN
@@ -125,6 +141,7 @@ steps:
       add_rg_output: add_rg_output
       md_output: md_output
       md_metrics_output: md_metrics_output
+
       output_read_names_filename: output_read_names_filename
       annotated_fastq_filename: annotated_fastq_filename
       tmp_dir: tmp_dir
@@ -144,6 +161,7 @@ steps:
       sort_bam_queryname_filename: sort_bam_queryname_filename
       samtools_fastq_read1_output_filename: samtools_fastq_read1_output_filename
       samtools_fastq_read2_output_filename: samtools_fastq_read2_output_filename
+
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
@@ -151,14 +169,72 @@ steps:
       waltz_reference_fasta: waltz_reference_fasta
       waltz_reference_fasta_fai: waltz_reference_fasta_fai
 
-    scatter: [fastq1,fastq2,sample_sheet,bwa_output,add_rg_LB,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_output,md_output,md_metrics_output]
+    # I7 adapter is different for each sample, I5 is not
+    scatter: [adapter,fastq1,fastq2,sample_sheet,bwa_output,add_rg_LB,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_output,md_output,md_metrics_output]
 
     scatterMethod: dotproduct
 
-    out: [dir_out]
+    # todo - are these going to be lists of directories (hopefully)? or just a single dir?
+    out: [
+      standard_bams,
+      fulcrum_bams,
+      output_sample_sheet,
+      standard_waltz_count_reads_dirs,
+      standard_waltz_pileup_metrics_dirs,
+      fulcrum_waltz_count_reads_dirs,
+      fulcrum_waltz_pileup_metrics_dirs
+    ]
 
-  aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate_bam_metrics.cwl
+
+  #############################################
+  # Merge Waltz output (standard and fulcrum) #
+  #############################################
+
+  merge_waltz_output_directories_standard:
+    run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
     in:
-      dir_input: scatter_step/dir_out
-    out: [dir_out]
+      dirs_1: scatter_step/standard_waltz_count_reads_dirs
+      dirs_2: scatter_step/standard_waltz_pileup_metrics_dirs
+    out:
+      [output_dir]
+
+  merge_waltz_output_directories_fulcrum:
+    run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
+    in:
+      dirs_1: scatter_step/fulcrum_waltz_count_reads_dirs
+      dirs_2: scatter_step/fulcrum_waltz_pileup_metrics_dirs
+    out:
+      [output_dir]
+
+
+  ################################################
+  # Aggregate Bam Metrics (standard and fulcrum) #
+  ################################################
+
+  standard_aggregate_bam_metrics:
+    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+    in:
+      waltz_dir: merge_waltz_output_directories_standard/output_dir
+    out:
+      [output_dir]
+
+  fulcrum_aggregate_bam_metrics:
+    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+    in:
+      waltz_dir: merge_waltz_output_directories_fulcrum/output_dir
+    out:
+      [output_dir]
+
+
+  #################
+  # Innovation-QC #
+  #################
+
+  innovation_qc:
+    run: ./innovation-qc/0.0.0/innovation-qc.cwl
+    in:
+      standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
+      fulcrum_waltz_metrics: fulcrum_aggregate_bam_metrics/output_dir
+      title_file: scatter_step/output_sample_sheet
+    out:
+      [qc_pdf]

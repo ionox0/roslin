@@ -2,105 +2,162 @@
 # Process Loop UMI Fastq #
 ##########################
 
-# Original Locations:
-#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S163_R1_001.fastq.gz
-#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S163_R2_001.fastq.gz
-#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv
-#
-#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S904_R1_001.fastq.gz
-#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S904_R2_001.fastq.gz
-#/home/patelju1/fastqs/JAX_0101_BHL5KNBBXX_A1/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/SampleSheet.csv
-
-#fastq1: [
-#  "/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S163_R1_001.fastq.gz",
-#  "/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S904_R1_001.fastq.gz"
-#  ]
-#
-#fastq2: [
-#  "/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S163_R2_001.fastq.gz",
-#  "/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S904_R2_001.fastq.gz"
-#  ]
-#
-#sample_sheet: [
-#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv'},
-#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/Sample_MSK-L-007-cf_IGO_05500_DY_22/SampleSheet.csv'}
-#  ]
-
-
-## Smaller Fastqs (from mismatched barcode indices)
-#fastq1: [
-#  '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L1/bc096-bc096_L1_S235_R1_001.fastq.gz',
-#  '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L2/bc096-bc096_L2_S524_R1_001.fastq.gz'
-#  ]
-#
-#fastq2: [
-#  '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L1/bc096-bc096_L1_S235_R2_001.fastq.gz',
-#  '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L2/bc096-bc096_L2_S524_R2_001.fastq.gz'
-#  ]
-#
-#sample_sheet: [
-#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L1/SampleSheet.csv'},
-#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/Sample_bc096-bc096_L2/SampleSheet.csv'}
-#  ]
-
-# Ones that don't error (good-fastqs):
-#fastq1: [
-#  '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R1_001.fastq.gz'
-#  ]
-#
-#fastq2: [
-#  '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/bc219-bc096_L8_S2232_R2_001.fastq.gz'
-#  ]
-#
-#sample_sheet: [
-#  {class: File, path: '/home/johnsoni/roslin/setup/examples/innovation/good-fastqs/Sample_bc219-bc096_L8/SampleSheet.csv'}
-#  ]
-
-
 # New ones that don't error (test-fastqs--new):
 #
-# These R1 and R2 were sub-setted from a Bam from EF using the first entry from the pan-cancer bed file
+# These R1 and R2 were sub-setted from an already mapped Bam from EF using the first entry from the pan-cancer bed file
 #
+# ~/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0116_BHM7N7BBXX_A1/Project_05500_EF/Sample_DS-fast-135-bc-N01_IGO_05500_EF_34
 # /ifs/work/bergerm1/Innovation/sandbox/Dilmi/5500_EF/ZS-msi-4500-pl-T01-IGO-05500-EF-39_bc403_Pool-05500-EF-Tube4-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR/sample_with_UMI.bam
 
+#fastq1: [
+#  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/final_R1_clipping-reversed.fastq.gz'
+#  ]
+#
+#fastq2: [
+#  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/final_R2_clipping-reversed.fastq.gz'
+#  ]
+#
+#sample_sheet: [
+#  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/SampleSheet.csv'}
+#  ]
+
 fastq1: [
-  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/final_R1_clipping-reversed.fastq.gz'
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TDM1-td-cf-30min_IGO_05500_EJ_5/TDM1-td-cf-30min_IGO_05500_EJ_5_S5_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1/MSK-L-039-cf-15min_IGO_05500_EJ_1_S1_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6/TD-Chapman-pool-30min_IGO_05500_EJ_6_S6_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TDM1-td-cf-15min_IGO_05500_EJ_2/TDM1-td-cf-15min_IGO_05500_EJ_2_S2_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3/TD-Chapman-pool-15min_IGO_05500_EJ_3_S3_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4/MSK-L-039-cf--30min_IGO_05500_EJ_4_S4_R1_001.fastq.gz'
   ]
 
 fastq2: [
-  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/final_R2_clipping-reversed.fastq.gz'
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TDM1-td-cf-30min_IGO_05500_EJ_5/TDM1-td-cf-30min_IGO_05500_EJ_5_S5_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1/MSK-L-039-cf-15min_IGO_05500_EJ_1_S1_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6/TD-Chapman-pool-30min_IGO_05500_EJ_6_S6_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TDM1-td-cf-15min_IGO_05500_EJ_2/TDM1-td-cf-15min_IGO_05500_EJ_2_S2_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3/TD-Chapman-pool-15min_IGO_05500_EJ_3_S3_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4/MSK-L-039-cf--30min_IGO_05500_EJ_4_S4_R2_001.fastq.gz'
   ]
 
-# ~/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0116_BHM7N7BBXX_A1/Project_05500_EF/Sample_DS-fast-135-bc-N01_IGO_05500_EF_34
 sample_sheet: [
-  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/SampleSheet.csv'}
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TDM1-td-cf-30min_IGO_05500_EJ_5/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TDM1-td-cf-15min_IGO_05500_EJ_2/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4/SampleSheet.csv'}
   ]
-
 
 umi_length: '3'
 output_project_folder: '.'
 outdir: '.'
 
-bwa_output: [bc219-bc096_L8_S2232.bam]
-add_rg_ID: [bc219-bc096_L8_S2232]
-add_rg_LB: [bc219-bc096_L8_S2232]
-add_rg_PU: [bc219-bc096_L8_S2232]
-add_rg_SM: [bc219-bc096_L8_S2232]
-
-add_rg_output: ["bc219-bc096_L8_S2232"]
-md_output: ["bc219-bc096_L8_S2232.bam"]
-md_metrics_output: ["bc219-bc096_L8_S2232.metrics"]
 
 
 ############
 # Module 1 #
 ############
 
-adapter: "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACAGATTCATCTCGTATGCCGTCTTCTGCTTG"
+bwa_output: [
+  Sample_TDM1-td-cf-30min_IGO_05500_EJ_5.bam,
+  Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1.bam,
+  Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6.bam,
+  Sample_TDM1-td-cf-15min_IGO_05500_EJ_2.bam,
+  Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3.bam,
+  Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4.bam
+  ]
+
+add_rg_ID: [
+  Sample_TDM1-td-cf-30min_IGO_05500_EJ_5,
+  Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1,
+  Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6,
+  Sample_TDM1-td-cf-15min_IGO_05500_EJ_2,
+  Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3,
+  Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4
+]
+
+
+add_rg_PL: "Illumina"
+add_rg_CN: "InnovationLab"
+
+add_rg_LB: [
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage
+  ]
+
+add_rg_PU: [
+  TCGACAAG,
+  ACGATCAG,
+  CCTTGGAA,
+  TCGAGAGT,
+  CTAGCTCA,
+  ATCGTCTC
+]
+
+add_rg_SM: [
+  Sample_TDM1-td-cf-30min_IGO_05500_EJ_5,
+  Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1,
+  Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6,
+  Sample_TDM1-td-cf-15min_IGO_05500_EJ_2,
+  Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3,
+  Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4
+  ]
+
+# _add_rg
+add_rg_output: [
+  "Sample_TDM1-td-cf-30min_IGO_05500_EJ_5",
+  "Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1",
+  "Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6",
+  "Sample_TDM1-td-cf-15min_IGO_05500_EJ_2",
+  "Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3",
+  "Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4"
+  ]
+
+md_output: [
+  Sample_TDM1-td-cf-30min_IGO_05500_EJ_5_md.bam,
+  Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1_md.bam,
+  Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6_md.bam,
+  Sample_TDM1-td-cf-15min_IGO_05500_EJ_2_md.bam,
+  Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3_md.bam,
+  Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4_md.bam
+]
+
+md_metrics_output: [
+  Sample_TDM1-td-cf-30min_IGO_05500_EJ_5.metrics,
+  Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1.metrics,
+  Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6.metrics,
+  Sample_TDM1-td-cf-15min_IGO_05500_EJ_2.metrics,
+  Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3.metrics,
+  Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4.metrics
+  ]
+
+
+# I5 adapter: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+
+# 5: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTTGTCGA ATATCTCGTATGCCGTCTTCTGCTTG,
+# 1: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTGATCGT ATATCTCGTATGCCGTCTTCTGCTTG,
+# 6: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTCCAAGG ATATCTCGTATGCCGTCTTCTGCTTG,
+# 2: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACTCTCGA ATATCTCGTATGCCGTCTTCTGCTTG,
+# 3: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TGAGCTAG ATATCTCGTATGCCGTCTTCTGCTTG,
+# 4: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GAGACGAT ATATCTCGTATGCCGTCTTCTGCTTG
+
+# I7 Adapters (with barcodes)
+adapter: [
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTTGTCGAATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTGATCGTATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTTCCAAGGATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACTCTCGAATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTGAGCTAGATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGAGACGATATATCTCGTATGCCGTCTTCTGCTTG"
+  ]
+
+# I5 Adapter
 adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
 genome: "GRCh37"
-add_rg_PL: "Illumina"
-add_rg_CN: "MSKCC"
 tmp_dir: /scratch
 
 
