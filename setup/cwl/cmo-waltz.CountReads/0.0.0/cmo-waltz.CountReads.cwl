@@ -44,7 +44,7 @@ class: CommandLineTool
 
 baseCommand: [cmo_waltz_count_reads]
 
-# remove!
+# todo - remove!
 arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
 
 requirements:

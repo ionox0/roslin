@@ -1,0 +1,8 @@
+# java -jar ${fgbio_jar}
+# --tmp-dir=${scratch_dir}
+# AnnotateBamWithUmis
+# -i ${input_bam}
+# -f ${output_folder}/Duplex_UMI_for_readNames.fastq
+# -o ${output_folder}/sample_with_UMI.bam
+
+

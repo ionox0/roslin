@@ -44,6 +44,7 @@ class: CommandLineTool
 
 baseCommand: [cmo_waltz_pileup_metrics]
 
+# todo - remove!
 arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
 
 requirements:

@@ -1,7 +1,3 @@
-##########################
-# Process Loop UMI Fastq #
-##########################
-
 # New ones that don't error (test-fastqs--new):
 #
 # These R1 and R2 were sub-setted from an already mapped Bam from EF using the first entry from the pan-cancer bed file
@@ -20,6 +16,11 @@
 #sample_sheet: [
 #  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/SampleSheet.csv'}
 #  ]
+
+
+##########
+# Fastqs #
+##########
 
 fastq1: [
   '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_TDM1-td-cf-30min_IGO_05500_EJ_5/TDM1-td-cf-30min_IGO_05500_EJ_5_S5_R1_001.fastq.gz',
@@ -48,10 +49,15 @@ sample_sheet: [
   {class: File, path: '/ifs/archive/BIC/share/bergerm1/PITT_0166_AHN3GJBBXX/Project_05500_EJ/Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4/SampleSheet.csv'}
   ]
 
+
+
+##########################
+# Process Loop UMI Fastq #
+##########################
+
 umi_length: '3'
 output_project_folder: '.'
 outdir: '.'
-
 
 
 ############

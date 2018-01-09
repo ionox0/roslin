@@ -40,12 +40,12 @@ class: CommandLineTool
 
 baseCommand: [cmo_fulcrum_set_mate_information]
 
-arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
+arguments: ["-server", "-jar"]
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4
+    ramMin: 30000
     coresMin: 1
 
 doc: |

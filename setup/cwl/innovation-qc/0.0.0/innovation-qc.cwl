@@ -45,7 +45,9 @@ requirements:
     coresMin: 1
 
 # todo
-baseCommand: [/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/johnsoni/Innovation-QC--new/innovation_qc.py]
+baseCommand:
+- /opt/common/CentOS_6-dev/python/python-2.7.10/bin/python
+- /home/johnsoni/Innovation-QC--new/innovation_qc.py
 
 inputs:
   standard_waltz_metrics:
@@ -67,4 +69,4 @@ outputs:
   qc_pdf:
     type: File
     outputBinding:
-      glob: '*.pdf'
+      glob: ${ return 'results/final-plots/*.pdf' }

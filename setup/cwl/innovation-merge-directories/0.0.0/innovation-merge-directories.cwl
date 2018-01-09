@@ -50,14 +50,14 @@ inputs:
   dirs_1:
     type:
       type: array
-      items: Directory
+      items: string
     inputBinding:
       position: 1
 
   dirs_2:
     type:
       type: array
-      items: Directory
+      items: string
     inputBinding:
       position: 2
 

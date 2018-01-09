@@ -47,15 +47,10 @@ requirements:
 baseCommand: [innovation_aggregate_bam_metrics]
 
 inputs:
-  input_dir_count_reads:
+  waltz_dir:
     type: Directory
     inputBinding:
       position: 1
-
-  input_dir_pileup_metrics:
-    type: Directory
-    inputBinding:
-      position: 2
 
 outputs:
   output_dir:

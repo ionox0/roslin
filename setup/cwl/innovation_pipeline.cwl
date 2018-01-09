@@ -88,6 +88,7 @@ inputs:
   # map_read_names_to_umis
   annotated_fastq_filename: string
 
+  # todo - set defaults instead of taking inputs for intermediate filenames:
   tmp_dir: string
   annotated_bam_filename: string
   sort_order: string
@@ -131,9 +132,16 @@ outputs:
 #    outputBinding:
 #      glob: .
 
+  # todo - should be an array?
+
   output_sample_sheet:
     type: File
     outputSource: cmo_process_loop_umi_fastq/output_sample_sheet
+
+
+  # todo:
+  # I don't understand how these can be arrays,
+  # if this workflow is called with just a single pair of fastqs...
 
   standard_bams:
     type:
@@ -185,7 +193,7 @@ steps:
       fastq2: fastq2
       sample_sheet: sample_sheet
       umi_length: umi_length
-      # doesnt need two outdirs
+      # todo - doesnt need two outdirs
       output_project_folder: output_project_folder
       outdir: outdir
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]

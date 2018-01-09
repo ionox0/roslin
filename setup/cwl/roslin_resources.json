@@ -383,7 +383,7 @@
             "default": "sing.sh marianas 0.0.0"
         },
         "fulcrum": {
-            "default": "/home/johnsoni/software/fulcrum/fgbio-0.2.0.jar"
+            "default": "/home/johnsoni/software/fulcrum/fgbio-0.3.0.jar"
         },
         "waltz": {
             "default": "/home/johnsoni/software/Waltz.jar"

@@ -59,6 +59,7 @@ inputs:
     inputBinding:
       prefix: --fastq1
 
+  # todo - why is secondaryFiles not working?
   fastq2:
     type:
     - string
