@@ -39,31 +39,26 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
+  - class: InlineJavascriptRequirement
   - class: ShellCommandRequirement
 
 inputs:
   input_bam:
     type: File
 
-  read1_output_filename:
-    type: string
-
-  read2_output_filename:
-    type: string
-
 baseCommand: [samtools]
 
 arguments:
 - shellQuote: false
-  valueFrom: fastq -1 $(inputs.read1_output_filename) -2 $(inputs.read2_output_filename) $(inputs.input_bam.path)
+  valueFrom: fastq -1 $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R2.fastq") ) -2 $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R2.fastq") ) $(inputs.input_bam.path)
 
 outputs:
   output_read_1:
     type: File
     outputBinding:
-      glob: $(inputs.read1_output_filename)
+      glob: $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R2.fastq") )
 
   output_read_2:
     type: File
     outputBinding:
-      glob: $(inputs.read2_output_filename)
+      glob: $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R2.fastq") )

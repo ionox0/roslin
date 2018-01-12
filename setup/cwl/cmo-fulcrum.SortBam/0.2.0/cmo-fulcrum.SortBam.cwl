@@ -68,12 +68,14 @@ inputs:
       prefix: --sort_order
 
   output_bam_filename:
-    type: string
+    type: ['null', string]
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcrumSorted.bam") )
     inputBinding:
       prefix: --output_bam_filename
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcrumSorted.bam") )
 
 outputs:
   output_bam:
     type: File
     outputBinding:
-      glob: $(inputs.output_bam_filename)
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcrumSorted.bam") )

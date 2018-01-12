@@ -63,12 +63,14 @@ inputs:
       prefix: --input_bam
 
   output_bam_filename:
-    type: string
+    type: ['null', string]
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcrumMateFixed.bam") )
     inputBinding:
       prefix: --output_bam_filename
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcrumMateFixed.bam") )
 
 outputs:
   output_bam:
     type: File
     outputBinding:
-      glob: $(inputs.output_bam_filename)
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcrumMateFixed.bam") )

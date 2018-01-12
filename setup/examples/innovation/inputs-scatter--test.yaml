@@ -1,0 +1,128 @@
+# todo - need to automate generation of all these inputs
+
+title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/outputs--scatter--new--annotatebamfix--again/Project_05500_EJ-title-file.txt'}
+
+##########
+# Fastqs #
+##########
+
+# These R1 and R2 fastqs were sub-setted from an already mapped Bam from EF using the first entry from the pan-cancer bed file:
+#
+# ~/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0116_BHM7N7BBXX_A1/Project_05500_EF/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41/* .
+
+# todo - should be Files
+fastq1: [
+  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped--2/reverted_R1_clipping-reversed.fastq.gz'
+]
+
+fastq2: [
+  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped--2/reverted_R2_clipping-reversed.fastq.gz'
+]
+
+sample_sheet: [
+  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/SampleSheet.csv'}
+]
+
+
+##########################
+# Process Loop UMI Fastq #
+##########################
+
+umi_length: '3'
+output_project_folder: '.'
+outdir: '.'
+
+
+############
+# Module 1 #
+############
+
+bwa_output: [
+  ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41.bam
+]
+
+add_rg_ID: [
+  ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
+]
+
+
+add_rg_PL: "Illumina"
+add_rg_CN: "InnovationLab"
+
+add_rg_LB: [
+  Garbage
+]
+
+# todo - need to automated reading from barcodes file
+add_rg_PU: [
+  CTGATCGT
+]
+
+add_rg_SM: [
+  ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
+]
+
+add_rg_output: [
+  "ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41"
+]
+
+md_output: [
+  ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41.bam
+]
+
+md_metrics_output: [
+  ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41.metrics
+]
+
+# I7 Adapters (with barcodes)
+adapter: [
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTTGTCGAATATCTCGTATGCCGTCTTCTGCTTG"
+]
+
+# I5 Adapter
+adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+genome: "GRCh37"
+tmp_dir: /scratch
+
+
+###########
+# Fulcrum #
+###########
+
+tmp_dir: '/scratch'
+
+# AnnotateBamWithUmis
+
+# SortBam
+sort_order: 'Queryname'
+
+# SetMateInformation
+
+# GroupReadsByUMI
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
+
+# CallDuplexConsensusReads
+
+# FilterConsensusReads
+reference_fasta:
+  class: File
+  path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+
+filter_min_reads: '1'
+filter_min_base_quality: '30'
+
+
+#########
+# Waltz #
+#########
+
+coverage_threshold: '20'
+
+gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
+bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
+
+min_mapping_quality: '20'
+waltz_reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
+waltz_reference_fasta_fai: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai'

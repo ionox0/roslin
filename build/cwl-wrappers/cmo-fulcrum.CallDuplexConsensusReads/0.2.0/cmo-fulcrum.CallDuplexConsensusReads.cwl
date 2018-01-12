@@ -53,7 +53,7 @@ doc: |
 
 inputs:
   tmp_dir:
-    type: string      # todo - directory?
+    type: string      # todo - Upgrade toil to 0.12 and use directory
     inputBinding:
       prefix: --tmp_dir
 

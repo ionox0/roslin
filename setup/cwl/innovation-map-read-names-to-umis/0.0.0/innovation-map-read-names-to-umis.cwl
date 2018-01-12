@@ -48,17 +48,14 @@ inputs:
   read_names:
     type: File
 
-  annotated_fastq_filename:
-    type: string
-
 baseCommand: [innovation_map_read_names_to_umis]
 
 arguments:
   - $(inputs.read_names)
-  - $(inputs.annotated_fastq_filename)
+  - $( inputs.read_names.basename.replace("_readNames.bed", "_Duplex_UMI_for_readNames.fastq") )
 
 outputs:
   annotated_fastq:
     type: File
     outputBinding:
-      glob: $(inputs.annotated_fastq_filename)
+      glob: $( inputs.read_names.basename.replace("_readNames.bed", "_Duplex_UMI_for_readNames.fastq") )

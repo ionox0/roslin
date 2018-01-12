@@ -39,14 +39,12 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
-    - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 
 inputs:
   input_bam:
     type: File
-
-  output_read_names_filename:
-    type: string
 
 baseCommand: [samtools]
 
@@ -57,10 +55,11 @@ arguments:
   - awk
   - '{print $1 "\t" $3 "\t" $4 "\t" $4+length($10)-1}'
   - '>'
-  - $(inputs.output_read_names_filename)
+  - $( inputs.input_bam.basename.replace(".bam", "_readNames.bed") )
+
 
 outputs:
   read_names:
     type: File
     outputBinding:
-      glob: $(inputs.output_read_names_filename)
+      glob: $( inputs.input_bam.basename.replace(".bam", "_readNames.bed") )

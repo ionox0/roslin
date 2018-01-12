@@ -82,35 +82,14 @@ inputs:
   # Fulcrum #
   ###########
 
-  # extract_read_names
-  output_read_names_filename: string
-
-  # map_read_names_to_umis
-  annotated_fastq_filename: string
-
-  # todo - set defaults instead of taking inputs for intermediate filenames:
   tmp_dir: string
-  annotated_bam_filename: string
   sort_order: string
-  sorted_bam_filename: string
-  set_mate_information_bam_filename: string
   grouping_strategy: string
   min_mapping_quality: string
   tag_family_size_counts_output: string
-  group_reads_output_bam_filename: string
-  call_duplex_consensus_reads_output_bam_filename: string
   reference_fasta: File
   filter_min_reads: string
   filter_min_base_quality: string
-  filter_consensus_reads_output_bam_filename: string
-
-  # sort_bam_queryname
-  sort_bam_queryname_filename: string
-
-  # samtools fastq
-  samtools_fastq_read1_output_filename: string
-  samtools_fastq_read2_output_filename: string
-
 
   #########
   # Waltz #
@@ -155,29 +134,29 @@ outputs:
       items: File
     outputSource: module_1_post_fulcrum/bam
 
-  standard_waltz_count_reads_dirs:
+  standard_waltz_count_reads_files:
     type:
       type: array
-      items: Directory
-    outputSource: standard_waltz_count_reads/output_dir
+      items: File
+    outputSource: standard_waltz_count_reads/output_files
 
-  standard_waltz_pileup_metrics_dirs:
+  standard_waltz_pileup_metrics_files:
     type:
       type: array
-      items: Directory
-    outputSource: standard_waltz_pileup_metrics/output_dir
+      items: File
+    outputSource: standard_waltz_pileup_metrics/output_files
 
-  fulcrum_waltz_count_reads_dirs:
+  fulcrum_waltz_count_reads_files:
     type:
       type: array
-      items: Directory
-    outputSource: fulcrum_waltz_count_reads/output_dir
+      items: File
+    outputSource: fulcrum_waltz_count_reads/output_files
 
-  fulcrum_waltz_pileup_metrics_dirs:
+  fulcrum_waltz_pileup_metrics_files:
     type:
       type: array
-      items: Directory
-    outputSource: fulcrum_waltz_pileup_metrics/output_dir
+      items: File
+    outputSource: fulcrum_waltz_pileup_metrics/output_files
 
 
 steps:
@@ -237,7 +216,7 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
     out:
-      [output_dir]
+      [output_files]
 
   standard_waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
@@ -248,7 +227,7 @@ steps:
       reference_fasta_fai: waltz_reference_fasta_fai
       bed_file: bed_file
     out:
-      [output_dir]
+      [output_files]
 
 
   ###########################
@@ -259,35 +238,24 @@ steps:
     run: ./fulcrum_workflow.cwl
     in:
       tmp_dir: tmp_dir
-      output_read_names_filename: output_read_names_filename
-      annotated_fastq_filename: annotated_fastq_filename
       input_bam: module_1_innovation/bam
-      annotated_bam_filename: annotated_bam_filename
       sort_order: sort_order
-      sorted_bam_filename: sorted_bam_filename
-      set_mate_information_bam_filename: set_mate_information_bam_filename
 
       # Fulcrum group reads
       grouping_strategy: grouping_strategy
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
-      group_reads_output_bam_filename: group_reads_output_bam_filename
 
       # Fulcrum call duplex consensus reads
-      call_duplex_consensus_reads_output_bam_filename: call_duplex_consensus_reads_output_bam_filename
       reference_fasta: reference_fasta
 
       # Fulcrum filter reads
       filter_min_reads: filter_min_reads
       filter_min_base_quality: filter_min_base_quality
-      filter_consensus_reads_output_bam_filename: filter_consensus_reads_output_bam_filename
 
       # Samtools sort bam
-      sort_bam_queryname_filename: sort_bam_queryname_filename
 
       # Samtools fastq
-      samtools_fastq_read1_output_filename: samtools_fastq_read1_output_filename
-      samtools_fastq_read2_output_filename: samtools_fastq_read2_output_filename
 
     out:
       [output_fastq_1, output_fastq_2]
@@ -332,7 +300,7 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
     out:
-      [output_dir]
+      [output_files]
 
   fulcrum_waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
@@ -343,7 +311,7 @@ steps:
       reference_fasta_fai: waltz_reference_fasta_fai
       bed_file: bed_file
     out:
-      [output_dir]
+      [output_files]
 
 
 

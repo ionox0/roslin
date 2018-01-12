@@ -45,9 +45,6 @@ inputs:
   input_bam:
     type: File
 
-  output_bam_filename:
-    type: string
-
 baseCommand: [samtools]
 
 arguments:
@@ -55,10 +52,10 @@ arguments:
   - -n
   - $(inputs.input_bam)
   - '>'
-  - $(inputs.output_bam_filename)
+  - $( inputs.input_bam.basename.replace(".bam", "_postFulcrumSorted.bam") )
 
 outputs:
   bam_sorted_queryname:
     type: File
     outputBinding:
-      glob: $(inputs.output_bam_filename)
+      glob: $( inputs.input_bam.basename.replace(".bam", "_postFulcrumSorted.bam") )

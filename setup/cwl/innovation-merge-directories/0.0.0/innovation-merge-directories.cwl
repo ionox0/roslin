@@ -36,33 +36,29 @@ dct:contributor:
 
 cwlVersion: v1.0
 
-class: CommandLineTool
-
-requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 4
-    coresMin: 1
-
-baseCommand: [innovation_merge_directories]
+class: ExpressionTool
 
 inputs:
-  dirs_1:
+  files_1:
     type:
       type: array
-      items: string
+      items: File
     inputBinding:
       position: 1
 
-  dirs_2:
+  files_2:
     type:
       type: array
-      items: string
+      items: File
     inputBinding:
       position: 2
 
 outputs:
-  output_dir:
-    type: Directory
+  output_files:
+    type:
+      type: array
+      items: File
     outputBinding:
-      glob: .
+      glob: '*'
+
+expression: '${ return { "output_files": inputs.files_1.concat( inputs.files_2 ) } }'

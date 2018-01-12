@@ -87,7 +87,9 @@ inputs:
 
 outputs:
 
-  output_dir:
-    type: Directory
+  output_files:
+    type:
+      type: array
+      items: File
     outputBinding:
-      glob: .
+      glob: '*'

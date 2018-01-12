@@ -47,8 +47,10 @@ requirements:
 baseCommand: [innovation_aggregate_bam_metrics]
 
 inputs:
-  waltz_dir:
-    type: Directory
+  waltz_input_files:
+    type:
+      type: array
+      items: File
     inputBinding:
       position: 1
 

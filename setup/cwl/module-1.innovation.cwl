@@ -67,7 +67,7 @@ inputs:
 
 steps:
 
-# need trim here!!
+  # todo - need trim here!!
 
   cmo-bwa-mem:
     run: ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl

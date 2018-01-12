@@ -44,14 +44,13 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-
   title_file: File
 
-  standard_waltz_count_reads_dirs: string[]
-  standard_waltz_pileup_metrics_dirs: string[]
+  standard_waltz_count_reads_files: File[]
+  standard_waltz_pileup_metrics_files: File[]
 
-  fulcrum_waltz_count_reads_dirs: string[]
-  fulcrum_waltz_pileup_metrics_dirs: string[]
+  fulcrum_waltz_count_reads_files: File[]
+  fulcrum_waltz_pileup_metrics_files: File[]
 
 outputs:
 
@@ -65,21 +64,21 @@ steps:
   # Merge Waltz output (standard and fulcrum) #
   #############################################
 
-  merge_waltz_output_directories_standard:
+  merge_waltz_output_files_standard:
     run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
     in:
-      dirs_1: standard_waltz_count_reads_dirs
-      dirs_2: standard_waltz_pileup_metrics_dirs
+      files_1: standard_waltz_count_reads_files
+      files_2: standard_waltz_pileup_metrics_files
     out:
-      [output_dir]
+      [output_files]
 
-  merge_waltz_output_directories_fulcrum:
+  merge_waltz_output_files_fulcrum:
     run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
     in:
-      dirs_1: fulcrum_waltz_count_reads_dirs
-      dirs_2: fulcrum_waltz_pileup_metrics_dirs
+      files_1: fulcrum_waltz_count_reads_files
+      files_2: fulcrum_waltz_pileup_metrics_files
     out:
-      [output_dir]
+      [output_files]
 
 
   ################################################
@@ -89,14 +88,14 @@ steps:
   standard_aggregate_bam_metrics:
     run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_dir: merge_waltz_output_directories_standard/output_dir
+      waltz_input_files: merge_waltz_output_files_standard/output_files
     out:
       [output_dir]
 
   fulcrum_aggregate_bam_metrics:
     run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_dir: merge_waltz_output_directories_fulcrum/output_dir
+      waltz_input_files: merge_waltz_output_files_fulcrum/output_files
     out:
       [output_dir]
 

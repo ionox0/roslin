@@ -18,6 +18,9 @@
 #  ]
 
 
+title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/outputs--scatter--new--annotatebamfix--again/Project_05500_EJ-title-file.txt'}
+
+
 ##########
 # Fastqs #
 ##########

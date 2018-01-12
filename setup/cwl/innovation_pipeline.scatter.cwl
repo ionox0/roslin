@@ -44,6 +44,7 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+  title_file: File
 
   fastq1: string[]
   fastq2: string[]
@@ -69,25 +70,14 @@ inputs:
   md_output: string[]
   md_metrics_output: string[]
 
-  output_read_names_filename: string
-  annotated_fastq_filename: string
   tmp_dir: string
-  annotated_bam_filename: string
   sort_order: string
-  sorted_bam_filename: string
-  set_mate_information_bam_filename: string
   grouping_strategy: string
   min_mapping_quality: string
   tag_family_size_counts_output: string
-  group_reads_output_bam_filename: string
-  call_duplex_consensus_reads_output_bam_filename: string
   reference_fasta: File
   filter_min_reads: string
   filter_min_base_quality: string
-  filter_consensus_reads_output_bam_filename: string
-  sort_bam_queryname_filename: string
-  samtools_fastq_read1_output_filename: string
-  samtools_fastq_read2_output_filename: string
   coverage_threshold: string
   gene_list: string
   bed_file: string
@@ -120,6 +110,8 @@ steps:
     run: ./innovation_pipeline.cwl
 
     in:
+      title_file: title_file
+
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
@@ -142,25 +134,14 @@ steps:
       md_output: md_output
       md_metrics_output: md_metrics_output
 
-      output_read_names_filename: output_read_names_filename
-      annotated_fastq_filename: annotated_fastq_filename
       tmp_dir: tmp_dir
-      annotated_bam_filename: annotated_bam_filename
       sort_order: sort_order
-      sorted_bam_filename: sorted_bam_filename
-      set_mate_information_bam_filename: set_mate_information_bam_filename
       grouping_strategy: grouping_strategy
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
-      group_reads_output_bam_filename: group_reads_output_bam_filename
-      call_duplex_consensus_reads_output_bam_filename: call_duplex_consensus_reads_output_bam_filename
       reference_fasta: reference_fasta
       filter_min_reads: filter_min_reads
       filter_min_base_quality: filter_min_base_quality
-      filter_consensus_reads_output_bam_filename: filter_consensus_reads_output_bam_filename
-      sort_bam_queryname_filename: sort_bam_queryname_filename
-      samtools_fastq_read1_output_filename: samtools_fastq_read1_output_filename
-      samtools_fastq_read2_output_filename: samtools_fastq_read2_output_filename
 
       coverage_threshold: coverage_threshold
       gene_list: gene_list
@@ -179,10 +160,10 @@ steps:
       standard_bams,
       fulcrum_bams,
       output_sample_sheet,
-      standard_waltz_count_reads_dirs,
-      standard_waltz_pileup_metrics_dirs,
-      fulcrum_waltz_count_reads_dirs,
-      fulcrum_waltz_pileup_metrics_dirs
+      standard_waltz_count_reads_files,
+      standard_waltz_pileup_metrics_files,
+      fulcrum_waltz_count_reads_files,
+      fulcrum_waltz_pileup_metrics_files
     ]
 
 
@@ -193,18 +174,18 @@ steps:
   merge_waltz_output_directories_standard:
     run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
     in:
-      dirs_1: scatter_step/standard_waltz_count_reads_dirs
-      dirs_2: scatter_step/standard_waltz_pileup_metrics_dirs
+      files_1: scatter_step/standard_waltz_count_reads_files
+      files_2: scatter_step/standard_waltz_pileup_metrics_files
     out:
-      [output_dir]
+      [output_files]
 
   merge_waltz_output_directories_fulcrum:
     run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
     in:
-      dirs_1: scatter_step/fulcrum_waltz_count_reads_dirs
-      dirs_2: scatter_step/fulcrum_waltz_pileup_metrics_dirs
+      files_1: scatter_step/fulcrum_waltz_count_reads_files
+      files_2: scatter_step/fulcrum_waltz_pileup_metrics_files
     out:
-      [output_dir]
+      [output_files]
 
 
   ################################################
@@ -214,14 +195,14 @@ steps:
   standard_aggregate_bam_metrics:
     run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_dir: merge_waltz_output_directories_standard/output_dir
+      waltz_files: merge_waltz_output_directories_standard/output_files
     out:
       [output_dir]
 
   fulcrum_aggregate_bam_metrics:
     run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_dir: merge_waltz_output_directories_fulcrum/output_dir
+      waltz_files: merge_waltz_output_directories_fulcrum/output_files
     out:
       [output_dir]
 
@@ -235,6 +216,6 @@ steps:
     in:
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
       fulcrum_waltz_metrics: fulcrum_aggregate_bam_metrics/output_dir
-      title_file: scatter_step/output_sample_sheet
+      title_file: title_file
     out:
       [qc_pdf]
