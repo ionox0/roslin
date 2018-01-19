@@ -37,19 +37,25 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
+requirements:
+  - class: InlineJavascriptRequirement
 
 inputs:
   files_1:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     inputBinding:
       position: 1
 
   files_2:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     inputBinding:
       position: 2
 
@@ -61,4 +67,9 @@ outputs:
     outputBinding:
       glob: '*'
 
-expression: '${ return { "output_files": inputs.files_1.concat( inputs.files_2 ) } }'
+expression: '${
+  var flattened_files_1 = [].concat.apply([], inputs.files_1);
+  var flattened_files_2 = [].concat.apply([], inputs.files_2);
+
+  return { "output_files": flattened_files_1.concat(flattened_files_2) }
+}'

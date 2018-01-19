@@ -50,13 +50,13 @@ baseCommand: [samtools]
 
 arguments:
 - shellQuote: false
-  valueFrom: fastq -1 $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R2.fastq") ) -2 $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R2.fastq") ) $(inputs.input_bam.path)
+  valueFrom: fastq -1 $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R1.fastq") ) -2 $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R2.fastq") ) $(inputs.input_bam.path)
 
 outputs:
   output_read_1:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R2.fastq") )
+      glob: $( inputs.input_bam.basename.replace(".bam", "_postFulcrum_R1.fastq") )
 
   output_read_2:
     type: File

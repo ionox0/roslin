@@ -47,7 +47,7 @@ requirements:
 # todo
 baseCommand:
 - /opt/common/CentOS_6-dev/python/python-2.7.10/bin/python
-- /home/johnsoni/Innovation-QC--new/innovation_qc.py
+- /home/johnsoni/Innovation-QC/innovation_qc.py
 
 inputs:
   standard_waltz_metrics:

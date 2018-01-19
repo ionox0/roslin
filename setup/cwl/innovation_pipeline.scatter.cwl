@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: innovation_pipeline.scatter
+  doap:name: module-3
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -32,7 +32,7 @@ dct:contributor:
   foaf:member:
   - class: foaf:Person
     foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsoni@mskcc.org
+    foaf:mbox: mailto:johnsonsi@mskcc.org
 
 cwlVersion: v1.0
 
@@ -42,33 +42,45 @@ requirements:
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
+
 
 inputs:
-  title_file: File
 
-  fastq1: string[]
-  fastq2: string[]
-  sample_sheet: File[]
+  #########################
+  # Marianas UMI Clipping #
+  #########################
 
+  # should be files! v
+  fastq1: string
+  fastq2: string
+  sample_sheet: File
   umi_length: string
   output_project_folder: string
   outdir: string
 
-  adapter: string[]
+  ############
+  # Module 1 #
+  ############
+
+  adapter: string
   adapter2: string
   genome: string
+  bwa_output: string
+  add_rg_LB: string
   add_rg_PL: string
+  add_rg_ID: string
+  add_rg_PU: string
+  add_rg_SM: string
   add_rg_CN: string
+  add_rg_output: string
+  md_output: string
+  md_metrics_output: string
   tmp_dir: string
 
-  bwa_output: string[]
-  add_rg_LB: string[]
-  add_rg_ID: string[]
-  add_rg_PU: string[]
-  add_rg_SM: string[]
-  add_rg_output: string[]
-  md_output: string[]
-  md_metrics_output: string[]
+  ###########
+  # Fulcrum #
+  ###########
 
   tmp_dir: string
   sort_order: string
@@ -78,6 +90,11 @@ inputs:
   reference_fasta: File
   filter_min_reads: string
   filter_min_base_quality: string
+
+  #########
+  # Waltz #
+  #########
+
   coverage_threshold: string
   gene_list: string
   bed_file: string
@@ -88,134 +105,227 @@ inputs:
 
 outputs:
 
+#  dir_out:
+#    type: Directory
+#    type: Directory
+#    outputBinding:
+#      glob: .
+
+  # todo - should be an array?
+
+  output_sample_sheet:
+    type: File
+    outputSource: cmo_process_loop_umi_fastq/output_sample_sheet
+
+
+  # todo:
+  # I don't understand how these can be arrays,
+  # if this workflow is called with just a single pair of fastqs...
+
   standard_bams:
     type:
       type: array
       items: File
-    outputSource: scatter_step/standard_bams
+    outputSource: module_1_innovation/bam
 
   fulcrum_bams:
     type:
       type: array
       items: File
-    outputSource: scatter_step/fulcrum_bams
+    outputSource: module_1_post_fulcrum/bam
 
-  qc_report:
-    type: File
-    outputSource: innovation_qc/qc_pdf
+  standard_waltz_count_reads_files:
+    type:
+      type: array
+      items: File
+    outputSource: standard_waltz_count_reads/output_files
+
+  standard_waltz_pileup_metrics_files:
+    type:
+      type: array
+      items: File
+    outputSource: standard_waltz_pileup_metrics/output_files
+
+  fulcrum_waltz_count_reads_files:
+    type:
+      type: array
+      items: File
+    outputSource: fulcrum_waltz_count_reads/output_files
+
+  fulcrum_waltz_pileup_metrics_files:
+    type:
+      type: array
+      items: File
+    outputSource: fulcrum_waltz_pileup_metrics/output_files
+
 
 steps:
 
-  scatter_step:
-    run: ./innovation_pipeline.cwl
+  #########################
+  # Marianas UMI Clipping #
+  #########################
 
+  cmo_process_loop_umi_fastq:
+    run: ./cmo-marianas.ProcessLoopUMIFastq/0.0.0/cmo-marianas.ProcessLoopUMIFastq.cwl
     in:
-      title_file: title_file
-
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
       umi_length: umi_length
+      # todo - doesnt need two outdirs
       output_project_folder: output_project_folder
       outdir: outdir
-      adapter: adapter
-      adapter2: adapter2
+    out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
 
+
+  ####################
+  # Adapted module 1 #
+  ####################
+
+  # todo - wait, do we want adapter trimming here or not?
+  module_1_innovation:
+    run: ./module-1.innovation.cwl
+    in:
+      fastq1: cmo_process_loop_umi_fastq/processed_fastq_1
+      fastq2: cmo_process_loop_umi_fastq/processed_fastq_2
       genome: genome
-      add_rg_PL: add_rg_PL
-      add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
       bwa_output: bwa_output
       add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
+      add_rg_CN: add_rg_CN
       add_rg_output: add_rg_output
       md_output: md_output
       md_metrics_output: md_metrics_output
-
       tmp_dir: tmp_dir
-      sort_order: sort_order
-      grouping_strategy: grouping_strategy
-      min_mapping_quality: min_mapping_quality
-      tag_family_size_counts_output: tag_family_size_counts_output
-      reference_fasta: reference_fasta
-      filter_min_reads: filter_min_reads
-      filter_min_base_quality: filter_min_base_quality
+    out:
+      [bam, bai, md_metrics] # clstats1, clstats2,
 
+
+  #############################
+  # Waltz Run (Standard Bams) #
+  #############################
+
+  standard_waltz_count_reads:
+    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
+    in:
+      input_bam: module_1_innovation/bam
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
+    out:
+      [output_files]
+
+  standard_waltz_pileup_metrics:
+    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
+    in:
+      input_bam: module_1_innovation/bam
       min_mapping_quality: min_mapping_quality
-      waltz_reference_fasta: waltz_reference_fasta
-      waltz_reference_fasta_fai: waltz_reference_fasta_fai
-
-    # I7 adapter is different for each sample, I5 is not
-    scatter: [adapter,fastq1,fastq2,sample_sheet,bwa_output,add_rg_LB,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_output,md_output,md_metrics_output]
-
-    scatterMethod: dotproduct
-
-    # todo - are these going to be lists of directories (hopefully)? or just a single dir?
-    out: [
-      standard_bams,
-      fulcrum_bams,
-      output_sample_sheet,
-      standard_waltz_count_reads_files,
-      standard_waltz_pileup_metrics_files,
-      fulcrum_waltz_count_reads_files,
-      fulcrum_waltz_pileup_metrics_files
-    ]
-
-
-  #############################################
-  # Merge Waltz output (standard and fulcrum) #
-  #############################################
-
-  merge_waltz_output_directories_standard:
-    run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
-    in:
-      files_1: scatter_step/standard_waltz_count_reads_files
-      files_2: scatter_step/standard_waltz_pileup_metrics_files
-    out:
-      [output_files]
-
-  merge_waltz_output_directories_fulcrum:
-    run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
-    in:
-      files_1: scatter_step/fulcrum_waltz_count_reads_files
-      files_2: scatter_step/fulcrum_waltz_pileup_metrics_files
+      reference_fasta: waltz_reference_fasta
+      reference_fasta_fai: waltz_reference_fasta_fai
+      bed_file: bed_file
     out:
       [output_files]
 
 
-  ################################################
-  # Aggregate Bam Metrics (standard and fulcrum) #
-  ################################################
+  ###########################
+  # Collapsing with Fulcrum #
+  ###########################
 
-  standard_aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+  fulcrum:
+    run: ./fulcrum_workflow.cwl
     in:
-      waltz_files: merge_waltz_output_directories_standard/output_files
-    out:
-      [output_dir]
+      tmp_dir: tmp_dir
+      input_bam: module_1_innovation/bam
+      sort_order: sort_order
 
-  fulcrum_aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+      # Fulcrum group reads
+      grouping_strategy: grouping_strategy
+      min_mapping_quality: min_mapping_quality
+      tag_family_size_counts_output: tag_family_size_counts_output
+
+      # Fulcrum call duplex consensus reads
+      reference_fasta: reference_fasta
+
+      # Fulcrum filter reads
+      filter_min_reads: filter_min_reads
+      filter_min_base_quality: filter_min_base_quality
+
+      # Samtools sort bam
+
+      # Samtools fastq
+
+    out:
+      [output_fastq_1, output_fastq_2]
+
+
+  ####################
+  # Regular Module 1 #
+  ####################
+
+  module_1_post_fulcrum:
+    run: ./module-1.cwl
     in:
-      waltz_files: merge_waltz_output_directories_fulcrum/output_files
+      # todo - adapter trimming again?
+      fastq1: fulcrum/output_fastq_1
+      fastq2: fulcrum/output_fastq_2
+      adapter: adapter
+      adapter2: adapter2
+      genome: genome
+      bwa_output: bwa_output
+      add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
+      add_rg_ID: add_rg_ID
+      add_rg_PU: add_rg_PU
+      add_rg_SM: add_rg_SM
+      add_rg_CN: add_rg_CN
+      add_rg_output: add_rg_output
+      md_output: md_output
+      md_metrics_output: md_metrics_output
+      tmp_dir: tmp_dir
     out:
-      [output_dir]
+      [bam, bai, md_metrics] # clstats1, clstats2,
 
 
-  #################
-  # Innovation-QC #
-  #################
+  #################################
+  # Waltz Run (Fulcrum Collapsed) #
+  #################################
 
-  innovation_qc:
-    run: ./innovation-qc/0.0.0/innovation-qc.cwl
+  fulcrum_waltz_count_reads:
+    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
     in:
-      standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
-      fulcrum_waltz_metrics: fulcrum_aggregate_bam_metrics/output_dir
-      title_file: title_file
+      input_bam: module_1_post_fulcrum/bam
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
     out:
-      [qc_pdf]
+      [output_files]
+
+  fulcrum_waltz_pileup_metrics:
+    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
+    in:
+      input_bam: module_1_post_fulcrum/bam
+      min_mapping_quality: min_mapping_quality
+      reference_fasta: waltz_reference_fasta
+      reference_fasta_fai: waltz_reference_fasta_fai
+      bed_file: bed_file
+    out:
+      [output_files]
+
+
+
+
+  ############################
+  # Collapsing with Marianas #
+  ############################
+
+
+  # $java -server -Xms8g -Xmx8g -cp
+  # ~/software/Marianas.jar
+  # org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
+  # fastq_path umi_length .
+
+#  marianas:
+#    run: ./marianas.

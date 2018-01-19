@@ -57,7 +57,6 @@ arguments:
   - '>'
   - $( inputs.input_bam.basename.replace(".bam", "_readNames.bed") )
 
-
 outputs:
   read_names:
     type: File

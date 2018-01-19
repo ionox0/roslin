@@ -1,24 +1,8 @@
-# New ones that don't error (test-fastqs--new):
-#
-# These R1 and R2 were sub-setted from an already mapped Bam from EF using the first entry from the pan-cancer bed file
-#
-# ~/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0116_BHM7N7BBXX_A1/Project_05500_EF/Sample_DS-fast-135-bc-N01_IGO_05500_EF_34
-# /ifs/work/bergerm1/Innovation/sandbox/Dilmi/5500_EF/ZS-msi-4500-pl-T01-IGO-05500-EF-39_bc403_Pool-05500-EF-Tube4-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR/sample_with_UMI.bam
+######################
+# Inputs for 5500-EJ #
+######################
 
-#fastq1: [
-#  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/final_R1_clipping-reversed.fastq.gz'
-#  ]
-#
-#fastq2: [
-#  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/final_R2_clipping-reversed.fastq.gz'
-#  ]
-#
-#sample_sheet: [
-#  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/SampleSheet.csv'}
-#  ]
-
-
-title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/outputs--scatter--new--annotatebamfix--again/Project_05500_EJ-title-file.txt'}
+title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/results-archived/results-EJ--dirty/Project_05500_EJ-title-file.txt'}
 
 
 ##########
@@ -60,6 +44,7 @@ sample_sheet: [
 
 umi_length: '3'
 output_project_folder: '.'
+# todo - remove:
 outdir: '.'
 
 
@@ -170,41 +155,19 @@ genome: "GRCh37"
 tmp_dir: /scratch
 
 
-#########################
-# Fulcrum Preprocessing #
-#########################
-
-# extract_read_names
-output_read_names_filename: 'readNames.bed'
-
-# map_read_names_to_umis
-annotated_fastq_filename: 'Duplex_UMI_for_readNames.fastq'
-
-
 ###########
 # Fulcrum #
 ###########
 
 tmp_dir: '/scratch'
 
-# AnnotateBamWithUmis
-annotated_bam_filename: 'fulcrum__annotated.bam'
-
 # SortBam
 sort_order: 'Queryname'
-sorted_bam_filename: 'fulcrum__sorted.bam'
-
-# SetMateInformation
-set_mate_information_bam_filename: 'fulcrum__mate_fixed.bam'
 
 # GroupReadsByUMI
 grouping_strategy: 'paired'
 min_mapping_quality: '20'
 tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
-group_reads_output_bam_filename: 'fulcrum__grouped.bam'
-
-# CallDuplexConsensusReads
-call_duplex_consensus_reads_output_bam_filename: 'fulcrum__consensus.bam'
 
 # FilterConsensusReads
 reference_fasta:
@@ -213,19 +176,6 @@ reference_fasta:
 
 filter_min_reads: '1'
 filter_min_base_quality: '30'
-filter_consensus_reads_output_bam_filename: 'fulcrum__filtered.bam'
-
-
-##########################
-# Fulcrum Postprocessing #
-##########################
-
-# sort_bam_queryname
-sort_bam_queryname_filename: 'fulcrum__post__qname_sorted.bam'
-
-# samtools fastq
-samtools_fastq_read1_output_filename: 'fulcrum__R1.fastq'
-samtools_fastq_read2_output_filename: 'fulcrum__R2.fastq'
 
 
 #########
