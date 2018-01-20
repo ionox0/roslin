@@ -100,6 +100,14 @@ outputs:
       items: File
     outputSource: scatter_step/fulcrum_bams
 
+#  standard_aggregated_waltz_output:
+#    type: Directory
+#    outputSource: standard_aggregate_bam_metrics/output_dir
+#
+#  fulcrum_aggregated_waltz_output:
+#    type: Directory
+#    outputSource: fulcrum_aggregate_bam_metrics/output_dir
+
   qc_report:
     type: File
     outputSource: innovation_qc/qc_pdf

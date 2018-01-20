@@ -7,7 +7,6 @@ title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-
 ##########
 
 # These R1 and R2 fastqs were sub-setted from an already mapped Bam from EF using the first entry from the pan-cancer bed file:
-#
 # cp ~/Innovation/CMO_fastq_raw_data_2015.12.21/JAX_0116_BHM7N7BBXX_A1/Project_05500_EF/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41/* .
 
 # todo - should be Files
@@ -34,12 +33,16 @@ output_project_folder: '.'
 outdir: '.'
 
 
-############
-# Module 1 #
-############
+#######
+# BWA #
+#######
 
 bwa_output: [
   ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam
+]
+
+add_rg_output: [
+  ZS-msi-4506-pl-T01_IGO_05500_EF_41_rg.bam
 ]
 
 add_rg_ID: [
@@ -63,17 +66,23 @@ add_rg_SM: [
   ZS-msi-4506-pl-T01_IGO_05500_EF_41
 ]
 
-add_rg_output: [
-  "ZS-msi-4506-pl-T01_IGO_05500_EF_41"
-]
+
+##################
+# MarkDuplicates #
+##################
 
 md_output: [
-  ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam
+  ZS-msi-4506-pl-T01_IGO_05500_EF_41_md.bam
 ]
 
 md_metrics_output: [
   ZS-msi-4506-pl-T01_IGO_05500_EF_41.metrics
 ]
+
+
+##############
+# TrimGalore #
+##############
 
 # I7 Adapters (with barcodes)
 adapter: [

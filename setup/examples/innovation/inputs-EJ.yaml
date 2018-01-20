@@ -2,7 +2,7 @@
 # Inputs for 5500-EJ #
 ######################
 
-title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/results-archived/results-EJ--dirty/Project_05500_EJ-title-file.txt'}
+title_file: {class: File, path: '/home/johnsoni/Project_05500_EJ-title-file.txt'}
 
 
 ##########
