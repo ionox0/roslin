@@ -38,7 +38,7 @@ dct:contributor:
 # To generate again: $ cmo_gatk --generate_cwl_tool
 # Help: $ cmo_gatk --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -190,8 +190,9 @@ inputs:
   reference_sequence:
     type:
     - 'null'
-    - type: enum
-      symbols: [GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
+    - string
+    # todo: use
+#      symbols: [GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
     inputBinding:
       prefix: --reference_sequence
 

@@ -41,7 +41,7 @@ dct:contributor:
 # To generate again: $ filter_mutect.py --generate_cwl_tool
 # Help: $ filter_mutect.py --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

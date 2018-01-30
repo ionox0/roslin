@@ -38,7 +38,7 @@ dct:contributor:
 # To generate again: $ cmo_picard --generate_cwl_tool
 # Help: $ cmo_picard --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -82,17 +82,16 @@ inputs:
     - File
     - type: array
       items: string
-
-
     inputBinding:
       prefix: --I
 
   O:
-    type: string
-
-    doc: Output file (bam or sam). Required.
+    type: ['null', string]
+    doc: Output file (bam or sam).
+    default: $( inputs.I.basename.replace(".bam", "_RG.bam") )
     inputBinding:
       prefix: --O
+      valueFrom: $( inputs.I.basename.replace(".bam", "_RG.bam") )
 
   DS:
     type: ['null', string]

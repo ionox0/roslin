@@ -42,7 +42,7 @@ dct:contributor:
 # To generate again: $ filter_sid.py --generate_cwl_tool
 # Help: $ filter_sid.py --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: "cwl:v1.0"
+cwlVersion: "v1.0"
 
 class: CommandLineTool
 
@@ -87,9 +87,25 @@ inputs:
 
 outputs:
 
-  output_files:
-    type:
-      type: array
-      items: File
+# todo - remove
+#  output_files:
+#    type:
+#      type: array
+#      items: File
+#    outputBinding:
+#      glob: '*'
+
+  covered_regions:
+    type: File
     outputBinding:
-      glob: '*'
+      glob: '*.covered-regions'
+
+  fragment_sizes:
+    type: File
+    outputBinding:
+      glob: '*.fragment-sizes'
+
+  read_counts:
+    type: File
+    outputBinding:
+      glob: '*.read-counts'

@@ -47,7 +47,7 @@ dct:contributor:
 # To generate again: $ cmo_picard --generate_cwl_tool
 # Help: $ cmo_picard --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

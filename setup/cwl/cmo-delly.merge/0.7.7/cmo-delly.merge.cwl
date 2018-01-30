@@ -37,7 +37,7 @@ dct:contributor:
 # To generate again: $ cmo_delly.py -b cmo_delly.py --version default --cmd merge --generate_cwl_tool
 # Help: $ cmo_delly.py  --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

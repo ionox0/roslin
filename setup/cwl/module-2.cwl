@@ -73,21 +73,19 @@ inputs:
         type: File
         secondaryFiles:
             - .idx
-    rf: string[]
+
+    # todo - why is this even here?
+#    rf: string[]
     covariates: string[]
     abra_scratch: string
     group: string
 
 outputs:
     covint_list:
-        type:
-            type: array
-            items: File
+        type: File
         outputSource: gatk_find_covered_intervals/fci_list
     covint_bed:
-        type:
-            type: array
-            items: File
+        type: File
         outputSource: list2bed/output_file
     outbams:
         type:
@@ -128,8 +126,6 @@ steps:
             targets: list2bed/output_file
         out: [outbams]
 
-
-
     gatk_base_recalibrator:
         run: ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
         in:
@@ -159,19 +155,14 @@ steps:
         run:
             class: Workflow
             inputs:
-                input_file:
-                    type:
-                        type: array
-                        items: File
+                input_file: File
                 reference_sequence:
                     type: string
                 BQSR:
                     type: File
             outputs:
                 out:
-                    type:
-                        type: array
-                        items: File
+                    type: File
                     secondaryFiles:
                         - ^.bai
                     outputSource: gatk_print_reads/out_bam

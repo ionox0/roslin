@@ -69,4 +69,4 @@ outputs:
   qc_pdf:
     type: File
     outputBinding:
-      glob: ${ return 'results/final-plots/*.pdf' }
+      glob: ${ return 'results/plots-output/*.pdf' }

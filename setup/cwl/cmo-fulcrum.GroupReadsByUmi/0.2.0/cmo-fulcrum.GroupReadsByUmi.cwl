@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: "cwl:v1.0"
+cwlVersion: "v1.0"
 
 class: CommandLineTool
 
@@ -45,7 +45,7 @@ arguments: ["-server", "-jar"]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30000
+    ramMin: 4
     coresMin: 1
 
 doc: |

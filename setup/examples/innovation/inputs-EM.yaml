@@ -52,15 +52,6 @@ outdir: '.'
 # Module 1 #
 ############
 
-bwa_output: [
-  Sample_TD-grail-116-10ng_IGO_05500_EM_6.bam,
-  Sample_TD-grail-116-10ng-S_IGO_05500_EM_5.bam,
-  Sample_TD-grail-116-30ng_IGO_05500_EM_4.bam,
-  Sample_TD-grail-162-10ng_IGO_05500_EM_3.bam,
-  Sample_TD-grail-162-10ng-S_IGO_05500_EM_2.bam,
-  Sample_TD-grail-162-30ng_IGO_05500_EM_1.bam
-  ]
-
 add_rg_ID: [
   Sample_TD-grail-116-10ng_IGO_05500_EM_6,
   Sample_TD-grail-116-10ng-S_IGO_05500_EM_5,
@@ -102,24 +93,6 @@ add_rg_SM: [
   Sample_TD-grail-162-30ng_IGO_05500_EM_1
   ]
 
-add_rg_output: [
-  "Sample_TD-grail-116-10ng_IGO_05500_EM_6",
-  "Sample_TD-grail-116-10ng-S_IGO_05500_EM_5",
-  "Sample_TD-grail-116-30ng_IGO_05500_EM_4",
-  "Sample_TD-grail-162-10ng_IGO_05500_EM_3",
-  "Sample_TD-grail-162-10ng-S_IGO_05500_EM_2",
-  "Sample_TD-grail-162-30ng_IGO_05500_EM_1",
-  ]
-
-md_output: [
-  Sample_TD-grail-116-10ng_IGO_05500_EM_6_md.bam,
-  Sample_TD-grail-116-10ng-S_IGO_05500_EM_5_md.bam,
-  Sample_TD-grail-116-30ng_IGO_05500_EM_4_md.bam,
-  Sample_TD-grail-162-10ng_IGO_05500_EM_3_md.bam,
-  Sample_TD-grail-162-10ng-S_IGO_05500_EM_2_md.bam,
-  Sample_TD-grail-162-30ng_IGO_05500_EM_1_md.bam
-]
-
 md_metrics_output: [
   Sample_TD-grail-116-10ng_IGO_05500_EM_6.metrics,
   Sample_TD-grail-116-10ng-S_IGO_05500_EM_5.metrics,
@@ -128,7 +101,6 @@ md_metrics_output: [
   Sample_TD-grail-162-10ng-S_IGO_05500_EM_2.metrics,
   Sample_TD-grail-162-30ng_IGO_05500_EM_1.metrics
   ]
-
 
 
 # I7 Adapters (with barcodes)
@@ -177,6 +149,14 @@ reference_fasta:
 
 filter_min_reads: '1'
 filter_min_base_quality: '30'
+
+
+############
+# Marianas #
+############
+
+#marianas_mismatches: string
+#marianas_wobble: string
 
 
 #########

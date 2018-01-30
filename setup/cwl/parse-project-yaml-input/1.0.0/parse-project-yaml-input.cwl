@@ -102,7 +102,6 @@ inputs:
           LB: string
           ID: string
           PL: string
-          PU: string[]
           R1:
             type:
               type: array
@@ -111,7 +110,11 @@ inputs:
             type:
               type: array
               items: File
-          RG_ID: string[]
+
+          # todo...
+          RG_ID: string
+          PU: string
+
           adapter: string
           adapter2: string
           bwa_output: string
@@ -122,6 +125,9 @@ inputs:
         type: array
         items: string
 outputs:
+  # [group group group]
+  # group = [sample, sample, sample]
+  # sample = [read1, read1, read1]
   R1:
     type:
       type: array
@@ -130,6 +136,10 @@ outputs:
         items:
           type: array
           items: File
+
+  # [group group group]
+  # group = [sample, sample, sample]
+  # sample = [read2, read2, read2]
   R2:
     type:
       type: array
@@ -162,22 +172,22 @@ outputs:
       items:
         type: array
         items: string
+
+  # todo...
   RG_ID:
     type:
       type: array
       items:
-          type: array
-          items:
-            type: array
-            items: string
+        type: array
+        items: string
   PU:
     type:
       type: array
       items:
-          type: array
-          items:
-            type: array
-            items: string
+        type: array
+        items: string
+
+
   ID:
     type:
       type: array

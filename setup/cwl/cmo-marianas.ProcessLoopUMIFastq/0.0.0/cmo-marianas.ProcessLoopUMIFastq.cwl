@@ -35,7 +35,7 @@ dct:contributor:
     foaf:mbox: mailto:johnsoni@mskcc.org
 
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 
@@ -80,12 +80,6 @@ inputs:
     type: string
     inputBinding:
       prefix: --output_project_folder
-
-  outdir:
-    type: ['null', string]
-    doc: Full Path to the output dir.
-    inputBinding:
-      prefix: --outDir
 
 outputs:
   processed_fastq_1:

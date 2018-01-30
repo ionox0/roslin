@@ -38,7 +38,7 @@ dct:contributor:
 # To generate again: $ cmo_abra -o FILENAME --generate_cwl_tool
 # Help: $ cmo_abra  --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -129,9 +129,9 @@ inputs:
       prefix: --mapq
 
   ref:
-    type:
-      type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
+    type: string
+      # todo: use
+#      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
     inputBinding:
       prefix: --reference_sequence
 

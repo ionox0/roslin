@@ -38,7 +38,7 @@ dct:contributor:
 # To generate again: $ cmo_bwa_mem -o FILENAME --generate_cwl_tool
 # Help: $ cmo_bwa_mem  --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -58,16 +58,12 @@ doc: |
 
 inputs:
   genome:
-    type:
-      type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
+    type: string
     inputBinding:
       prefix: --genome
 
   fastq1:
-    type: 
-
-
+    type:
     - string
     - File
     inputBinding:
@@ -81,11 +77,11 @@ inputs:
       prefix: --fastq2
 
   output:
-    type: string
-
-
+    type: ['null', string]
+    default: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )
     inputBinding:
       prefix: --output
+      valueFrom: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )
 
   sam:
     type: ['null', boolean]

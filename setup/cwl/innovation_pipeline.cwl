@@ -78,6 +78,7 @@ inputs:
   reference_fasta: File
   filter_min_reads: string
   filter_min_base_quality: string
+
   coverage_threshold: string
   gene_list: string
   bed_file: string
@@ -133,13 +134,10 @@ steps:
       add_rg_PL: add_rg_PL
       add_rg_CN: add_rg_CN
       tmp_dir: tmp_dir
-      bwa_output: bwa_output
       add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
-      add_rg_output: add_rg_output
-      md_output: md_output
       md_metrics_output: md_metrics_output
 
       tmp_dir: tmp_dir
@@ -167,32 +165,10 @@ steps:
       standard_bams,
       fulcrum_bams,
       output_sample_sheet,
-      standard_waltz_count_reads_files,
-      standard_waltz_pileup_metrics_files,
-      fulcrum_waltz_count_reads_files,
-      fulcrum_waltz_pileup_metrics_files
+      standard_waltz_files,
+      marianas_waltz_files,
+      fulcrum_waltz_files
     ]
-
-
-  #############################################
-  # Merge Waltz output (standard and fulcrum) #
-  #############################################
-
-  merge_waltz_output_directories_standard:
-    run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
-    in:
-      files_1: scatter_step/standard_waltz_count_reads_files
-      files_2: scatter_step/standard_waltz_pileup_metrics_files
-    out:
-      [output_files]
-
-  merge_waltz_output_directories_fulcrum:
-    run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
-    in:
-      files_1: scatter_step/fulcrum_waltz_count_reads_files
-      files_2: scatter_step/fulcrum_waltz_pileup_metrics_files
-    out:
-      [output_files]
 
 
   ################################################
@@ -202,14 +178,21 @@ steps:
   standard_aggregate_bam_metrics:
     run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_input_files: merge_waltz_output_directories_standard/output_files
+      waltz_input_files: scatter_step/standard_waltz_files
+    out:
+      [output_dir]
+
+  marianas_aggregate_bam_metrics:
+    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+    in:
+      waltz_input_files: scatter_step/marianas_waltz_files
     out:
       [output_dir]
 
   fulcrum_aggregate_bam_metrics:
     run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_input_files: merge_waltz_output_directories_fulcrum/output_files
+      waltz_input_files: scatter_step/fulcrum_waltz_files
     out:
       [output_dir]
 
@@ -222,6 +205,7 @@ steps:
     run: ./innovation-qc/0.0.0/innovation-qc.cwl
     in:
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
+      marianas_waltz_metrics: marianas_aggregate_bam_metrics/output_dir
       fulcrum_waltz_metrics: fulcrum_aggregate_bam_metrics/output_dir
       title_file: title_file
     out:
