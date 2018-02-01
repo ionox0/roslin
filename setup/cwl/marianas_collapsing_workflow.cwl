@@ -44,6 +44,7 @@ inputs:
   reference_fasta: File
   mismatches: string
   wobble: string
+  min_consensus_percent: string
   output_dir: string
 
   pileup: File
@@ -72,6 +73,7 @@ steps:
       pileup: pileup
       mismatches: mismatches
       wobble: wobble
+      min_consensus_percent: min_consensus_percent
       reference_fasta: reference_fasta
       output_dir: output_dir
     out:
@@ -93,6 +95,7 @@ steps:
       pileup: pileup
       mismatches: mismatches
       wobble: wobble
+      min_consensus_percent: min_consensus_percent
       reference_fasta: reference_fasta
       output_dir: output_dir
     out:

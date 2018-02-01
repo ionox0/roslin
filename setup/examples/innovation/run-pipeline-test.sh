@@ -8,11 +8,11 @@ pipeline_name_version="variant/1.3.1"
 
 roslin-runner.sh \
     -v ${pipeline_name_version} \
-    -w innovation_pipeline.scatter.cwl \
+    -w innovation_pipeline.cwl \
     -i inputs-pipeline-test.yaml \
     -b singleMachine \
     -d \
-    -o /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new
+    -o /ifs/work/bergerm1/Innovation/sandbox/ian/pipeline-test-1-31-2017
 
 # (Include for restarting failed job):
 #    -r \

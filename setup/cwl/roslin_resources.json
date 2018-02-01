@@ -298,7 +298,7 @@
             "default": "/opt/common/CentOS_6-dev/snp-pileup/ppflag-fixer"
         },
         "python": {
-            "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python"
+            "default": "~/virtualenv/bin/python"
         },
         "qc": {
             "default": "/opt/common/CentOS_6-dev/qc/default"

@@ -102,19 +102,20 @@ inputs:
         prefix: --I
 
   M:
-    type: string
-
+    type: ['null', string]
     doc: File to write duplication metrics to Required.
+    default: $( inputs.I[0].basename.replace(".bam", ".metrics") )
     inputBinding:
       prefix: --M
+      valueFrom: $( inputs.I[0].basename.replace(".bam", ".metrics") )
 
   O:
     type: ['null', string]
     doc: The output file to right marked records to
-    default: $( inputs.I.basename.replace(".bam", "_MD.bam") )
+    default: $( inputs.I[0].basename.replace(".bam", "_MD.bam") )
     inputBinding:
       prefix: --O
-      valueFrom: $( inputs.I.basename.replace(".bam", "_MD.bam") )
+      valueFrom: $( inputs.I[0].basename.replace(".bam", "_MD.bam") )
 
   PG_COMMAND:
     type: ['null', string]
@@ -240,12 +241,7 @@ outputs:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: |
-        ${
-          if (inputs.O)
-            return inputs.O;
-          return null;
-        }
+      glob: $( inputs.I[0].basename.replace(".bam", "_MD.bam") )
   bai:
     type: File?
     outputBinding:
@@ -258,9 +254,4 @@ outputs:
   mdmetrics:
     type: File
     outputBinding:
-      glob: |
-        ${
-          if (inputs.M)
-            return inputs.M;
-          return null;
-        }
+      glob: $( inputs.I[0].basename.replace(".bam", ".metrics") )

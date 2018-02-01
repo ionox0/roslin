@@ -53,7 +53,7 @@ arguments:
   - $(inputs.input_bam)
   - '|'
   - awk
-  - '{print $1 "\t" $3 "\t" $4 "\t" $4+length($10)-1}'
+  - '{ print $1 "\t" $3 "\t" $4 "\t" $4 + length($10) - 1 }'
   - '>'
   - $( inputs.input_bam.basename.replace(".bam", "_readNames.bed") )
 

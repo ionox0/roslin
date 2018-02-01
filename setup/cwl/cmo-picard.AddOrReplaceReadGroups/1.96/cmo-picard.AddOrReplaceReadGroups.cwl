@@ -190,17 +190,12 @@ inputs:
     inputBinding:
       prefix: --stdout
 
-
 outputs:
   bam:
     type: File
     outputBinding:
-      glob: |
-        ${
-          if (inputs.O)
-            return inputs.O;
-          return null;
-        }
+      glob: $( inputs.I.basename.replace(".bam", "_RG.bam") )
+
   bai:
     type: File?
     outputBinding:

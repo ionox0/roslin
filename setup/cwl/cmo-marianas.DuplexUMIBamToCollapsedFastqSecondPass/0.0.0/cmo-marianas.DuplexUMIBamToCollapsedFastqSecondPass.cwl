@@ -80,23 +80,28 @@ inputs:
     inputBinding:
       position: 4
 
-  reference_fasta:
-    type: File
+  min_consensus_percent:
+    type: string
     inputBinding:
       position: 5
 
-  outdir:
-    type: ['null', string]
-    doc: Full Path to the output dir.
+  reference_fasta:
+    type: File
     inputBinding:
       position: 6
 
-  output_bam_filename:
+  output_dir:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+    doc: Full Path to the output dir.
     inputBinding:
-      prefix: --output_bam_filename
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+      position: 7
+
+#  output_bam_filename:
+#    type: ['null', string]
+#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+#    inputBinding:
+#      prefix: --output_bam_filename
+#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
   collapsed_fastq:

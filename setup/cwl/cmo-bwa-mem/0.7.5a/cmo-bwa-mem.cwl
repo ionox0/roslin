@@ -76,6 +76,9 @@ inputs:
     inputBinding:
       prefix: --fastq2
 
+  output_suffix:
+    type: string
+
   output:
     type: ['null', string]
     default: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )
@@ -227,9 +230,4 @@ outputs:
   bam:
     type: File
     outputBinding:
-      glob: |-
-        ${
-          if (inputs.output)
-            return inputs.output;
-          return null;
-        }
+      glob: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )

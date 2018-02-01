@@ -1,6 +1,6 @@
 # todo - need to automate generation of all these inputs
 
-title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--clipped/Project_05500_EF-test-title-file.txt'}
+title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--reversed/Project_05500_EF-test-title-file.txt'}
 
 ##########
 # Fastqs #
@@ -11,15 +11,15 @@ title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-
 
 # todo - should be Files
 fastq1: [
-  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--clipped/reverted_R1_clipping-reversed.fastq.gz'
+  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--reversed/final-reverted-fastqs/ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_R1_001.fastq.gz'
 ]
 
 fastq2: [
-  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--clipped/reverted_R2_clipping-reversed.fastq.gz'
+  '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--reversed/final-reverted-fastqs/ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_R2_001.fastq.gz'
 ]
 
 sample_sheet: [
-  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--clipped/SampleSheet.csv'}
+  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--reversed/SampleSheet.csv'}
 ]
 
 
@@ -33,17 +33,9 @@ output_project_folder: '.'
 outdir: '.'
 
 
-#######
-# BWA #
-#######
-
-bwa_output: [
-  ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam
-]
-
-add_rg_output: [
-  ZS-msi-4506-pl-T01_IGO_05500_EF_41_rg.bam
-]
+########
+# ARRG #
+########
 
 add_rg_ID: [
   ZS-msi-4506-pl-T01_IGO_05500_EF_41
@@ -64,19 +56,6 @@ add_rg_PU: [
 # todo - what does "_S41" signify?
 add_rg_SM: [
   ZS-msi-4506-pl-T01_IGO_05500_EF_41
-]
-
-
-##################
-# MarkDuplicates #
-##################
-
-md_output: [
-  ZS-msi-4506-pl-T01_IGO_05500_EF_41_md.bam
-]
-
-md_metrics_output: [
-  ZS-msi-4506-pl-T01_IGO_05500_EF_41.metrics
 ]
 
 

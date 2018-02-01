@@ -66,16 +66,13 @@ inputs:
   adapter: string
   adapter2: string
   genome: string
-  bwa_output: string
+#  bwa_output: string
   add_rg_LB: string
   add_rg_PL: string
   add_rg_ID: string
   add_rg_PU: string
   add_rg_SM: string
   add_rg_CN: string
-  add_rg_output: string
-  md_output: string
-  md_metrics_output: string
   tmp_dir: string
 
   ###########
@@ -121,15 +118,11 @@ outputs:
   # I don't understand how these can be arrays,
   # if this workflow is called with just a single pair of fastqs...
   standard_bams:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: module_1_innovation/bam
 
   fulcrum_bams:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: module_1_post_fulcrum/bam
 
   standard_waltz_files:
@@ -138,11 +131,11 @@ outputs:
       items: File
     outputSource: group_standard_waltz_files/waltz_files
 
-  marianas_waltz_files:
-    type:
-      type: array
-      items: File
-    outputSource: group_marianas_waltz_files/waltz_files
+#  marianas_waltz_files:
+#    type:
+#      type: array
+#      items: File
+#    outputSource: group_marianas_waltz_files/waltz_files
 
   fulcrum_waltz_files:
     type:
@@ -190,11 +183,9 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      add_rg_output: add_rg_output
-      md_output: md_output
-      md_metrics_output: md_metrics_output
       tmp_dir: tmp_dir
-      output_filename_suffix: '_standard'
+      output_suffix:
+        valueFrom: ${ return '_standard' }
     out:
       [bam, bai, md_metrics] # clstats1, clstats2,
 
@@ -214,7 +205,7 @@ steps:
       covered_regions,
       fragment_sizes,
       read_counts
-      ]
+    ]
 
   standard_waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
@@ -229,7 +220,7 @@ steps:
       pileup_without_duplicates,
       intervals,
       intervals_without_duplicates
-      ]
+    ]
 
   group_standard_waltz_files:
     run: ./innovation-group-waltz-files/innovation-group-waltz-files.cwl
@@ -279,18 +270,16 @@ steps:
       adapter: adapter
       adapter2: adapter2
       genome: genome
-      bwa_output: bwa_output
+#      bwa_output: bwa_output
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      add_rg_output: add_rg_output
-      md_output: md_output
-      md_metrics_output: md_metrics_output
       tmp_dir: tmp_dir
-      output_filename_suffix: '_fulcrum'
+      output_suffix:
+        valueFrom: ${ return '_fulcrum' }
     out:
       [bam, bai, md_metrics, clstats1, clstats2]
 
@@ -309,7 +298,7 @@ steps:
       covered_regions,
       fragment_sizes,
       read_counts
-      ]
+    ]
 
   fulcrum_waltz_pileup_metrics:
     run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
@@ -324,18 +313,18 @@ steps:
       pileup_without_duplicates,
       intervals,
       intervals_without_duplicates
-      ]
+    ]
 
   group_fulcrum_waltz_files:
     run: ./innovation-group-waltz-files/innovation-group-waltz-files.cwl
     in:
-      covered_regions: standard_waltz_count_reads/covered_regions
-      fragment_sizes: standard_waltz_count_reads/fragment_sizes
-      read_counts: standard_waltz_count_reads/read_counts
-      pileup: standard_waltz_pileup_metrics/pileup
-      pileup_without_duplicates: standard_waltz_pileup_metrics/pileup_without_duplicates
-      intervals: standard_waltz_pileup_metrics/intervals
-      intervals_without_duplicates: standard_waltz_pileup_metrics/intervals_without_duplicates
+      covered_regions: fulcrum_waltz_count_reads/covered_regions
+      fragment_sizes: fulcrum_waltz_count_reads/fragment_sizes
+      read_counts: fulcrum_waltz_count_reads/read_counts
+      pileup: fulcrum_waltz_pileup_metrics/pileup
+      pileup_without_duplicates: fulcrum_waltz_pileup_metrics/pileup_without_duplicates
+      intervals: fulcrum_waltz_pileup_metrics/intervals
+      intervals_without_duplicates: fulcrum_waltz_pileup_metrics/intervals_without_duplicates
     out: [waltz_files]
 
 
@@ -343,81 +332,81 @@ steps:
   # Collapsing with Marianas #
   ############################
 
-  marianas:
-    run: ./marianas_collapsing_workflow.cwl
-    in:
-      input_bam: module_1_innovation/bam
-      reference_fasta: reference_fasta
-      pileup: standard_waltz_pileup_metrics/pileup
-      mismatches: '1'
-      wobble: '2'
-    out:
-     [output_fastq_1, output_fastq_2]
-
-  module_1_post_marianas:
-    run: ./module-1.innovation.cwl
-    in:
-      # todo - adapter trimming again?
-      fastq1: marianas/output_fastq_1
-      fastq2: marianas/output_fastq_2
-      adapter: adapter
-      adapter2: adapter2
-      genome: genome
-      bwa_output: bwa_output
-      add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
-      add_rg_ID: add_rg_ID
-      add_rg_PU: add_rg_PU
-      add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
-      add_rg_output: add_rg_output
-      md_output: md_output
-      md_metrics_output: md_metrics_output
-      tmp_dir: tmp_dir
-      output_filename_suffix: '_marianas'
-    out:
-      [bam, bai, md_metrics, clstats1, clstats2]
-
-  ##################################
-  # Waltz Run (Marianas Collapsed) #
-  ##################################
-
-  marianas_waltz_count_reads:
-    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
-    in:
-      input_bam: module_1_post_marianas/bam
-      coverage_threshold: coverage_threshold
-      gene_list: gene_list
-      bed_file: bed_file
-    out: [
-      covered_regions,
-      fragment_sizes,
-      read_counts
-      ]
-
-  marianas_waltz_pileup_metrics:
-    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
-    in:
-      input_bam: module_1_post_marianas/bam
-      min_mapping_quality: min_mapping_quality
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
-      bed_file: bed_file
-    out: [
-      pileup,
-      pileup_without_duplicates,
-      intervals,
-      intervals_without_duplicates
-      ]
-
-  group_marianas_waltz_files:
-    run: ./innovation-group-waltz-files/innovation-group-waltz-files.cwl
-    in:
-      covered_regions: marianas_waltz_count_reads/covered_regions
-      fragment_sizes: marianas_waltz_count_reads/fragment_sizes
-      read_counts: marianas_waltz_count_reads/read_counts
-      pileup: marianas_waltz_pileup_metrics/pileup
-      pileup_without_duplicates: marianas_waltz_pileup_metrics/pileup_without_duplicates
-      intervals: marianas_waltz_pileup_metrics/intervals
-      intervals_without_duplicates: marianas_waltz_pileup_metrics/intervals_without_duplicates
-    out: [waltz_files]
+#  marianas:
+#    run: ./marianas_collapsing_workflow.cwl
+#    in:
+#      input_bam: module_1_innovation/bam
+#      reference_fasta: reference_fasta
+#      pileup: standard_waltz_pileup_metrics/pileup
+#      mismatches: '1'
+#      wobble: '2'
+#    out:
+#     [output_fastq_1, output_fastq_2]
+#
+#  module_1_post_marianas:
+#    run: ./module-1.innovation.cwl
+#    in:
+#      # todo - adapter trimming again?
+#      fastq1: marianas/output_fastq_1
+#      fastq2: marianas/output_fastq_2
+#      adapter: adapter
+#      adapter2: adapter2
+#      genome: genome
+#      bwa_output: bwa_output
+#      add_rg_LB: add_rg_LB
+#      add_rg_PL: add_rg_PL
+#      add_rg_ID: add_rg_ID
+#      add_rg_PU: add_rg_PU
+#      add_rg_SM: add_rg_SM
+#      add_rg_CN: add_rg_CN
+#      add_rg_output: add_rg_output
+#      md_output: md_output
+#      md_metrics_output: md_metrics_output
+#      tmp_dir: tmp_dir
+#      output_filename_suffix: '_marianas'
+#    out:
+#      [bam, bai, md_metrics, clstats1, clstats2]
+#
+#  ##################################
+#  # Waltz Run (Marianas Collapsed) #
+#  ##################################
+#
+#  marianas_waltz_count_reads:
+#    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
+#    in:
+#      input_bam: module_1_post_marianas/bam
+#      coverage_threshold: coverage_threshold
+#      gene_list: gene_list
+#      bed_file: bed_file
+#    out: [
+#      covered_regions,
+#      fragment_sizes,
+#      read_counts
+#      ]
+#
+#  marianas_waltz_pileup_metrics:
+#    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
+#    in:
+#      input_bam: module_1_post_marianas/bam
+#      min_mapping_quality: min_mapping_quality
+#      reference_fasta: waltz_reference_fasta
+#      reference_fasta_fai: waltz_reference_fasta_fai
+#      bed_file: bed_file
+#    out: [
+#      pileup,
+#      pileup_without_duplicates,
+#      intervals,
+#      intervals_without_duplicates
+#      ]
+#
+#  group_marianas_waltz_files:
+#    run: ./innovation-group-waltz-files/innovation-group-waltz-files.cwl
+#    in:
+#      covered_regions: marianas_waltz_count_reads/covered_regions
+#      fragment_sizes: marianas_waltz_count_reads/fragment_sizes
+#      read_counts: marianas_waltz_count_reads/read_counts
+#      pileup: marianas_waltz_pileup_metrics/pileup
+#      pileup_without_duplicates: marianas_waltz_pileup_metrics/pileup_without_duplicates
+#      intervals: marianas_waltz_pileup_metrics/intervals
+#      intervals_without_duplicates: marianas_waltz_pileup_metrics/intervals_without_duplicates
+#    out: [waltz_files]

@@ -57,7 +57,7 @@ inputs:
   adapter2: string
 
   genome: string
-  bwa_output: string
+#  bwa_output: string
   add_rg_LB: string
   add_rg_PL: string
 
@@ -66,11 +66,8 @@ inputs:
 
   add_rg_SM: string
   add_rg_CN: string
-  add_rg_output: string
-  md_output: string
-  md_metrics_output: string
   tmp_dir: string
-  output_filename_suffix: string
+  output_suffix: string
 
 steps:
 
@@ -91,6 +88,7 @@ steps:
       fastq1: fastq1
       fastq2: fastq2
       genome: genome
+      output_suffix: output_suffix
     out: [bam]
 
   cmo-picard.AddOrReplaceReadGroups:
@@ -114,8 +112,6 @@ steps:
       I:
         source: cmo-picard.AddOrReplaceReadGroups/bam
         valueFrom: ${ return [self]; }
-
-      M: md_metrics_output
       TMP_DIR: tmp_dir
     out: [bam, bai, mdmetrics]
 

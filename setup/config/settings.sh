@@ -37,5 +37,5 @@ export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
 
 # cmo
 export ROSLIN_CMO_VERSION="1.9.2"
-export ROSLIN_CMO_BIN_PATH="/home/johnsoni/cmo_tools/1.9.2/bin"
-export ROSLIN_CMO_PYTHON_PATH="/home/johnsoni/cmo_tools/1.9.2/lib/python2.7/site-packages"
+export ROSLIN_CMO_BIN_PATH="/home/johnsoni/virtualenv/bin"
+export ROSLIN_CMO_PYTHON_PATH="/home/johnsoni/virtualenv/lib/python2.7/site-packages"

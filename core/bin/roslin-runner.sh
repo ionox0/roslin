@@ -244,7 +244,6 @@ cwltoil \
     --defaultMem 50G \
     --preserve-environment PATH PYTHONPATH ROSLIN_PIPELINE_DATA_PATH ROSLIN_PIPELINE_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_PIPELINE_WORKSPACE_PATH ROSLIN_PIPELINE_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
-    --not-strict \
     --disableCaching \
     --realTimeLogging \
     --maxLogFileSize 0 \
@@ -254,6 +253,8 @@ cwltoil \
     --outdir ${output_directory} ${restart_options} ${batch_sys_options} ${debug_options} \
     | tee ${output_directory}/output-meta.json
 exit_code=$?
+
+#    --not-strict \
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG

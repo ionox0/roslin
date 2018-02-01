@@ -108,12 +108,12 @@ chmod 777 ${ROSLIN_PIPELINE_OUTPUT_PATH}
 
 #<--
 
-# copy container images
-cp -R ${install_temp_path}/setup/img/* ${ROSLIN_PIPELINE_BIN_PATH}/img/
+# copy container images (todo - commented out for now)
+# cp -R ${install_temp_path}/setup/img/* ${ROSLIN_PIPELINE_BIN_PATH}/img/
 
 # check md5 checksum
-cd ${ROSLIN_PIPELINE_BIN_PATH}/img
-md5sum -c checksum.dat
+# cd ${ROSLIN_PIPELINE_BIN_PATH}/img
+# md5sum -c checksum.dat
 
 # copy cwl wrappers
 cp -R ${install_temp_path}/setup/cwl/* ${ROSLIN_PIPELINE_BIN_PATH}/cwl/

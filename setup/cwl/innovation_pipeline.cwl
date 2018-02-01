@@ -61,14 +61,11 @@ inputs:
   add_rg_CN: string
   tmp_dir: string
 
-  bwa_output: string[]
+#  bwa_output: string[]
   add_rg_LB: string[]
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
-  add_rg_output: string[]
-  md_output: string[]
-  md_metrics_output: string[]
 
   tmp_dir: string
   sort_order: string
@@ -138,7 +135,6 @@ steps:
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
-      md_metrics_output: md_metrics_output
 
       tmp_dir: tmp_dir
       sort_order: sort_order
@@ -157,7 +153,7 @@ steps:
       waltz_reference_fasta_fai: waltz_reference_fasta_fai
 
     # I7 adapter is different for each sample, I5 is not
-    scatter: [adapter,fastq1,fastq2,sample_sheet,bwa_output,add_rg_LB,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_output,md_output,md_metrics_output]
+    scatter: [adapter,fastq1,fastq2,sample_sheet,add_rg_LB,add_rg_ID,add_rg_PU,add_rg_SM]
 
     scatterMethod: dotproduct
 
@@ -166,9 +162,24 @@ steps:
       fulcrum_bams,
       output_sample_sheet,
       standard_waltz_files,
-      marianas_waltz_files,
+#      marianas_waltz_files,
       fulcrum_waltz_files
     ]
+
+
+  standard_consolidate_bam_metrics:
+    run: ./innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    in:
+      waltz_input_files: scatter_step/standard_waltz_files
+    out:
+      [waltz_files]
+
+  fulcrum_consolidate_bam_metrics:
+    run: ./innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    in:
+      waltz_input_files: scatter_step/fulcrum_waltz_files
+    out:
+      [waltz_files]
 
 
   ################################################
@@ -178,21 +189,21 @@ steps:
   standard_aggregate_bam_metrics:
     run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_input_files: scatter_step/standard_waltz_files
+      waltz_input_files: standard_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
-  marianas_aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
-    in:
-      waltz_input_files: scatter_step/marianas_waltz_files
-    out:
-      [output_dir]
+#  marianas_aggregate_bam_metrics:
+#    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+#    in:
+#      waltz_input_files: scatter_step/marianas_waltz_files
+#    out:
+#      [output_dir]
 
   fulcrum_aggregate_bam_metrics:
     run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_input_files: scatter_step/fulcrum_waltz_files
+      waltz_input_files: fulcrum_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
@@ -205,7 +216,7 @@ steps:
     run: ./innovation-qc/0.0.0/innovation-qc.cwl
     in:
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
-      marianas_waltz_metrics: marianas_aggregate_bam_metrics/output_dir
+#      marianas_waltz_metrics: marianas_aggregate_bam_metrics/output_dir
       fulcrum_waltz_metrics: fulcrum_aggregate_bam_metrics/output_dir
       title_file: title_file
     out:

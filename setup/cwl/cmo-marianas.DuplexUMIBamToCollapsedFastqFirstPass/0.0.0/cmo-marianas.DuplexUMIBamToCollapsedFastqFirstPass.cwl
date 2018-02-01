@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
+  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
+  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
   doap:revision: 1.0.0
 
 dct:creator:
@@ -38,17 +38,23 @@ cwlVersion: "v1.0"
 
 class: CommandLineTool
 
-baseCommand: [
-  '/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java',
-  '-server',
-  '-Xms8g',
-  '-Xmx8g',
-  '-cp',
-  '~/software/Marianas.jar',
-  'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqSecondPass'
-]
+baseCommand:
+- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+- -server
+- -Xms8g
+- -Xmx8g
+- -cp
+- ~/software/Marianas-true-duplex-1-1.jar
+- org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
 
-#arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
+#arguments: [
+#  '-server',
+#  '-Xms8g',
+#  '-Xmx8g',
+#  '-cp',
+#  '~/software/Marianas-true-duplex-1-1.jar',
+#  'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass'
+#]
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -80,23 +86,28 @@ inputs:
     inputBinding:
       position: 4
 
-  reference_fasta:
-    type: File
+  min_consensus_percent:
+    type: string
     inputBinding:
       position: 5
 
-  outdir:
-    type: ['null', string]
-    doc: Full Path to the output dir.
+  reference_fasta:
+    type: File
     inputBinding:
       position: 6
 
-  output_bam_filename:
+  output_dir:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+    doc: Full Path to the output dir.
     inputBinding:
-      prefix: --output_bam_filename
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+      position: 7
+
+#  output_bam_filename:
+#    type: ['null', string]
+#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+#    inputBinding:
+#      prefix: --output_bam_filename
+#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
   collapsed_fastq:
