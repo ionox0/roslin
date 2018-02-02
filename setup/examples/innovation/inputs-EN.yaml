@@ -1,8 +1,8 @@
 ######################
-# Inputs for 5500-EJ #
+# Inputs for 5500-EN #
 ######################
 
-title_file: {class: File, path: '/home/johnsoni/Project_05500_EM-title-file.txt'}
+title_file: {class: File, path: '/home/johnsoni/Project_05500_EN-title-file.txt'}
 
 
 ##########
@@ -16,7 +16,7 @@ fastq1: [
   '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EN/Sample_MSK-L-039-cf--30min_IGO_05500_EN_4/MSK-L-039-cf--30min_IGO_05500_EN_4_S10_R1_001.fastq.gz',
   '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EN/Sample_TDM1-td-cf-30min_IGO_05500_EN_5/TDM1-td-cf-30min_IGO_05500_EN_5_S11_R1_001.fastq.gz',
   '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EN/Sample_TD-Chapman-pool-30min_IGO_05500_EN_6/TD-Chapman-pool-30min_IGO_05500_EN_6_S12_R1_001.fastq.gz'
-  ]
+]
 
 fastq2: [
   '/ifs/archive/BIC/share/bergerm1/PITT_0169_AHNH53BBXX/Project_05500_EM/Sample_MSK-L-039-cf-15min_IGO_05500_EN_1/MSK-L-039-cf-15min_IGO_05500_EN_1_S7_R2_001.fastq.gz',
@@ -25,7 +25,7 @@ fastq2: [
   '/ifs/archive/BIC/share/bergerm1/PITT_0169_AHNH53BBXX/Project_05500_EM/Sample_MSK-L-039-cf--30min_IGO_05500_EN_4/MSK-L-039-cf--30min_IGO_05500_EN_4_S10_R2_001.fastq.gz',
   '/ifs/archive/BIC/share/bergerm1/PITT_0169_AHNH53BBXX/Project_05500_EM/Sample_TDM1-td-cf-30min_IGO_05500_EN_5/TDM1-td-cf-30min_IGO_05500_EN_5_S11_R2_001.fastq.gz',
   '/ifs/archive/BIC/share/bergerm1/PITT_0169_AHNH53BBXX/Project_05500_EM/Sample_TD-Chapman-pool-30min_IGO_05500_EN_6/TD-Chapman-pool-30min_IGO_05500_EN_6_S12_R2_001.fastq.gz'
-  ]
+]
 
 sample_sheet: [
   {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EN/Sample_MSK-L-039-cf-15min_IGO_05500_EN_1/SampleSheet.csv'},
@@ -34,8 +34,7 @@ sample_sheet: [
   {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EN/Sample_MSK-L-039-cf--30min_IGO_05500_EN_4/SampleSheet.csv'},
   {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EN/Sample_TDM1-td-cf-30min_IGO_05500_EN_5/SampleSheet.csv'},
   {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EN/Sample_TD-Chapman-pool-30min_IGO_05500_EN_6/SampleSheet.csv'}
-  ]
-
+]
 
 
 ##########################

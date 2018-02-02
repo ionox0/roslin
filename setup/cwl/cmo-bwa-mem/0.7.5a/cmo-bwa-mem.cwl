@@ -49,9 +49,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30000
+    ramMin: 30
     coresMin: 4
-
 
 doc: |
   run bwa mem

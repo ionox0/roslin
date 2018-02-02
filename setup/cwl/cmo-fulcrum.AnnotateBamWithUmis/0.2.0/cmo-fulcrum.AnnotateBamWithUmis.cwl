@@ -45,7 +45,8 @@ arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4
+    # Requires large amount of ram (loads all read names into a java hashmap)
+    ramMin: 30000
     coresMin: 1
 
 doc: |

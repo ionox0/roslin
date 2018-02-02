@@ -47,15 +47,6 @@ baseCommand:
 - ~/software/Marianas-true-duplex-1-1.jar
 - org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
 
-#arguments: [
-#  '-server',
-#  '-Xms8g',
-#  '-Xmx8g',
-#  '-cp',
-#  '~/software/Marianas-true-duplex-1-1.jar',
-#  'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass'
-#]
-
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
