@@ -40,7 +40,7 @@ dct:contributor:
 
 cwlVersion: v1.0
 
-class: CommandLineTool
+class: CommandLineToolz
 baseCommand:
 - cmo_abra
 - --version

@@ -12,7 +12,7 @@ roslin-runner.sh \
     -i inputs-pipeline-test.yaml \
     -b singleMachine \
     -d \
-    -o /ifs/work/bergerm1/Innovation/sandbox/ian/pipeline-test-1-31-2017
+    -o /ifs/work/bergerm1/Innovation/sandbox/ian/pipeline-test-2-2-2017
 
 # (Include for restarting failed job):
 #    -r \

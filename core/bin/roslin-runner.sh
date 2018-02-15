@@ -236,7 +236,8 @@ export PATH=${ROSLIN_CMO_BIN_PATH}:${ROSLIN_CORE_BIN_PATH}/sing:$PATH
 
 # run cwltoil
 set -o pipefail
-cwltoil \
+
+cmd="cwltoil \
     ${ROSLIN_PIPELINE_BIN_PATH}/cwl/${workflow_filename} \
     ${input_filename} \
     --jobStore file://${jobstore_path} \
@@ -252,7 +253,11 @@ cwltoil \
     --workDir ${ROSLIN_PIPELINE_BIN_PATH}/tmp \
     --outdir ${output_directory} ${restart_options} ${batch_sys_options} ${debug_options} \
     | tee ${output_directory}/output-meta.json
-exit_code=$?
+exit_code=$?"
+
+echo $cmd
+#exit 0
+
 
 #    --not-strict \
 

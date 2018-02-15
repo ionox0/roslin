@@ -7,5 +7,5 @@ roslin-runner.sh \
     -w innovation_pipeline.cwl \
     -i inputs-EN.yaml \
     -b lsf \
-    -d \
-    -o /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-EN
+    -o /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-EN--restarted \
+    -r 83e27b66-077b-11e8-bf8b-8cdcd4013cd4

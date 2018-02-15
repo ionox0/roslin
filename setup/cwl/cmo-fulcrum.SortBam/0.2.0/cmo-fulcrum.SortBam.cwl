@@ -45,7 +45,8 @@ arguments: ["-server", "-jar"]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4
+    # Requires large amount of memory
+    ramMin: 30
     coresMin: 1
 
 doc: |
